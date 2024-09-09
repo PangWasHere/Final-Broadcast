@@ -1,0 +1,21 @@
+body {
+    user-select: none;
+}
+
+#wrapper {
+    position: absolute;
+}
+
+#game {
+    width: 640px;
+    height: 480px;
+    background: grey;
+}
+
+
+.gamelayer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+}
