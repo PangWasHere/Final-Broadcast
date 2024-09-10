@@ -19,3 +19,91 @@ body {
     position: absolute;
     display: none;
 }
+
+.default-game-background {
+    width: 100%;
+    height: 100%;
+    background-image: url("../_imgs/radio-station.jpg");
+    background-size: cover;
+}
+
+/******************/
+/* Loading Screen */
+/******************/
+#loadingScreen {
+    background: #f0d1f0;
+}
+
+#loadingScreen:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../_imgs/radio-station.jpg");
+    background-size: cover;
+    opacity: 0.3;
+}
+
+#loadingmessage {
+    text-align: center;
+    height: 48px;
+    color: rgb(255, 255, 255);
+    font: 12px Arial;
+}
+
+/* Credits: https://css-loaders.com/wavy/ */
+/* HTML: <div class="loader"></div> */
+.loader {
+    display: inline-grid;
+    padding: 5px;
+    margin-top: 200px;
+    width: 100%;
+    filter: blur(2px) contrast(12);
+  }
+  .loader:before {
+    content: "";
+    margin: auto;
+    height: 40px;
+    aspect-ratio: 3;
+    --c: #0000 64%,#aa06aa 66% 98%,#0000 101%;
+    background:
+      radial-gradient(35% 146% at 50% 159%,var(--c)) 0 0,
+      radial-gradient(35% 146% at 50% -59%,var(--c)) 100% 100%;
+    background-size: calc(200%/3) 50%;
+    background-repeat: repeat-x;
+    animation: l11 .8s infinite linear;
+  }
+  @keyframes l11{
+    to {background-position: -200% 0,-100% 100%}
+  }
+
+
+/******************/
+/* Splash Screen */
+/******************/
+
+
+/***********************/
+/* Default Game Screen */
+/***********************/
+
+#defaultGameScreen {
+    
+}
+
+
+/************************/
+/* Caller Dialog Screen */
+/************************/
+
+#callerDialogScreen .dialog-box {
+    width: 300px;
+    height: 400px;
+    margin: 0px 30px;
+    background-color: rgba(0,0,0,0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgb(213, 14, 203);
+}

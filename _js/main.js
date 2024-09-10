@@ -8,8 +8,12 @@ var game = {
         
         // Hide all game layers and display the start screen
         game.hideScreens()
-        game.showScreen("splashScreen")
+        game.showScreen("callerDialogScreen")
         
+    },
+
+    start: function() {
+        alert("Game start")
     },
 
     hideScreens: function() {

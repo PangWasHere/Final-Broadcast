@@ -5,8 +5,9 @@
         <title>Final Broadcast</title>
 
         <link href="_css/main.css" rel="stylesheet">
-        <script src="_js/custom-modernizr.js"></script>
 
+        <script src="_js/custom-modernizr.js"></script>
+        <script src="_js/main.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -15,10 +16,16 @@
     
                 <div id="splashScreen" class="gamelayer">
                     <p>splashScreen</p>
+                    <img src="_imgs/play-button.png" onclick="game.start()" />
+                </div>
+
+                <div id="defaultGameScreen" class="gamelayer default-game-background">
+                    <p>defaultGameScreen</p>
                 </div>
     
-                <div id="callerDialogScreen" class="gamelayer">
+                <div id="callerDialogScreen" class="gamelayer default-game-background">
                     <p>callerDialogScreen</p>
+                    <div class="dialog-box"></div>
                 </div>
     
                 <div id="chooseMusicScreen" class="gamelayer">
@@ -34,11 +41,12 @@
                 </div>
 
                 <div id="loadingScreen" class="gamelayer">
+                    <div class="loader"></div>
                     <p id="loadingmessage">Loading..</p>
                 </div>
             </div>
         </div>
     </body>
     <script src="_js/assets/_button.js"></script>
-    <script src="_js/main.js"></script>
+    
 </html>
