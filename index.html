@@ -6,7 +6,8 @@
 
         <link href="_css/main.css" rel="stylesheet">
 
-        <script src="_js/custom-modernizr.js"></script>
+        <!--Temporary. TODO: Replace with a proper JSON file (called via API?)-->
+        <script src="_js/story.js" type="text/javascript"></script>
         <script src="_js/main.js" type="text/javascript"></script>
     </head>
     <body>
@@ -15,25 +16,118 @@
                 <canvas id="gameCanvas" class="gamelayer" width="640" height="480"></canvas>
     
                 <div id="splashScreen" class="gamelayer">
-                    <p>splashScreen</p>
-                    <img src="_imgs/play-button.png" onclick="game.start()" />
+                    <h1 class="neon blue">
+                        Fi<span class="delay2">n</span>al Br<span class="delay3">o</span>adcas<span class="delay1">t</span>
+                    </h1>
+
+                    <div class="on-air-signage neon red"><p>On Air</p></div>
+                    <button class="button-next bottom-right" role="button">Tune In</button>
                 </div>
+
 
                 <div id="defaultGameScreen" class="gamelayer default-game-background">
                     <p>defaultGameScreen</p>
                 </div>
     
                 <div id="callerDialogScreen" class="gamelayer default-game-background">
-                    <p>callerDialogScreen</p>
-                    <div class="dialog-box"></div>
+                    <div id="dialogContainerBox" class="dialog-box interactive">
+                        <!-- Interactive -->
+                        <div id="interactiveBox" class="dialog">
+                            <p id="callerDescriptionBox" class="speaker-box">Caller</p>
+                            <p class="prompt">prompt</p>
+                            <div class="option-box">
+                               <!-- <p class="option">"Tell them the truth. They deserve to know."</p>
+                                <p class="option">"Keep them calm. They don’t need to know everything."</p>
+                                <p class="option">"Just hold them close. That’s all that matters now."</p> -->
+                            </div>
+                        </div>
+
+                        <!-- Call Log -->
+                        <div id="callLogBox" class="dialog call-log-box">
+                            <p class="heading">Call Log</p>
+                            <div class="logs-list">
+                                <p class="call">
+                                    <span class="caller-id dj">DJ Name</span>
+                                    <span class="message">This is an example call message inside the call logs</span>
+                                </p>
+                                <p class="call">
+                                    <span class="caller-id caller">Caller ID</span>
+                                    <span class="message">This is an example call message inside the call logs</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Scene -->
+                         <div id="sceneBox" class="dialog scene-box">
+                            <!-- This is a scene example where the story is explained more. This is also where the DJ monologue is shown and the caller's response to the DJ's choice. -->
+                            
+                            <!-- Gets displayed if the scene is a spoken dialog -->
+                            <p id="speakerBox" class="speaker-box" style="display: none;">Caller</p>
+                            
+                            <p class="message">Message</p>
+                            <button id="buttonNext" class="button-next bottom-right" role="button" onclick="game.nextScene()">Move on</button>
+                         </div>
+                    </div>
                 </div>
     
-                <div id="chooseMusicScreen" class="gamelayer">
-                    <p>chooseMusicScreen</p>
+                <div id="chooseMusicScreen" class="gamelayer default-game-background">
+                    <div class="choose-music-container">
+                        <audio id="audioBox" preload="none" tabindex="0">
+                            <source src="https://archive.org/download/calexico2006-12-02..flac16/calexico2006-12-02d1t02.mp3" data-track-number="1" />
+                            Can't play songs. The device you are using does not support the technology we use.
+                        </audio>
+                        <div class="carousel">
+                            <div class="carousel__stage">
+                              <input class="carousel__item-input" type="radio" name="item" id="input_0" checked="checked"/>
+                              <input class="carousel__item-input" type="radio" name="item" id="input_1"/>
+                              <input class="carousel__item-input" type="radio" name="item" id="input_2"/>
+                              <input class="carousel__item-input" type="radio" name="item" id="input_3"/>
+                              <input class="carousel__item-input" type="radio" name="item" id="input_4"/>
+                              <div class="carousel__item-content">
+                                <div class="item__song-details">
+                                    <p class="song-title">Song Title</p>
+                                    <p class="song-artist">Artist</p>
+                                    <div class="music-player">
+                                        <!-- Track Slider -->
+                                        <div id="controls">
+                                            <input type="range" id="track-slider" min="0" value="0">
+                                        </div>
+                                    </div>
+                                    <button class="button-next play-song-button" role="button">Broadcast</button>
+                                    
+                                </div>
+                              </div>
+                              <div class="carousel__item-content">
+                                <div class="item__song-details">
+                                    <p class="song-title">Song Title</p>
+                                    <p class="song-artist">Artist</p>
+                                    
+                                    <button class="button-next play-song-button" role="button">Broadcast</button>
+                                </div>
+                              </div>
+                              <div class="carousel__item-content">3</div>
+                              <div class="carousel__item-content">4</div>
+                              <div class="carousel__item-content">5</div>
+                              <label class="carousel__item-label" for="input_0"></label>
+                              <label class="carousel__item-label" for="input_1"></label>
+                              <label class="carousel__item-label" for="input_2"></label>
+                              <label class="carousel__item-label" for="input_3"></label>
+                              <label class="carousel__item-label" for="input_4"></label>
+                            </div>
+                          </div>
+                    </div>
                 </div>
     
-                <div id="endingScreen" class="gamelayer">
-                    <p>endingScreen</p>
+                <div id="endingScreen" class="gamelayer default-game-background">
+                    <div id="monolougeContainerBox" class="dj-monolouge dialog-box">
+                        <!--<img class="credits-img" src="_imgs/credits/credits-highway.webp">-->
+
+                        <!-- Scene -->
+                        <div id="monologueBox" class="dialog scene-box">
+                            <p class="message">...</p>
+                            <button id="buttonContinue" class="button-next bottom-right" role="button">...</button>
+                         </div>
+                    </div>
                 </div>
     
                 <div id="creditsScreen" class="gamelayer">
@@ -46,7 +140,5 @@
                 </div>
             </div>
         </div>
-    </body>
-    <script src="_js/assets/_button.js"></script>
-    
+    </body>    
 </html>
