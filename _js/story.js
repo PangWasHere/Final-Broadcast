@@ -354,7 +354,7 @@ ending_monolouges = {
                 "Tonight wasn’t about fear—it was about connection.",
                 "Whether we reached out in love, in grief, or in fear, what mattered most was that we weren’t alone.",
                 "We spent this time together, sharing our stories, our hopes, and our fears.",
-                "<em>The voice catches slightly, the emotion palpable.</em>",
+                "<em>Voice catches slightly, the emotion palpable.</em>",
                 "Maybe that’s all any of us ever wanted.",
                 "To know we’re heard, that we’re seen, that we’re not going through this alone.",
                 "Tonight, I heard you.",
@@ -370,7 +370,7 @@ ending_monolouges = {
                 "We asked questions that couldn’t be answered, we searched for meaning in a world about to vanish.",
                 "And in that search, maybe we found something more.",
                 "Maybe it wasn’t about the meteor at all.",
-                "<em>The player pauses, as if pondering the very nature of existence.</em>",
+                "<em>Pauses, as if pondering the very nature of existence.</em>",
                 "Perhaps the end is just another part of the journey, another step in a story we don’t fully understand.",
                 "And maybe that’s okay.",
                 "Maybe we don’t need all the answers.",
@@ -384,3 +384,75 @@ ending_monolouges = {
             ]
         }
 }
+
+
+background_music_sounds = {}
+
+game_songs = [
+    {
+        "song_id": 0,
+        "song_url": "_music/game_songs/everything-works-out-in-the-end",
+        "song_title": "Everything Works Out in the End",
+        "song_artist": "Calvin Clavier",
+        "song_duration": "04:00",
+        "credits_url": "https://pixabay.com/music/modern-classical-sad-piano-music-everything-works-out-in-the-end-238441/",
+        "artist_profile_url": "https://pixabay.com/users/calvinclavier-16027823/",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    },
+    {
+        "song_id": 1,
+        "song_url": "_music/game_songs/cinematic-time-lapse",
+        "song_title": "Cinematic Time Lapse",
+        "song_artist": "Aleksey Chistilin",
+        "credits_url": "https://pixabay.com/music/main-title-cinematic-time-lapse-115672/",
+        "artist_profile": "https://pixabay.com/users/lexin_music-28841948/",
+        "song_duration": "02:01",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    },
+    {
+        "song_id": 2,
+        "song_url": "_music/game_songs/loves-serenade",
+        "song_title": "Loves Serenade",
+        "song_artist": "Sergio Prosvirini",
+        "credits_url": "https://pixabay.com/music/modern-classical-loves-serenade-188266/",
+        "artist_profile": "https://pixabay.com/users/top-flow-28521292/",
+        "song_duration": "03:13",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    },
+    /*{
+        "song_id": 3,
+        "song_url": "_music/game_songs/morning-in-the-mountains",
+        "song_title": "Morning in the Mountains",
+        "song_artist": "Calvin Clavier",
+        "credits_url": "https://pixabay.com/music/modern-classical-morning-in-the-mountains-201840/",
+        "artist_profile_url": "https://pixabay.com/users/calvinclavier-16027823/",
+        "song_duration": "02:52",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    },*/
+    {
+        "song_id": 4,
+        "song_url": "_music/game_songs/for-when-it-rains",
+        "song_title": "For When It Rains",
+        "song_artist": "Juan Sanchez",
+        "credits_url": "https://pixabay.com/music/modern-classical-for-when-it-rains-112785/",
+        "artist_profile_url": "https://pixabay.com/users/juan_sanchez_music-8771929/",
+        "song_duration": "05:37",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    },
+    {
+        "song_id": 5,
+        "song_url": "_music/game_songs/conquest-of-eternity",
+        "song_title": "Conquest of Eternity",
+        "song_artist": "Yevhen Onoychenko",
+        "credits_url": "https://pixabay.com/music/main-title-conquest-of-eternity-229230/",
+        "artist_profile_url": "https://pixabay.com/users/onoychenkomusic-24430395/",
+        "song_duration": "02:12",
+        "genre": ["country", "folk", "rock"],
+        "tags": ["lively"]
+    }
+]

@@ -71,50 +71,23 @@
                 </div>
     
                 <div id="chooseMusicScreen" class="gamelayer default-game-background">
-                    <div class="choose-music-container">
-                        <audio id="audioBox" preload="none" tabindex="0">
+                    <div id="chooseMusicContainerBox" class="choose-music-container">
+                        <audio id="chooseMusicAudioBox" preload="none" tabindex="0">
                             <source src="https://archive.org/download/calexico2006-12-02..flac16/calexico2006-12-02d1t02.mp3" data-track-number="1" />
                             Can't play songs. The device you are using does not support the technology we use.
                         </audio>
                         <div class="carousel">
-                            <div class="carousel__stage">
-                              <input class="carousel__item-input" type="radio" name="item" id="input_0" checked="checked"/>
+                            <div id="chooseMusicCarouselStage" class="carousel__stage">
+                                <!-- TODO: After studying the CSS, make this dynamic -->
+                              <!--<input class="carousel__item-input" type="radio" name="item" id="input_0" checked="checked"/>
                               <input class="carousel__item-input" type="radio" name="item" id="input_1"/>
                               <input class="carousel__item-input" type="radio" name="item" id="input_2"/>
                               <input class="carousel__item-input" type="radio" name="item" id="input_3"/>
-                              <input class="carousel__item-input" type="radio" name="item" id="input_4"/>
-                              <div class="carousel__item-content">
-                                <div class="item__song-details">
-                                    <p class="song-title">Song Title</p>
-                                    <p class="song-artist">Artist</p>
-                                    <div class="music-player">
-                                        <!-- Track Slider -->
-                                        <div id="controls">
-                                            <input type="range" id="track-slider" min="0" value="0">
-                                        </div>
-                                    </div>
-                                    <button class="button-next play-song-button" role="button">Broadcast</button>
-                                    
-                                </div>
-                              </div>
-                              <div class="carousel__item-content">
-                                <div class="item__song-details">
-                                    <p class="song-title">Song Title</p>
-                                    <p class="song-artist">Artist</p>
-                                    
-                                    <button class="button-next play-song-button" role="button">Broadcast</button>
-                                </div>
-                              </div>
-                              <div class="carousel__item-content">3</div>
-                              <div class="carousel__item-content">4</div>
-                              <div class="carousel__item-content">5</div>
-                              <label class="carousel__item-label" for="input_0"></label>
-                              <label class="carousel__item-label" for="input_1"></label>
-                              <label class="carousel__item-label" for="input_2"></label>
-                              <label class="carousel__item-label" for="input_3"></label>
-                              <label class="carousel__item-label" for="input_4"></label>
+                              <input class="carousel__item-input" type="radio" name="item" id="input_4"/> -->
+                              <!--Dynamically add the items -->
                             </div>
                           </div>
+                          <button id="skipSongNextCallerButton" class="button-next next-caller" role="button">Move on to next caller <em>(Skip song)</em></button>
                     </div>
                 </div>
     

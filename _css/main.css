@@ -364,6 +364,15 @@ body {
   left: 2px;
 }
 
+.button-next:disabled {
+    background-color: grey;
+}
+
+.button-next:disabled:hover:after {
+    bottom: 4px;
+  left: 4px;
+}
+
 /************************/
 /* Ending Screen */
 /************************/
@@ -413,11 +422,15 @@ body {
 /*  Choose Music Screen */
 /************************/
 
+.choose-music-container {
+    position: relative;
+}
+
 
 /* Credits: https://codepen.io/jenning/pen/JjoGKgE */
 /*  Jenning (jenning) */
 .carousel {
-    margin: 50px auto;
+    margin: 100px auto;
     width: 50%;
     height: 200px;
     background: #191919;
@@ -453,6 +466,8 @@ body {
     top: -9999px;
     left: -9999px;
   }
+
+  /* TODO: Add comments to distinguish which radio button belongs to which item/label */
   .carousel__item-input:nth-child(1):checked ~ .carousel__item-label:nth-child(11) {
     background: #F15025;
   }
@@ -583,7 +598,7 @@ body {
   .carousel__item-content .item__song-details .song-title {
     text-shadow: 2px 2px #F15025;
     color: white;
-    font-size: 1.5em;
+    font-size: 1.3em;
     margin: 0;
   }
 
@@ -591,6 +606,10 @@ body {
     color: white;
     font-size: 1em;
     margin: 0;
+  }
+
+  .song-time-display {
+    font-size: 0.7em;
   }
 
   .carousel__item-content:nth-child(6) {
@@ -701,8 +720,53 @@ body {
     }
   }
 
+  .music-player {
+    display: flex;
+    /*align-items: flex-start; TODO: Duration slider style*/
+    align-items: center;
+    margin-top: 8px;
+  }
 
-.button-next.play-song-button {
+
+.play-pause-song-button {
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: 4px;
+  
+    border-color: transparent transparent transparent #b500af;
+    transition: 100ms all ease;
+    cursor: pointer;
+  
+    border-style: solid;
+    border-width: 10px 0 10px 15px;
+  }
+
+  .play-pause-song-button.paused {
+    border-style: double;
+    border-width: 0px 0px 0px 15px;
+    height: 18px;
+    margin-top: 2px;
+  }
+
+  .play-pause-song-button:hover {
+    border-color: transparent transparent transparent #bc7eb6;
+  }
+
+.button-next.broadcast-button {
     padding: 0 10px;
     margin-top: 20px;
+}
+
+.button-next.next-caller {
+    position: absolute;
+    right: 50px;
+    bottom: -50px;
+}
+
+/* TODO: Refactor. This was a cheat to add the Skip Song label on the button */
+#skipSongNextCallerButton em{
+  font-size: 10px;
+  margin-left: 3px;
 }
