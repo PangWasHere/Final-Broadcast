@@ -11,13 +11,15 @@ var game = {
     endingType: "default",
     maxNumOfSongChoices: 5,
     currentSongPlayingTrackNumber: -1,
+    STATUS: {"START": 'Game starting', "CHOOSE_MUSIC": false, "END": 'Showing ending'},
+    currentGameStatus: 'Game starting',
     init: function() {
         game.canvas = document.getElementById("gameCanvas")
         game.context = game.canvas.getContext("2d")
 
         loader.init()
         game.setInitialListeners()
-        
+        game.currentGameStatus = game.STATUS.START
     },
 
     setInitialListeners: function() {
@@ -30,25 +32,40 @@ var game = {
                 loader.loadedAudio.pause()
             }
 
-            // Reset the number before next song and choosing music
-            game.numCallersBeforeNextSong = 3
-            game.choosing_music = false
-
-            game.nextScene()
+            if(game.currentGameStatus == game.STATUS.END) {
+                // Player chose silence for the last song
+                game.showEndScene()
+            } else {
+                // Reset the number before next song and choosing music
+                game.numCallersBeforeNextSong = 3
+                game.choosing_music = false
+                game.nextScene()
+            }
+            
         })
 
-        let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
+
+        if(loader.loadedAudio) {
+
+            let broadcast_buttons = document.getElementsByClassName("broadcast-button")
+
+            for (let i = 0; i < broadcast_buttons.length; i++) {
+                
+                broadcast_buttons[i].addEventListener('click', game.broadcastSong, false)
+            }
+
+            let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
 
             for (let i = 0; i < play_pause_buttons.length; i++) {
                 
                 play_pause_buttons[i].addEventListener('click', game.playSongButtonClick, false)
             }
-
+        }
     },
 
     start: function() {
-        game.showScreen("callerDialogScreen")
-        game.showCall(game.getRandomCaller())
+        game.showScreen("chooseMusicScreen")
+        //game.showCall(game.getRandomCaller())
     },
 
     hideScreens: function() {
@@ -80,25 +97,7 @@ var game = {
         game.hideScreens()
         game.showScreen("chooseMusicScreen")
 
-        let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
-
-            for (let i = 0; i < play_pause_buttons.length; i++) {
-                
-                play_pause_buttons[i].classList.remove("paused")
-            }
-
-        if(loader.loadedAudio) {
-            
-
-            let broadcast_buttons = document.getElementsByClassName("broadcast-button")
-
-            for (let i = 0; i < broadcast_buttons.length; i++) {
-                
-                broadcast_buttons[i].addEventListener('click', game.broadcastSong, false)
-            }
-        }
-
-        
+        game.resetPlayPauseButton()
 
         const chooseMusicContainer = document.getElementById("chooseMusicContainerBox")
         // TODO: Add logic involving player's choice of music
@@ -113,21 +112,18 @@ var game = {
         if (!(game.currentSongPlayingTrackNumber == track_number)) {
             game.playSong(track_number)
 
-            // TODO: Refactor. Repeating code
-            let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
-
-                for (let i = 0; i < play_pause_buttons.length; i++) {
-                    
-                    play_pause_buttons[i].classList.remove("paused")
-                }
+            game.resetPlayPauseButton()
         }
-        
 
-        // TODO: Refactor, repeating code
-        game.numCallersBeforeNextSong = 3
-        game.choosing_music = false
+        if(game.currentGameStatus == game.STATUS.END) {
+            game.showEndScene()
+        } else {
+            // TODO: Refactor, repeating code (Low)
+            game.numCallersBeforeNextSong = 3
+            game.choosing_music = false
 
-        game.nextScene()
+            game.nextScene()
+        }   
     },
 
     findSong: function(track_number) {
@@ -159,6 +155,15 @@ var game = {
         }
     },
 
+    resetPlayPauseButton: function(e) {
+        let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
+
+        for (let i = 0; i < play_pause_buttons.length; i++) {
+            
+            play_pause_buttons[i].classList.remove("paused")
+        }
+    },
+
     playSongButtonClick: function(e) {
 
         let button = e.currentTarget
@@ -171,14 +176,8 @@ var game = {
             // Stop all other songs from playing
 
             // Set all other play buttons to play (if they had the paused class)
-            // TODO: Refactor this. Repeating code?
-            let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
-
-            for (let i = 0; i < play_pause_buttons.length; i++) {
-                
-                play_pause_buttons[i].classList.remove("paused")
-            }
-
+            game.resetPlayPauseButton()
+            
             button.classList.add("paused")
 
             let track_number = button.getAttribute('track-number')
@@ -246,7 +245,7 @@ var game = {
         let dj_response_options = call_stories[call_id]['options']
         
         for (let i = dj_response_options.length - 1; i >= 0; i--) {
-            // TODO: Randomise the options positions
+            // TODO: Randomise the options positions (High)
             let option = document.createElement("p")
             option.innerHTML = dj_response_options[i].response
             option.classList.add("option")
@@ -259,6 +258,16 @@ var game = {
                 dj_response_type = option.getAttribute('response-type')
                 caller = call_stories[call_id]['caller']
                 caller_response = call_stories[call_id][dj_response_type + '-response']
+                
+                // GAME ENDING LOGIC: Add points based on the DJ response
+                if(dj_response_type == "empathetic") {
+                    game.djResponsePoints.empathy++
+                } else if (dj_response_type == "practical") {
+                    game.djResponsePoints.practicality++
+                } else if(dj_response_type == "honest") { 
+                    game.djResponsePoints.honesty++
+                }
+
                 game.showCallerResponse(dj_response_type, caller_response, caller)
             })
 
@@ -285,17 +294,7 @@ var game = {
       ],
 
     showCallerResponse: function(dj_response_type, response, caller) {
-        // TODO: Refactor this so it only shows the caller reponse
-
-        if(dj_response_type == "empathetic") {
-            game.djResponsePoints.empathy++
-        } else if (dj_response_type == "practical") {
-            game.djResponsePoints.practicality++
-        } else if(dj_response_type == "honest") { 
-            game.djResponsePoints.honesty++
-        }
-
-
+   
         game.hideDialogBoxesExcept("scene")
         const sceneMessage = document.querySelector("#sceneBox .message")
         sceneMessage.innerHTML = response
@@ -318,8 +317,9 @@ var game = {
 
         // Checks if the number of caller reached the maximum
         if (game.listOfCallers.length >= game.maxCallersEnding) {
-            // TODO: End game. Allow player to choose one last song to play while the monologue happens
-            game.showEndScene()
+            game.currentGameStatus = game.STATUS.END
+            // TODO: Special ending based on the last song played (Next Phase)
+            game.chooseMusic()
         } else {
 
             // Check if the number of callers before next song is reached
@@ -327,7 +327,7 @@ var game = {
 
                 game.hideDialogBoxesExcept("scene")
                 const sceneMessage = document.querySelector("#sceneBox .message")
-                sceneMessage.innerHTML = "<span class='test'>It's time for another song...</span>"
+                sceneMessage.innerHTML = "<em>(Time to pick another song)<em>"
 
                 const speakerBox = document.getElementById("speakerBox")
                 speakerBox.style.display = 'none';
@@ -395,6 +395,14 @@ var game = {
                     endingScreen.classList.remove("default-game-background")
                     this.style.display = "none"
                     message_num++;
+
+                    // Stop the music
+                    // TODO: Play the crashing sound of the meteor
+                    loader.loadedAudio.pause()
+                    // TODO: For credits, play the song that wasn't chosen by the player (If played all four)
+                    // If no song were played throughout game, play static noise all throughout the credits
+                    // If player only played one song, play that song
+                    // If payer skipped some songs, play the last song they chose
             } else  {
                 message_num++;
             }
@@ -634,6 +642,8 @@ var loader = {
 
             // Hide the loading screen
             game.hideScreen("loadingScreen")
+
+            // START. Game starts after loading all assets
             game.start()
 
             // and call the loader.onload method if it exists
