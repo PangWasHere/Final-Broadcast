@@ -110,7 +110,7 @@ var game = {
         // Play the track with the corresponding song_id
         let track_number = e.currentTarget.getAttribute('track-number')
 
-        if (!game.currentSongPlayingTrackNumber == track_number) {
+        if (!(game.currentSongPlayingTrackNumber == track_number)) {
             game.playSong(track_number)
 
             // TODO: Refactor. Repeating code
