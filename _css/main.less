@@ -1,0 +1,783 @@
+@import "variables.less";
+
+@default-game-font: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+@song-title-font: "Sulphur Point", sans-serif;
+
+@default-game-background: url("../_imgs/radio-station.jpg");
+
+
+@carousel-count: 5;
+
+@game-width: 640px;
+@game-height: 480px;
+
+body {
+    user-select: none;
+    font-family: @default-game-font;
+}
+
+/*********************/
+/*    GAME STYLES    */
+/*********************/
+
+#gameContainer {
+    position: absolute;
+}
+
+#game {
+    width: @game-width;
+    height: @game-height;
+    background: @bg-primary-color;
+}
+
+.gamelayer {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: none;
+}
+
+.default-game-background {
+    width: 100%;
+    height: 100%;
+    background-image: @default-game-background;
+    background-size: cover;
+}
+
+/***** BUTTONS ******/
+
+
+.button-next {
+    background-color: @button-primary-color;
+    border: 0 solid @button-border-color;
+    box-sizing: border-box;
+    color: @black;
+    display: flex;
+    font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    font-size: 0.8rem;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.75rem;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none @black solid;
+    text-decoration-thickness: auto;
+    width: max-content;
+    max-width: 460px;
+    cursor: pointer;
+    transform: rotate(-2deg);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+
+    &:after {
+        content: '';
+        position: absolute;
+        border: 1px solid @black;
+        bottom: 4px;
+        left: 4px;
+        width: calc(100% - 1px);
+        height: calc(100% - 1px);
+    }
+
+    &:hover:after {
+            bottom: 2px;
+            left: 2px;
+    }
+
+    &:focus {
+        outline: 0;
+    }
+
+    &.bottom-right {
+        position: absolute;
+        right: -5px;
+        bottom: -20px;
+    }
+
+    :disabled {
+        background-color: grey;
+
+        &:hover:after {
+            bottom: 4px;
+            left: 4px;
+        }
+    }
+  }
+  
+
+.next-caller {
+    position: absolute;
+    right: 50px;
+    bottom: -50px;
+}
+
+.broadcast-button {
+    padding: 0 10px;
+    margin-top: 20px;
+}
+
+/* TODO: Refactor. This was a cheat to add the Skip Song label on the button */
+#skipSongNextCallerButton em{
+    font-size: 10px;
+    margin-left: 3px;
+  }
+
+/******************/
+/* Loading Screen */
+/******************/
+
+#loadingScreen {
+    background-color: @bg-secondary-color;
+}
+
+/* Credits: https://css-loaders.com/classic/ */
+.loader.normal {
+    font-weight: bold;
+    font-family: monospace;
+    white-space: pre;
+
+    &:before {
+        content: "Loading...";
+        animation: l34 1s infinite alternate;
+      }
+  }
+  
+  @keyframes l34{
+    0%,15%,75%,100% {
+     content:"Loading...";
+    }
+    20% {content:"Loading..."}
+    25% {content:"Lo ding..."}
+    30% {content:"Load ng..."}
+    35% {content:" oading..."}
+    40% {content:"L ading..."}
+    45% {content:"Loadin ..."}
+    50% {content:"Loa ing..."}
+    55% {content:"Loading  ."}
+    60% {content:" oa ing..."}
+    65% {content:"L ading..."}
+    70% {content:"Load n ..."}
+  }
+
+
+/* Loader glitches - First anomaly */
+.loader.glitch {
+    font-weight: bold;
+    font-family: monospace;
+    display: inline-grid;
+
+    &:before, &:after {
+        content:"Loading...";
+        grid-area: 1/1;
+        mask-size: 2ch 100%,100% 100%;
+        mask-repeat: no-repeat;
+        -webkit-mask-composite: xor;
+                mask-composite:exclude;
+        animation: l37 1s infinite;
+    }
+
+    &:before {
+        mask-image:
+        linear-gradient(#000 0 0),
+        linear-gradient(#000 0 0);
+    }
+
+    &:after {
+        mask-image:linear-gradient(#000 0 0);
+        transform: scaleY(0.5);
+    }
+}
+
+/* Loader glitches more */
+.loader.glitch-2 {
+    font-weight: bold;
+    font-family: monospace;
+    display: inline-grid;
+
+    &:before, &:after {
+        content:"Loading...";
+        grid-area: 1/1;
+        mask-size: 100% 5px,100% 100%;
+        mask-repeat: no-repeat;
+        -webkit-mask-composite: xor;
+                mask-composite: exclude;
+        animation: l35-1 1s infinite;
+    }
+
+    &:before {
+        mask-image:
+        linear-gradient(#000 0 0),
+        linear-gradient(#000 0 0);
+    }
+
+    &:after {
+        mask-image:
+        linear-gradient(#000 0 0);
+        animation:
+        l35-1  1s infinite,
+        l35-2 .2s infinite cubic-bezier(0.5,200,0.5,-200);
+    }
+  }
+  
+  @keyframes l35-1{
+    0%   {-webkit-mask-position:0 20px,0 0}
+    20%  {-webkit-mask-position:0 8px ,0 0}
+    40%  {-webkit-mask-position:0 100%,0 0}
+    60%  {-webkit-mask-position:0 3px ,0 0}
+    80%  {-webkit-mask-position:0 15px,0 0}
+    100% {-webkit-mask-position:0 0   ,0 0}
+  }
+  @keyframes l35-2{
+    100% {transform:translate(0.1px)} 
+  }
+
+@keyframes l37{
+    0%    {-webkit-mask-position:1ch  0,0 0}
+    12.5% {-webkit-mask-position:100% 0,0 0}
+    25%   {-webkit-mask-position:4ch  0,0 0}
+    37.5% {-webkit-mask-position:8ch  0,0 0}
+    50%   {-webkit-mask-position:2ch  0,0 0}
+    62.5% {-webkit-mask-position:100% 0,0 0}
+    75%   {-webkit-mask-position:0ch  0,0 0}
+    87.5% {-webkit-mask-position:6ch  0,0 0}
+    100%  {-webkit-mask-position:3ch  0,0 0}
+  }
+
+/* Loader jumps all over */
+.loader.fidget  {
+    font-weight: bold;
+    font-family: monospace;
+    animation: l25 1s infinite;
+    &::before {
+        content:"Loading...";
+    }
+  }
+
+@keyframes l25{
+    0%,12.5% {transform: translate(10px,0)}
+    13%,25%  {transform: translate(4px,-4px)}
+    26%,37.5%{transform: translate(2px,8px)}
+    38%,50%  {transform: translate(12px,-6px)}
+    51%,62.5%{transform: translate(0,12px)}
+    63%,75%  {transform: translate(-8px,-4px)}
+    76%,86.5%{transform: translate(-12px,6px)}
+    87%,100% {transform: translate(6px,0)}
+}
+
+/* Letters in loader are scrambled */
+.loader.scramble {
+    font-weight: bold;
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1.2em;
+    height: 1.2em;
+    overflow: hidden;
+
+    &:before {
+        content:"Loading...\AgodnLai...\Aoiaglni...\ALiongad...\Agindola...\Analoidg...";
+        white-space: pre;
+        display:inline-block;
+        animation: l38 1s infinite steps(6);
+    }
+}
+
+@keyframes l38 {
+    100%{transform: translateY(-100%)}
+}
+
+/* Final Loading - Displays foreign symbols before going back to normal */
+.loader.foreign {
+    font-weight: bold;
+    font-family: monospace;
+    white-space: pre;
+    line-height: 1.2em;
+    height:1.2em;
+    overflow: hidden;
+
+    &:before {
+        content:"Loading...\A⌰oading...\A⌰⍜ading...\A⌰⍜⏃ding...\A⌰⍜⏃⎅ing...\A⌰⍜⏃⎅⟟ng...\A⌰⍜⏃⎅⟟⋏g...\A⌰⍜⏃⎅⟟⋏☌...\A⌰⍜⏃⎅⟟⋏☌⟒..\A⌰⍜⏃⎅⟟⋏☌⟒⏁.\A⌰⍜⏃⎅⟟⋏☌⟒⏁⋔"; 
+        white-space: pre;
+        display: inline-block;
+        animation: l39 1s infinite steps(11) alternate;
+      }
+  }
+
+  @keyframes l39 {
+    100%{transform: translateY(-100%)}
+  }
+
+.loader {
+    margin-top: calc(@game-height - 50px);
+    width: 100%;
+    font-size: @text-default-font-size;
+    color: @accent;
+    text-align: center;
+    color: @accent;
+}
+
+/******************/
+/* Splash Screen */
+/******************/
+
+/* TODO: (High) */
+
+
+/***********************/
+/*  Main Menu Screen   */
+/***********************/
+
+/* TODO: (High) */
+
+/************************/
+/*  Choose Music Screen */
+/************************/
+
+.choose-music-container {
+    position: relative;
+}
+
+/* Credits: https://codepen.io/jenning/pen/JjoGKgE */
+/*  Jenning (jenning) */
+.carousel {
+    margin: @large-gap auto;
+    width: @choose-music-carousel-width;
+    height: @choose-music-carousel-height;
+    position: relative;
+    background-color: @bg-primary-color;
+    box-shadow: 20px 20px @text-shadow-color;
+    font-family: @song-title-font;
+    transform: rotate(1deg);
+
+    &:before, &:after {
+        position: absolute;
+        font-size: 12px;
+        color: @white;
+        text-align: center;
+        width: 100%;
+    }
+
+    &:after {
+        content: "Choose a song";
+        position: absolute;
+        top: calc(100% + 4px);
+        -webkit-animation: blink 0.6s ease infinite;
+                animation: blink 0.6s ease infinite;
+    }
+
+    &__stage {
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    &__item {
+        &-input {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+				            
+        }
+
+        &-content {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+                -ms-user-select: none;
+                    user-select: none;
+            will-change: transform;
+
+            &-box {
+                width: 80%;
+            }
+        }
+
+        &-label {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border: 1px solid @text-shadow-color;
+            background: transparent;
+            border-radius: 50%;
+            z-index: 1;
+            bottom: 10px;
+            left: 50%;
+            cursor: pointer;
+            z-index: 6;
+
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                background: @text-shadow-color;
+                -webkit-animation: ripple 0.6s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+                        animation: ripple 0.6s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
+                display: none;
+            }
+        }
+    }
+}
+
+
+
+/* TODO: (Medium) Add comments to distinguish which radio button belongs to which item/label */
+.carousel__item-input:nth-child(1):checked ~ .carousel__item-label:nth-child(11) {
+    background: @text-shadow-color;
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-label:nth-child(11):before {
+    display: block;
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-content:nth-child(6) {
+    transform: translate(0%);
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-content:nth-child(7) {
+    transform: translate(100%);
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-content:nth-child(8) {
+    transform: translate(200%);
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-content:nth-child(9) {
+    transform: translate(300%);
+  }
+  .carousel__item-input:nth-child(1):checked ~ .carousel__item-content:nth-child(10) {
+    transform: translate(400%);
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-label:nth-child(12) {
+    background: @text-shadow-color;
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-label:nth-child(12):before {
+    display: block;
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-content:nth-child(6) {
+    transform: translate(-100%);
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-content:nth-child(7) {
+    transform: translate(0%);
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-content:nth-child(8) {
+    transform: translate(100%);
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-content:nth-child(9) {
+    transform: translate(200%);
+  }
+  .carousel__item-input:nth-child(2):checked ~ .carousel__item-content:nth-child(10) {
+    transform: translate(300%);
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-label:nth-child(13) {
+    background: @text-shadow-color;
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-label:nth-child(13):before {
+    display: block;
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-content:nth-child(6) {
+    transform: translate(-200%);
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-content:nth-child(7) {
+    transform: translate(-100%);
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-content:nth-child(8) {
+    transform: translate(0%);
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-content:nth-child(9) {
+    transform: translate(100%);
+  }
+  .carousel__item-input:nth-child(3):checked ~ .carousel__item-content:nth-child(10) {
+    transform: translate(200%);
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-label:nth-child(14) {
+    background: @text-shadow-color;
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-label:nth-child(14):before {
+    display: block;
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-content:nth-child(6) {
+    transform: translate(-300%);
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-content:nth-child(7) {
+    transform: translate(-200%);
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-content:nth-child(8) {
+    transform: translate(-100%);
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-content:nth-child(9) {
+    transform: translate(0%);
+  }
+  .carousel__item-input:nth-child(4):checked ~ .carousel__item-content:nth-child(10) {
+    transform: translate(100%);
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-label:nth-child(15) {
+    background: @text-shadow-color;
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-label:nth-child(15):before {
+    display: block;
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-content:nth-child(6) {
+    transform: translate(-400%);
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-content:nth-child(7) {
+    transform: translate(-300%);
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-content:nth-child(8) {
+    transform: translate(-200%);
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-content:nth-child(9) {
+    transform: translate(-100%);
+  }
+  .carousel__item-input:nth-child(5):checked ~ .carousel__item-content:nth-child(10) {
+    transform: translate(0%);
+  }
+
+
+
+  .carousel__item-content:nth-child(6) {
+    z-index: 5;
+    background: rgba(230, 232, 230, 0.2);
+  }
+  .carousel__item-content:nth-child(7) {
+    z-index: 4;
+    background: rgb(211 41 239 / 36%);
+  }
+  .carousel__item-content:nth-child(8) {
+    z-index: 3;
+    background: rgba(97, 26, 97, 0.84);
+  }
+  .carousel__item-content:nth-child(9) {
+    z-index: 2;
+    background: rgba(74, 30, 87, 0.52);
+  }
+  .carousel__item-content:nth-child(10) {
+    z-index: 1;
+    background: rgba(49, 0, 48, 0.818);
+  }
+
+
+
+  .carousel__item-label:nth-child(11) {
+    transform: translateX(-53px);
+  }
+  .carousel__item-label:nth-child(12) {
+    transform: translateX(-28px);
+  }
+  .carousel__item-label:nth-child(13) {
+    transform: translateX(-3px);
+  }
+  .carousel__item-label:nth-child(14) {
+    transform: translateX(22px);
+  }
+  .carousel__item-label:nth-child(15) {
+    transform: translateX(47px);
+  }
+
+
+/********    *********/
+
+/* Carousel Animations */
+@-webkit-keyframes blink {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.9;
+    }
+  }
+  @-webkit-keyframes ripple {
+    0%, 100% {
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.6;
+    }
+    0% {
+      transform: scale(0);
+    }
+    100%, 85% {
+      transform: scale(5);
+    }
+  }
+  @keyframes ripple {
+    0%, 100% {
+      opacity: 0;
+    }
+    15% {
+      opacity: 0.6;
+    }
+    0% {
+      transform: scale(0);
+    }
+    100%, 85% {
+      transform: scale(5);
+    }
+  }
+
+/* Music Player & Song Details */
+
+.music-player {
+    display: flex;
+    /*align-items: flex-start; TODO: Duration slider style*/
+    align-items: center;
+    margin-top: 8px;        //TODO: (Low) small-gap
+
+    .song-title {
+        text-shadow: 2px 2px @bg-primary-color;
+        color: @white;
+        font-size: 1.3em; //TODO: (Low)
+        margin: 0;
+    }
+
+    .song-artist {
+        color: @white;
+        font-size: 1em; // TODO: (Low)
+        margin: 0;
+    }
+}
+
+.play-pause-song-button {
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: 4px;
+    border-color: transparent transparent transparent @white;      //TODO: (Low) Add as color variable
+    transition: 100ms all ease;
+    cursor: pointer;
+    border-style: solid;
+    border-width: 10px 0 10px 15px; // TODO: (Low) use gap variables
+
+    &.paused {
+        border-style: double;
+        border-width: 0px 0px 0px 15px;
+        height: 18px;
+        margin-top: 2px;
+    }
+
+    &:hover {
+        border-color: transparent transparent transparent #bc7eb6;
+    }
+}
+
+
+
+
+/************************/
+/* Caller Dialog Screen */
+/************************/
+
+.dialog-box {
+    background-color: rgba(0,0,0,0.8);  // TODO: (High) Add as variable
+    border-radius: 10px;
+    box-shadow: 0 0 30px @bg-secondary-color;
+
+    p {
+        color: @white;
+        margin: 0;
+    }
+
+    & > div {
+        padding: 20px;
+    }
+
+    .option-box {
+        position: absolute;
+        bottom: 20px;
+        width: 90%;
+
+        p {
+            color: #98dee9;
+            font-size: 1em;
+            margin: 5px 0;
+            padding: 5px;
+
+            &:hover {
+                background-color: @button-primary-color;
+                cursor: pointer;
+                color: @black;
+                font-weight: 700;
+                transform: rotate(.5deg);
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    border: 1px solid @white;
+                    bottom: 4px;
+                    left: 4px;
+                    width: calc(100% - 1px);
+                    height: calc(100% - 1px);
+                }
+            }
+
+            &:nth-of-type(2):hover {
+                transform: rotate(-.5deg);
+            }
+        }
+    }
+
+    .prompt, .scene-box {
+        font-size: .9em;
+        em {
+            color: rgb(199, 203, 255);
+        }
+    }
+
+}
+
+#dialogContainerBox {
+    &.interactive {
+        width: 85%;
+        height:300px;
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    // TODO: (Low) Currently not being used
+    &.call-log {
+        width: 300px;
+        height: 80%;
+        margin: 5% 30px;
+    }
+
+    &.scene {
+        width: 80%;
+        height: 100px;
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .speaker-card {
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            padding: 5px 10px;
+            background: @white;
+            transform: rotate(-2deg);
+            color: @black;
+        }
+    }
+
+
+}

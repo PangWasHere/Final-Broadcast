@@ -1,32 +1,100 @@
 
 var game = {
 
-    // TODO: Get all the elements of the game as constants into the game for easy access
-    
+    HTMLElements: [
+        {
+            "gameCanvas": null,
+
+            // Screens
+            "screensGroup": null,
+            "splashScreen": null,
+            "defaultGameScreen": null,
+            "callerDialogScreen": null,
+            "chooseMusicScreen": null,
+            "endingScreen": null,
+            "creditsScreen": null,
+            "loadingScreen": null,
+
+            // Containers
+            "dialogContainerBox": null,
+
+            // Buttons
+            "skipSongNextCallerButton": null,
+            "nextButton": null,     // TODO: Rename to differentiate from Continue
+            "continueButton": null,
+
+            // Button Groups
+            "broadcastButtonsGroup": null,
+            "playPauseButtonsGroup": null,
+
+            // Misc
+            "loadedAudio": null,
+            "sceneMessage": null,
+            "speakerCard": null,
+            "monolougeBox": null,
+            "chooseMusicCarouselStage": null
+        }
+    ],
+
     listOfCallers: [],
     totalCallers: call_stories.length,
-    numCallersBeforeNextSong: 3, //TODO: For Next Phase
+    numCallersBeforeNextSong: 3, // Keeps track of the number of callers before playing next song
     maxCallersEnding: 9,    //TODO: Change this to 9 when publishing
     djResponsePoints: {"honesty": 0, "empathy": 0, "practicality": 0},
     endingType: "default",
     maxNumOfSongChoices: 5,
-    currentSongPlayingTrackNumber: -1,
+    currentSongPlayingTrackNumber: -1,  // Keeps track of the current song track number
     STATUS: {"START": 'Game starting', "CHOOSE_MUSIC": false, "END": 'Showing ending'},
-    currentGameStatus: 'Game starting',
+    currentGameStatus: '',
     init: function() {
-        game.canvas = document.getElementById("gameCanvas")
-        game.context = game.canvas.getContext("2d")
+        // Get all the HTML elements (once) to be used in the game
+        // Use the HTMLElements["element_id"] to access the element/s
+        game.getHTMLElements()
 
-        loader.init()
+        game.context = game.HTMLElements["gameCanvas"].getContext("2d")
+
+        loader.init() // Game will start once all assets are loaded
+
         game.setInitialListeners()
         game.currentGameStatus = game.STATUS.START
     },
 
-    setInitialListeners: function() {
-        const skipSongNextCallerButton = document.getElementById("skipSongNextCallerButton")
-        
+    // Gets all the HTML elements used in the UI
+    getHTMLElements: function() {
+        game.HTMLElements["gameCanvas"] = document.getElementById("gameCanvas")
 
-        skipSongNextCallerButton.addEventListener('click', function() {
+        game.HTMLElements["screensGroup"] = document.getElementsByClassName("screen")
+        game.HTMLElements["splashScreen"] = document.getElementById("splashScreen")
+        game.HTMLElements["defaultGameScreen"] = document.getElementById("defaultGameScreen")
+        game.HTMLElements["callerDialogScreen"] = document.getElementById("callerDialogScreen")
+        game.HTMLElements["chooseMusicScreen"] = document.getElementById("chooseMusicScreen")
+        game.HTMLElements["endingScreen"] = document.getElementById("endingScreen")
+        game.HTMLElements["creditsScreen"] = document.getElementById("creditsScreen")
+        game.HTMLElements["loadingScreen"] = document.getElementById("loadingScreen")
+
+        game.HTMLElements["dialogContainerBox"] = document.getElementById("dialogContainerBox")
+        
+        game.HTMLElements["skipSongNextCallerButton"] = document.getElementById("skipSongNextCallerButton")
+        game.HTMLElements["nextButton"] = document.getElementById("nextButton")
+        game.HTMLElements["continueButton"] = document.getElementById("continueButton")
+
+        game.HTMLElements["broadcastButtonsGroup"] = document.getElementsByClassName("broadcast-button")
+        game.HTMLElements["playPauseButtonsGroup"] = document.getElementsByClassName("play-pause-song-button")
+
+        game.HTMLElements["dialogsGroup"] = document.getElementsByClassName("dialog")
+
+        game.HTMLElements["loadedAudio"] = document.getElementById("continueButton")
+        game.HTMLElements["sceneMessage"] = document.querySelector("#sceneBox .message")
+        game.HTMLElements["speakerCard"] = document.getElementById("speakerCard")
+        game.HTMLElements["monolougeBox"] = document.getElementById("monologueBox")
+        game.HTMLElements["monolougeMessage"] = document.querySelector("#monologueBox .message")
+        game.HTMLElements["chooseMusicCarouselStage"] = document.getElementById("chooseMusicCarouselStage")
+    },
+
+    // Sets the listeners for the HTML elements
+    setInitialListeners: function() {
+
+        game.HTMLElements["skipSongNextCallerButton"].addEventListener('click', function() {
             // Stop playing any songs
             if(loader.loadedAudio) {
                 loader.loadedAudio.pause()
@@ -41,38 +109,41 @@ var game = {
                 game.choosing_music = false
                 game.nextScene()
             }
-            
         })
-
 
         if(loader.loadedAudio) {
 
-            let broadcast_buttons = document.getElementsByClassName("broadcast-button")
+            // Add click listeners for the Broadcast buttons
+            let broadcast_buttons = game.HTMLElements["broadcastButtonsGroup"]
 
             for (let i = 0; i < broadcast_buttons.length; i++) {
-                
                 broadcast_buttons[i].addEventListener('click', game.broadcastSong, false)
             }
 
-            let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
+            // Add click listeners for the Play/Pause buttons
+            let play_pause_buttons = game.HTMLElements["playPauseButtonsGroup"]
 
             for (let i = 0; i < play_pause_buttons.length; i++) {
                 
                 play_pause_buttons[i].addEventListener('click', game.playSongButtonClick, false)
             }
+
+            // TODO: Determine the best place to add this listener
+            loader.loadedAudio.addEventListener("ended", game.resetPlayPauseButton, false)
+
         }
     },
 
     start: function() {
+        // TODO: Show the Main Menu screen
         game.showScreen("chooseMusicScreen")
-        //game.showCall(game.getRandomCaller())
     },
 
     hideScreens: function() {
-        var screens = document.getElementsByClassName("gamelayer")
+        let screens = game.HTMLElements["screensGroup"]
         // Iterate through all the game layers and set their display to none
         for (let i = screens.length - 1; i >= 0; i--) {
-            var screen = screens[i]
+            let screen = screens[i]
 
             screen.style.display = "none"
         }
@@ -92,23 +163,26 @@ var game = {
 
     choosing_music: false,
 
-    // Functions related to choosing music
+    /***** Functions related to choosing music *****/
+
+    // Shows the UI for choosing music and game logic related to music
     chooseMusic: function() {
         game.hideScreens()
         game.showScreen("chooseMusicScreen")
 
         game.resetPlayPauseButton()
 
-        const chooseMusicContainer = document.getElementById("chooseMusicContainerBox")
         // TODO: Add logic involving player's choice of music
     },
 
+    // Play the song and hides the Choose Music dialog
     broadcastSong: function(e) {
         e.currentTarget.setAttribute('disabled', '')
 
         // Play the track with the corresponding song_id
         let track_number = e.currentTarget.getAttribute('track-number')
 
+        // Only play a new song if the song is not the same as the one playing
         if (!(game.currentSongPlayingTrackNumber == track_number)) {
             game.playSong(track_number)
 
@@ -126,6 +200,7 @@ var game = {
         }   
     },
 
+    // Look for the songs loaded in the game
     findSong: function(track_number) {
         let songs = loader.loadedGameSongs
         let songToReturn = -1
@@ -140,6 +215,7 @@ var game = {
         return songToReturn
     },
 
+    // Play the song (as preview) - Choose Music dialog remains
     playSong: function(track_number) {
         let song = game.findSong(track_number)
 
@@ -151,12 +227,14 @@ var game = {
             game.currentSongPlayingTrackNumber = track_number
 
         } else {
-            alert("Can't find song")
+            alert("Error: Can't find song")
         }
     },
 
+    // Change the icon to play (if paused)
+    // TODO: (Low) Refactor. Instead of looping everytime, is there a better way to update the play button
     resetPlayPauseButton: function(e) {
-        let play_pause_buttons = document.getElementsByClassName("play-pause-song-button")
+        let play_pause_buttons = game.HTMLElements["playPauseButtonsGroup"]
 
         for (let i = 0; i < play_pause_buttons.length; i++) {
             
@@ -164,6 +242,7 @@ var game = {
         }
     },
 
+    // Play button clicked. Music will be paused if playing, else play song.
     playSongButtonClick: function(e) {
 
         let button = e.currentTarget
@@ -187,26 +266,28 @@ var game = {
 
     },
 
-    // Functions related to Callers
+    /***** Functions related to Callers *****/
 
+    // Hide all dialog boxes
     hideDialogBoxesExcept: function(elementType) {
-        // Hide all dialog boxes
-
-        var screens = document.getElementsByClassName("dialog")
+        
+        const dialogs = game.HTMLElements["dialogsGroup"]
         // Iterate through all the dialogs and set their display to none
-        for (let i = screens.length - 1; i >= 0; i--) {
-            var screen = screens[i]
+        for (let i = dialogs.length - 1; i >= 0; i--) {
+            let dialog = dialogs[i]
 
-            screen.style.display = "none"
+            dialog.style.display = "none"
         }
 
-        const dialogContainerBox = document.getElementById("dialogContainerBox")
+        const dialogContainerBox = game.HTMLElements["dialogContainerBox"]
         dialogContainerBox.className = 'dialog-box'
         dialogContainerBox.classList.add(elementType)
 
         const shownDialogBox = document.getElementById(elementType + 'Box')
         shownDialogBox.style.display = "inline-block"
     },
+
+    // Get a unique caller 
     getRandomCaller: function() {
 
         // Get a random number until a caller is found that hasn't called yet
@@ -220,6 +301,7 @@ var game = {
         return randomCallerID
     },
 
+    // Display the call (UI)
     showCall: function(call_id) {
         // Make the interactive dialog appear
         game.hideScreens()
@@ -228,6 +310,7 @@ var game = {
         
 
         // Get the text elements
+        // Since this is specific to this function, no need to store in HTMLElements
         const prompt = document.querySelector("#interactiveBox .prompt")
         const optionBox = document.querySelector("#interactiveBox .option-box")
         const callerDescription = document.querySelector("#callerDescriptionBox")
@@ -268,7 +351,7 @@ var game = {
                     game.djResponsePoints.honesty++
                 }
 
-                game.showCallerResponse(dj_response_type, caller_response, caller)
+                game.showCallerResponse(caller_response, caller)
             })
 
             optionBox.appendChild(option)
@@ -293,27 +376,28 @@ var game = {
         "Next"
       ],
 
-    showCallerResponse: function(dj_response_type, response, caller) {
+    // Show the respective response of the caller based on the DJ's response
+    showCallerResponse: function(response, caller) {
    
         game.hideDialogBoxesExcept("scene")
-        const sceneMessage = document.querySelector("#sceneBox .message")
+
+        const sceneMessage = game.HTMLElements["sceneMessage"]
         sceneMessage.innerHTML = response
 
-        const speakerBox = document.getElementById("speakerBox")
-        speakerBox.innerHTML = caller
+        const speakerCard = game.HTMLElements["speakerCard"]
+        speakerCard.innerHTML = caller
 
-        speakerBox.style.display = 'inline-block'
+        speakerCard.style.display = 'inline-block'
 
-        const buttonNext = document.getElementById("buttonNext")
+        const nextButton = game.HTMLElements["nextButton"]
         let randomNumber = Math.floor(Math.random() * game.nextButtonTextList.length)
-        buttonNext.innerHTML = game.nextButtonTextList[randomNumber]
+        nextButton.innerHTML = game.nextButtonTextList[randomNumber]
 
         game.numCallersBeforeNextSong--;
     },
 
+    // TODO: (Medium) REFACTOR THIS D<
     nextScene: function() {
-
-        // TODO: REFACTOR THIS D<
 
         // Checks if the number of caller reached the maximum
         if (game.listOfCallers.length >= game.maxCallersEnding) {
@@ -326,11 +410,11 @@ var game = {
             if(game.numCallersBeforeNextSong <= 0) {
 
                 game.hideDialogBoxesExcept("scene")
-                const sceneMessage = document.querySelector("#sceneBox .message")
+                const sceneMessage = game.HTMLElements["sceneMessage"]
                 sceneMessage.innerHTML = "<em>(Time to pick another song)<em>"
 
-                const speakerBox = document.getElementById("speakerBox")
-                speakerBox.style.display = 'none';
+                const speakerCard = game.HTMLElements["speakerCard"]
+                speakerCard.style.display = 'none';
 
                 if (game.choosing_music) {
                     game.chooseMusic()
@@ -347,7 +431,9 @@ var game = {
        
     },
 
-    // Functions related to ending 
+    /*****  Functions related to ending  *****/
+
+    // Check and set the ending type of the game
     checkEndingType: function() {
 
         let honest_points = game.djResponsePoints.honesty
@@ -368,6 +454,7 @@ var game = {
         }
     },
 
+    // Show the Ending Screen and display the appropriate ending
     showEndScene: function() {
         game.hideScreens()
         game.showScreen("endingScreen")
@@ -378,28 +465,22 @@ var game = {
         let message_num = 0
         console.log(messages)
 
-        const endingScreen = document.getElementById("endingScreen")
-        const monologueBox = document.getElementById("monologueBox")
-        const monologueBoxMessage = document.querySelector("#monologueBox .message")
-        const buttonContinue = document.getElementById("buttonContinue")
+        game.HTMLElements["monolougeBox"].style.display = 'inline-block'
+        game.HTMLElements["monolougeMessage"].innerHTML = messages[message_num]
 
-        monologueBox.style.display = 'inline-block'
-
-        monologueBoxMessage.innerHTML = messages[message_num]
-
-        buttonContinue.addEventListener('click', function() { 
+        game.HTMLElements["continueButton"].addEventListener('click', function() { 
               
             if (message_num >= messages.length - 1) {
                 // Reached the end of the monologue
             } else if (message_num >= messages.length - 2) {
-                    endingScreen.classList.remove("default-game-background")
+                game.HTMLElements["endingScreen"].classList.remove("default-game-background")
                     this.style.display = "none"
                     message_num++;
 
                     // Stop the music
-                    // TODO: Play the crashing sound of the meteor
+                    // TODO: (High) Play the crashing sound of the meteor
                     loader.loadedAudio.pause()
-                    // TODO: For credits, play the song that wasn't chosen by the player (If played all four)
+                    // TODO: (High) For credits, play the song that wasn't chosen by the player (If played all four)
                     // If no song were played throughout game, play static noise all throughout the credits
                     // If player only played one song, play that song
                     // If payer skipped some songs, play the last song they chose
@@ -407,7 +488,7 @@ var game = {
                 message_num++;
             }
 
-            monologueBoxMessage.innerHTML = messages[message_num]
+            game.HTMLElements["monolougeMessage"].innerHTML = messages[message_num]
         })
     }
 }
@@ -418,7 +499,14 @@ var loader = {
     totalCount: 0,      // Total number of assets that need loading
     loadedAudio: null,
     loadedGameSongs: [],
+    firstLoaderDate: null,
+    fakeProgressTime: 3000, // milliseconds
     init: function() {
+
+        // Initialise the loader date to compare for loading progress
+        loader.firstLoaderDate = new Date()
+        console.log(loader.firstLoaderDate, " loading started...")
+
         // Check for sound support
         var mp3Support, oggSupport
         var audio = document.createElement("audio")
@@ -442,7 +530,7 @@ var loader = {
         game.showScreen("loadingScreen")
 
         // Get five random songs to load into the game
-        let current_game_songs = loader.getMultipleRandom(game_songs, 5)
+        let current_game_songs = utils.getMultipleRandom(game_songs, 5)
 
         loader.createMusicChooserUI(current_game_songs)
         
@@ -466,7 +554,7 @@ var loader = {
 
         let num_songs = current_game_songs.length
    
-        const chooseMusicCarouselStage = document.getElementById("chooseMusicCarouselStage")
+        const chooseMusicCarouselStage = game.HTMLElements["chooseMusicCarouselStage"]
 
         // Create the radio buttons
         for(let i = 0; i < num_songs; i++) { 
@@ -489,7 +577,7 @@ var loader = {
             carousel__item_content.classList.add("carousel__item-content")
 
             let item__song_details = document.createElement("div")
-            item__song_details.classList.add("item__song-details")
+            item__song_details.classList.add("carousel__item-content-box")
 
                 let song_info_container = document.createElement("div")
 
@@ -589,11 +677,6 @@ var loader = {
             chooseMusicCarouselStage.appendChild(item_label)
         }
     },
-    getMultipleRandom: function(arr, num) {
-        const shuffled = [...arr].sort(() => 0.5 - Math.random());
-
-        return shuffled.slice(0, num);
-    },
 
     loadImage: function(url) {
         this.loaded = false
@@ -629,10 +712,6 @@ var loader = {
 
         loader.loadedCount++
 
-        document.getElementById("loadingmessage").innerHTML = "Loaded " + loader.loadedCount + " of  " + loader.totalCount
-
-        console.log("Loaded " + loader.loadedCount + " of  " + loader.totalCount)
-
         if (loader.loadedCount === loader.totalCount) {
             // Loader has loaded completely..
             // Reset and clear the loader
@@ -640,11 +719,18 @@ var loader = {
             loader.loadedCount = 0
             loader.totalCount = 0
 
-            // Hide the loading screen
-            game.hideScreen("loadingScreen")
+            let loadingEndedDate = new Date()
+            // Set the fake progress time to be at least 3 seconds (3000ms)
+            let progressTime = loader.fakeProgressTime - (loadingEndedDate.getMilliseconds() - loader.firstLoaderDate.getMilliseconds())
 
-            // START. Game starts after loading all assets
-            game.start()
+            setTimeout(function(){
+                // Hide the loading screen
+                game.hideScreen("loadingScreen")
+
+                // START. Game starts after loading all assets
+                game.start()
+            }, progressTime)
+            
 
             // and call the loader.onload method if it exists
             if(loader.onload) {
@@ -656,7 +742,20 @@ var loader = {
 
 }
 
+
+var utils = {
+    getMultipleRandom: function(arr, num) {
+        const shuffled = [...arr].sort(() => 0.5 - Math.random());
+
+        return shuffled.slice(0, num);
+    },
+}
+
 // Initialise game once page has fully loaded
 window.addEventListener("load", function() {
     game.init()
 })
+
+// Disable right-click
+const gameElement = document.getElementById("game")
+gameElement.addEventListener('contextmenu', event => event.preventDefault());
