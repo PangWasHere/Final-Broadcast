@@ -74,10 +74,10 @@ body {
   right: -5px;
   bottom: -20px;
 }
-.button-next :disabled {
+.button-next:disabled {
   background-color: grey;
 }
-.button-next :disabled:hover:after {
+.button-next:disabled:hover:after {
   bottom: 4px;
   left: 4px;
 }
@@ -90,7 +90,7 @@ body {
   padding: 0 10px;
   margin-top: 20px;
 }
-/* TODO: Refactor. This was a cheat to add the Skip Song label on the button */
+/* TODO: (Medium) Refactor. This was a cheat to add the Skip Song label on the button */
 #skipSongNextCallerButton em {
   font-size: 10px;
   margin-left: 3px;
@@ -637,7 +637,7 @@ body {
 /* Music Player & Song Details */
 .music-player {
   display: flex;
-  /*align-items: flex-start; TODO: Duration slider style*/
+  /*align-items: flex-start; TODO: (Low) Duration slider style*/
   align-items: center;
   margin-top: 8px;
 }

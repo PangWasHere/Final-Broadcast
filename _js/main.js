@@ -128,14 +128,14 @@ var game = {
                 play_pause_buttons[i].addEventListener('click', game.playSongButtonClick, false)
             }
 
-            // TODO: Determine the best place to add this listener
+            // TODO: (High) Determine the best place to add this listener
             loader.loadedAudio.addEventListener("ended", game.resetPlayPauseButton, false)
 
         }
     },
 
     start: function() {
-        // TODO: Show the Main Menu screen
+        // TODO: (High) Show the Main Menu screen
         game.showScreen("chooseMusicScreen")
     },
 
@@ -172,7 +172,7 @@ var game = {
 
         game.resetPlayPauseButton()
 
-        // TODO: Add logic involving player's choice of music
+        // TODO: (High) Add logic involving player's choice of music
     },
 
     // Play the song and hides the Choose Music dialog
@@ -192,7 +192,7 @@ var game = {
         if(game.currentGameStatus == game.STATUS.END) {
             game.showEndScene()
         } else {
-            // TODO: Refactor, repeating code (Low)
+            // TODO: (Medium) Refactor, repeating code (Low)
             game.numCallersBeforeNextSong = 3
             game.choosing_music = false
 
@@ -248,7 +248,7 @@ var game = {
         let button = e.currentTarget
 
         // Check if user clicked the button to stop the music
-        // TODO: Make it work for older browsers. https://stackoverflow.com/questions/5898656/check-if-an-element-contains-a-class-in-javascript
+        // TODO: (Medium) Make it work for older browsers. https://stackoverflow.com/questions/5898656/check-if-an-element-contains-a-class-in-javascript
         if(!button.classList.contains("paused")) {
             loader.loadedAudio.pause()
         } else {
@@ -328,7 +328,7 @@ var game = {
         let dj_response_options = call_stories[call_id]['options']
         
         for (let i = dj_response_options.length - 1; i >= 0; i--) {
-            // TODO: Randomise the options positions (High)
+            // TODO: (High) Randomise the options positions (High)
             let option = document.createElement("p")
             option.innerHTML = dj_response_options[i].response
             option.classList.add("option")
@@ -402,7 +402,7 @@ var game = {
         // Checks if the number of caller reached the maximum
         if (game.listOfCallers.length >= game.maxCallersEnding) {
             game.currentGameStatus = game.STATUS.END
-            // TODO: Special ending based on the last song played (Next Phase)
+            // TODO: (Medium) Special ending based on the last song played (Next Phase)
             game.chooseMusic()
         } else {
 
@@ -615,7 +615,7 @@ var loader = {
                 music_player.append(play_pause_button)    
                 music_player.append(song_info_container)
 
-                    /* TODO: Removed temporarily. Add a duration slider. Take note that the HTML will need to be rearranged. */
+                    /* TODO: (Low) Removed temporarily. Add a duration slider. Take note that the HTML will need to be rearranged. */
                    /* let slider_duration_container = document.createElement("div")
 
                     let track_slider = document.createElement("div")
@@ -638,7 +638,7 @@ var loader = {
 
                         let span_end = document.createElement("span")
                         span_end.setAttribute('id', 'song-' + i + '-start')
-                        // TODO: Set the actual duration of song
+                        // TODO: (Low) Set the actual duration of song
                         span_end.innerHTML = " / " + current_game_songs[i]['song_duration']
                     
                         
@@ -658,7 +658,7 @@ var loader = {
                 broadcast_button.setAttribute('track-number', current_game_songs[i]['song_id'])
                 broadcast_button.innerHTML = "Broadcast"
 
-            /* TODO: Temporarily hidden because of new layout. To be added when duration slider is added.*/
+            /*   (Low)Temporarily hidden because of new layout. To be added when duration slider is added.*/
             /*item__song_details.append(song_title)
             item__song_details.append(song_artist)*/
             
