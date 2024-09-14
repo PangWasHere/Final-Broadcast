@@ -1,3 +1,104 @@
+game_scripts = {
+    "default": {
+        "START": [  // Player will get a randomised script for default gameplay
+            [
+                "Good evening, listeners.",
+                // TODO: (Low) change the DJ name to placeholder so users can choose their own name
+                "This is DJ Reverie, coming to you live.",
+                "I wish I could say it’s business as usual, but we all know what’s coming.",
+                "Tonight isn’t just another show—this could be our last together.",
+                "So, let’s make it count.",
+                "Call in, share your thoughts, your feelings, or just sit back and listen.",
+                "This moment, right here, is ours.",
+                "Let’s fill it with music and conversation, whatever you need to get through the end.",
+                "Here's our first song..."
+            ],
+            [
+                "Hey, everyone. It’s DJ Reverie, and this is it—the last show.",
+                "I’ve been sitting here trying to figure out what to say, but the truth is, there’s no right way to do this.",
+                "The world’s about to change forever, and none of us can stop it.",
+                "So, I’m here with you until the very end.",
+                "If you want to talk, I’m listening.",
+                "Let’s face this together.",
+                "Let’s start the night with something that feels right for this moment.",
+                "Here’s a track that’s always made me pause and think.",
+                "I hope it does the same for you.",
+                "Let’s take a deep breath and listen."
+            ],
+            [
+                "Hello, listeners. It’s DJ Reverie, and tonight is like no other night we’ve ever shared.",
+                "You’ve all heard the news by now—what’s coming can’t be stopped.",
+                "But until it does, we’re here together.",
+                "If you need a voice to hear, a song to play...",
+                "... or just someone to tell you it’s all going to be okay for a little while longer, I’m right here.",
+                "Let’s fill this night with something real.",
+                "Let’s make the most of these last moments.",
+                "Before we dive into our calls, let’s take a moment for the music.",
+                "This track has a way of speaking to the quiet moments in life.",
+                "Close your eyes, breathe it in—this is for all of us."
+            ],
+            [
+                "Good evening, dear listeners. This is DJ Reverie, and tonight, the world holds its breath.",
+                "The air is thick with the quiet before the storm, and we all know what’s coming.",
+                "But in this moment, we’re still here.",
+                "So let’s fill this space with sound, with words, with memories.",
+                "We’ve been through a lot together, haven’t we?",
+                "Here’s a song that brings back memories, the kind you hold onto when everything else is slipping away.",
+                "Let’s listen and remember the good times."
+            ]
+        ],
+    },
+
+    // Accessible throughout the game
+    "SKIPPING_SONGS": [
+        ["Music can wait—this moment’s about connection. [Caller_Name], thanks for your patience. What would you like to share?"],
+        ["We’ll save that track for later. Right now, we’ve got [Caller_Name] on the line. What’s your story tonight?"],
+        ["Sometimes words are louder than music. Let’s see who’s on the line. [Caller_Name], welcome to the show—what’s on your heart?"],
+        ["We’ll get back to the music in a bit. For now, let’s see what [Caller_Name] has to say. You’re live on air—what’s been on your mind?"],
+        ["Let’s pause the playlist for now and get to the next caller. [Caller_Name], you’re up—what’s on your mind tonight?"]
+    ],
+    "ACCEPTING_CALLERS": [
+        ["Alright, let’s hear from one of our listeners now. Looks like we’ve got [Caller_Name] on the line. What’s on your mind tonight?"],
+        ["Next up, we have [Caller_Name] on the line. Don’t worry, you’ve got the floor. What’s going through your head right now?"],
+        ["[Caller_Name], thanks for calling in. These are strange times. Tell us, what’s been on your mind with everything happening?"],
+        ["[Caller_Name], thanks for hanging on the line. What’s going through your mind? Share with us, we’re all ears"]
+    ],
+    "PLAY_NEXT_SONG": [
+        [
+            "Let’s keep things rolling with a track that’s been sitting with me all night.",
+            "Sometimes music says what words can’t, and I think this one might just hit the right notes.",
+            "Let’s listen together."
+        ],
+        [
+            "Alright, listeners, let’s slow it down a bit.",
+            "This next song feels like a warm embrace, the kind of track that makes you forget, even if just for a little while.",
+            "Let’s drift into it."
+        ],
+        [
+            "Sometimes, a song can hold both sadness and hope in the same breath.",
+            "This next one’s like that.",
+            "It’s got a bit of a bittersweet feel, but maybe that’s what we need right now.",
+            "Let’s take a moment and let it play."
+        ]
+    ],
+    "PLAY_LAST_SONG": [
+        [
+            "As the night closes, so does this show.",
+            "Shall we play one last song?",
+        ],
+        [
+            "I don’t have much left to say.",
+            "Perhaps one last song can speak for what I feel.",
+        ],
+        [
+            "We’ve been through a lot together, haven’t we?",
+            "We deserve one last song to share together, right?",
+        ]
+
+    ]
+}
+
+
 call_stories = [
     {
         "call-id": 0,
@@ -314,7 +415,7 @@ call_stories = [
 ]
 
 
-ending_monolouges = {
+ending_script = {
         "honest": {
             "messages": [
                 "<em>Steady, solemn voice</em>",

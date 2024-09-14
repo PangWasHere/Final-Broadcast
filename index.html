@@ -25,51 +25,55 @@
                 </div>
 
 
-                <div id="defaultGameScreen" class="gamelayer screen default-game-background">
-                    <p>defaultGameScreen</p>
+                <div id="mainMenuGameScreen" class="gamelayer screen default-game-background">
+                    <div class="blurred-bg"></div>
+                    <div class="main-menu-container">
+                        <h1 class="game-title neon blue">
+                            Fi<span class="delay2">n</span>al Br<span class="delay3">o</span>adcas<span class="delay1">t</span>
+                        </h1>
+                        <div class="main-menu">
+                            <button class="button-next go-live-button" onclick="game.start()">Go Live</button>
+                            <button class="button-next how-t0-button">How to DJ</button>
+                        </div>
+                    </div>
                 </div>
-    
-                <div id="callerDialogScreen" class="gamelayer screen default-game-background">
-                    <div id="dialogContainerBox" class="dialog-box interactive">
-                        <!-- Interactive -->
-                        <div id="interactiveBox" class="dialog">
-                            <p id="callerDescriptionBox" class="speaker-card">Caller</p>
-                            <p class="prompt">prompt</p>
-                            <div class="option-box">
-                               <!-- <p class="option">"Tell them the truth. They deserve to know."</p>
-                                <p class="option">"Keep them calm. They don’t need to know everything."</p>
-                                <p class="option">"Just hold them close. That’s all that matters now."</p> -->
-                            </div>
-                        </div>
 
-                        <!-- Call Log -->
-                        <div id="callLogBox" class="dialog call-log-box">
-                            <p class="heading">Call Log</p>
-                            <div class="logs-list">
-                                <p class="call">
-                                    <span class="caller-id dj">DJ Name</span>
-                                    <span class="message">This is an example call message inside the call logs</span>
-                                </p>
-                                <p class="call">
-                                    <span class="caller-id caller">Caller ID</span>
-                                    <span class="message">This is an example call message inside the call logs</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Scene -->
-                         <div id="sceneBox" class="dialog scene-box">
-                            <!-- This is a scene example where the story is explained more. This is also where the DJ monologue is shown and the caller's response to the DJ's choice. -->
-                            
-                            <!-- Gets displayed if the scene is a spoken dialog -->
-                            <p id="speakerCard" class="speaker-card" style="display: none;">Caller</p>
-                            
-                            <p class="message">Message</p>
-                            <button id="nextButton" class="button-next bottom-right" role="button" onclick="game.nextScene()">Move on</button>
+                <div id="gameSceneScreen" class="gamelayer screen default-game-background">
+                    
+                    <div id="gameSceneContainerBox" class="dialog-box">
+                        <div id="gameSceneBox" class="dialog scene-box">
+                             <!-- Gets displayed if the scene is a spoken dialog -->
+                             <p id="speakerCard" class="speaker-card" style="display: none;">Caller</p>
+                             
+                            <p class="message">...</p>
+                            <button id="gameSceneNextButton" class="button-next bottom-right" role="button">...</button>
                          </div>
                     </div>
                 </div>
-    
+
+                <div id="justMusicScreen" class="gamelayer screen default-game-background">
+                    <div class="contemplate-bg"></div>
+                    <div id="chooseReflectOrTakeCall" class="bottom-buttons-container show-element-3s-delay">
+                        <button id="contemplateButton" class="button-next" role="button" onclick="game.showContemplate()">Listen and contemplate</button>
+                        <button id="takeCallButton" class="button-next" role="button" onclick="game.takeCall()">Take a call (with music)</button>
+                        <button id="showEndMessageButton" class="button-next" role="button" style="display: none;" onclick="game.showEndScene()">Give Final Message</button>
+                    </div>                    
+                </div>
+
+                <div id="callerScreen" class="gamelayer screen default-game-background">
+                    <div id="dialogContainerBox" class="dialog-box interactive">
+                        <div id="interactiveBox" class="dialog">
+                            <p id="callerDescriptionBox" class="speaker-card">Caller</p>
+                            <p class="prompt"><!-- PROMPT --></p>
+                            <div class="option-box">
+                                <!-- OPTIONS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
                 <div id="chooseMusicScreen" class="gamelayer screen default-game-background">
                     <div id="chooseMusicContainerBox" class="choose-music-container">
                         <audio id="chooseMusicAudioBox" preload="none" tabindex="0">
@@ -85,14 +89,14 @@
                     </div>
                 </div>
     
-                <div id="endingScreen" class="gamelayer screen default-game-background">
+                <div id="endingScreen" class="gamelayer screen default-end-game-background">
                     <div id="monolougeContainerBox" class="dj-monolouge dialog-box">
                         <!--<img class="credits-img" src="_imgs/credits/credits-highway.webp">-->
 
                         <!-- Scene -->
                         <div id="monologueBox" class="dialog scene-box">
                             <p class="message">...</p>
-                            <button id="continueButton" class="button-next bottom-right" role="button">...</button>
+                            <button id="finalMessageNextButton" class="button-next bottom-right" role="button">...</button>
                          </div>
                     </div>
                 </div>
@@ -102,7 +106,10 @@
                 </div>
 
                 <div id="loadingScreen" class="gamelayer screen default-game-background">
-                    <div class="loader normal"></div>
+                    <div class="blurred-bg">
+                        <div class="loader normal"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>

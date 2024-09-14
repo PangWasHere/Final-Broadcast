@@ -1,9 +1,13 @@
 @import "variables.less";
 
+// TODO: (Medium) Rename and restucture animations
+// TODO: (Medium) Change values in padding and margin to variables
+
 @default-game-font: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 @song-title-font: "Sulphur Point", sans-serif;
 
 @default-game-background: url("../_imgs/radio-station.jpg");
+@default-end-game-background: url("../_imgs/end-background.png");
 
 
 @carousel-count: 5;
@@ -27,7 +31,7 @@ body {
 #game {
     width: @game-width;
     height: @game-height;
-    background: @bg-primary-color;
+    background: @black;
 }
 
 .gamelayer {
@@ -42,6 +46,14 @@ body {
     height: 100%;
     background-image: @default-game-background;
     background-size: cover;
+}
+
+.default-end-game-background {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  background-image: @default-end-game-background;
+  background-size: cover;
 }
 
 /***** BUTTONS ******/
@@ -69,6 +81,22 @@ body {
     user-select: none;
     -webkit-user-select: none;
     touch-action: manipulation;
+
+    &.active {
+      background-color: @active-color;
+    }
+
+    &.positive {
+      background-color: @positive-color;
+    }
+
+    &.negative {
+      background-color: @negative-color;
+    }
+
+    &.warning {
+      background-color: @warning-color;
+    }
 
     &:after {
         content: '';
@@ -139,26 +167,11 @@ body {
 
     &:before {
         content: "Loading...";
-        animation: l34 1s infinite alternate;
+        animation: loader-normal-anim 1s infinite alternate;
       }
   }
   
-  @keyframes l34{
-    0%,15%,75%,100% {
-     content:"Loading...";
-    }
-    20% {content:"Loading..."}
-    25% {content:"Lo ding..."}
-    30% {content:"Load ng..."}
-    35% {content:" oading..."}
-    40% {content:"L ading..."}
-    45% {content:"Loadin ..."}
-    50% {content:"Loa ing..."}
-    55% {content:"Loading  ."}
-    60% {content:" oa ing..."}
-    65% {content:"L ading..."}
-    70% {content:"Load n ..."}
-  }
+  
 
 
 /* Loader glitches - First anomaly */
@@ -328,6 +341,148 @@ body {
 /***********************/
 
 /* TODO: (High) */
+
+.blurred-bg {
+  position: absolute;
+  width: @game-width;
+  height: @game-height;
+  background-color: rgba(0,0,0,0.95);
+  z-index: 0;
+}
+
+.contemplate-bg {
+  position: absolute;
+  width: @game-width;
+  height: @game-height;
+  background-color: rgba(0,0,0,0.55);
+  z-index: 0;
+  animation: darken-bg 5s forwards;
+  animation-delay: 0.3;
+}
+
+.fading-out {
+  animation: fading-out 5s forwards;
+}
+
+.main-menu-container {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.game-title {
+  margin-top: 100px;
+  font-weight: 700;
+  font-size: 2em;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.neon {
+  color: #fff;
+}
+
+.neon.blue {
+  text-shadow: 
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 40px #0ff,
+      0 0 80px #0ff,
+      0 0 90px #0ff,
+      0 0 100px #0ff,
+      0 0 150px #0ff;
+}
+
+.neon span {
+  animation: flicker 500ms linear;
+}
+
+.neon .delay1 {
+  animation-delay: 0.8s;
+}
+
+.neon .delay2 {
+  animation-delay: 1.4s;
+}
+
+.neon .delay3 {
+  animation-delay: 1.8s;
+}
+
+@keyframes flicker {
+  0% {opacity: 0;}
+  10% {opacity: 1;}
+  20% {opacity: 0;}
+  40% {opacity: 1;}
+  50% {opacity: 0;}
+  60% {opacity: 1;}
+  80% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes fading-out {
+  to{opacity: 0;}
+}
+
+.main-menu {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 50px;
+
+  .button-next {
+    margin: 10px auto;
+
+    &::after {
+      border-color: @white;
+    }
+  }
+}
+
+/***********************/
+/*  Game Scene Screen   */
+/***********************/
+
+#gameSceneContainerBox {
+  width: 80%;
+  height: 100px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#gameSceneBox {
+  padding: 0;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+  .message {
+    max-width: 90%;
+    text-align: center;
+  }
+
+  .speaker-card {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    padding: 5px 10px;
+    background: @white;
+    transform: rotate(-2deg);
+    color: @black;
+  }
+
+}
+
+
 
 /************************/
 /*  Choose Music Screen */
@@ -681,6 +836,25 @@ body {
 
 
 
+/************************/
+/*   Just Music Screen  */
+/************************/
+
+#chooseReflectOrTakeCall {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  width: 100%;
+  bottom: 30px;
+  opacity: 0;
+}
+
+.show-element-3s-delay {
+  animation: appear 500ms forwards;
+  animation-delay: 3s;
+}
+
+
 
 /************************/
 /* Caller Dialog Screen */
@@ -744,6 +918,8 @@ body {
 
 }
 
+
+// TODO: (Medium) Remove styles for dialogContainerBox
 #dialogContainerBox {
     &.interactive {
         width: 85%;
@@ -760,6 +936,7 @@ body {
         margin: 5% 30px;
     }
 
+    // TODO: (Medium) Refactor. This repeats in game scene and ending screen
     &.scene {
         width: 80%;
         height: 100px;
@@ -780,4 +957,74 @@ body {
     }
 
 
+}
+
+
+/*******************/
+/*  Ending Screen  */
+/*******************/
+
+
+#monolougeContainerBox{
+  width: 80%;
+  height: 100px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#monologueBox {
+    padding: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    p {
+      max-width: 80%;
+      text-align: center;
+    }
+
+    #finalMessageNextButton {
+      position: absolute;
+      bottom: -20px;
+      right: -5px;
+    }
+}
+
+
+
+
+
+/****************/
+/*  Animations  */
+/****************/
+
+@keyframes loader-normal-anim{
+  0%,15%,75%,100% {
+   content:"Loading...";
+  }
+  20% {content:"Loading..."}
+  25% {content:"Lo ding..."}
+  30% {content:"Load ng..."}
+  35% {content:" oading..."}
+  40% {content:"L ading..."}
+  45% {content:"Loadin ..."}
+  50% {content:"Loa ing..."}
+  55% {content:"Loading  ."}
+  60% {content:" oa ing..."}
+  65% {content:"L ading..."}
+  70% {content:"Load n ..."}
+}
+
+@keyframes darken-bg {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes appear {
+  to{opacity: 1;}
 }

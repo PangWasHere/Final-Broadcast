@@ -1,51 +1,89 @@
+var screens = {
+    "LOADING": "loadingScreen",
+    "MAIN_MENU": "mainMenuGameScreen",
+    "GAME_SCENE": "gameSceneScreen",
+    "CHOOSE_MUSIC": "chooseMusicScreen",
+    "JUST_MUSIC": "justMusicScreen",
+    "CALLER_DIALOG": "callerScreen"
+}
+
+var screens_list = [
+    "loadingScreen",
+    "mainMenuGameScreen",
+    "gameSceneScreen",
+    "chooseMusicScreen",
+    "justMusicScreen",
+    "callerScreen"
+]
+
+var GAME_STATUS = {
+        "GAME_START": 'GAME_STATUS_GameStarting',
+        "BROADCASTING_FIRST_SONG": "GAME_STATUS_BroadcastingFirstSong",
+        "CHOOSING_MUSIC": 'GAME_STATUS_ChoosingMusic', 
+        "BROADCASTING_MUSIC": 'GAME_STATUS_BroadcastingMusic',
+        "ON_CALL_BROADCASTED_MUSIC": 'GAME_STATUS_BroadcastedMusic',
+        "TAKING_CALLS": 'GAME_STATUS_TakingCalls',
+        "ON_CALL_SKIPPED_MUSIC": "GAME_STATUS_OnCallSkippingMusic", 
+        "DJ_RESPONSED": 'GAME_STATUS_DJResponded',
+        "DJ_NARRATING": 'GAME_STATUS_DJNarrating',
+        "CALLER_RESPONDED": "GAME_STATUS_CallerResponded",
+        "LAST_SONG_DIALOUGE": "GAME_STATUS_LastSongDialouge",
+        "FINISHED_LAST_SONG_DIALOUGE": "GAME_STATUS_FinishedLastSongDialouge",
+        "BROADCASTING_LAST_SONG": 'GAME_STATUS_BroadcastingLastSong',
+        "SHOWING_END_MESSAGE": 'GAME_STATUS_ShowingEndMessage',
+        "SHOWING_CREDITS": 'GAME_STATUS_ShowingCredits'
+    }
+
+var DIALOG_SCENES = {
+    "NARRATION_DJ": "DIALOG_SCENES_NarrationDJ",
+    "CALLER_RESPONSE": "DIALOG_SCENES_CallerReponse",
+    "END_MESSAGE": "DIALOG_SCENES_EndMessage",
+    "LAST_SONG": "DIALOG_SCENE_LastSong"
+}
+
 
 var game = {
 
-    HTMLElements: [
-        {
-            "gameCanvas": null,
+    HTMLElements: [ {} ],
 
-            // Screens
-            "screensGroup": null,
-            "splashScreen": null,
-            "defaultGameScreen": null,
-            "callerDialogScreen": null,
-            "chooseMusicScreen": null,
-            "endingScreen": null,
-            "creditsScreen": null,
-            "loadingScreen": null,
-
-            // Containers
-            "dialogContainerBox": null,
-
-            // Buttons
-            "skipSongNextCallerButton": null,
-            "nextButton": null,     // TODO: Rename to differentiate from Continue
-            "continueButton": null,
-
-            // Button Groups
-            "broadcastButtonsGroup": null,
-            "playPauseButtonsGroup": null,
-
-            // Misc
-            "loadedAudio": null,
-            "sceneMessage": null,
-            "speakerCard": null,
-            "monolougeBox": null,
-            "chooseMusicCarouselStage": null
-        }
-    ],
+    scenesScript: {},
+    currentScriptDialog: [],
 
     listOfCallers: [],
     totalCallers: call_stories.length,
-    numCallersBeforeNextSong: 3, // Keeps track of the number of callers before playing next song
+    currentCaller: {},
+    maxCallsBeforeNextSong: 3,
+    numCallersBeforeNextSong: 0, // Keeps track of the number of callers before playing next song
     maxCallersEnding: 9,    //TODO: Change this to 9 when publishing
     djResponsePoints: {"honesty": 0, "empathy": 0, "practicality": 0},
     endingType: "default",
+    
     maxNumOfSongChoices: 5,
     currentSongPlayingTrackNumber: -1,  // Keeps track of the current song track number
-    STATUS: {"START": 'Game starting', "CHOOSE_MUSIC": false, "END": 'Showing ending'},
+    
     currentGameStatus: '',
+
+    // TODO: (Medium) Technical Debt. Hack.
+    isEnding: false,
+
+    nextButtonTextList: [
+        "Proceed",
+        "Advance",
+        "Move forward",
+        "Keep going",
+        "Onward",
+        "Press ahead",
+        "Carry on",
+        "Next step",
+        "Forge ahead",
+        "Push forward",
+        "Resume",
+        "Continue",
+        "Go ahead",
+        "Push onward",
+        "Next"
+      ],
+    
     init: function() {
         // Get all the HTML elements (once) to be used in the game
         // Use the HTMLElements["element_id"] to access the element/s
@@ -56,7 +94,9 @@ var game = {
         loader.init() // Game will start once all assets are loaded
 
         game.setInitialListeners()
-        game.currentGameStatus = game.STATUS.START
+
+        game.currentGameStatus = GAME_STATUS.START
+        game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
     },
 
     // Gets all the HTML elements used in the UI
@@ -65,18 +105,23 @@ var game = {
 
         game.HTMLElements["screensGroup"] = document.getElementsByClassName("screen")
         game.HTMLElements["splashScreen"] = document.getElementById("splashScreen")
-        game.HTMLElements["defaultGameScreen"] = document.getElementById("defaultGameScreen")
-        game.HTMLElements["callerDialogScreen"] = document.getElementById("callerDialogScreen")
+        game.HTMLElements["mainMenuGameScreen"] = document.getElementById("mainMenuGameScreen")
+        game.HTMLElements["callerScreen"] = document.getElementById("callerScreen")
         game.HTMLElements["chooseMusicScreen"] = document.getElementById("chooseMusicScreen")
+        game.HTMLElements["justMusicScreen"] = document.getElementById("justMusicScreen")
         game.HTMLElements["endingScreen"] = document.getElementById("endingScreen")
         game.HTMLElements["creditsScreen"] = document.getElementById("creditsScreen")
         game.HTMLElements["loadingScreen"] = document.getElementById("loadingScreen")
 
         game.HTMLElements["dialogContainerBox"] = document.getElementById("dialogContainerBox")
+        game.HTMLElements["monolougeContainerBox"] = document.getElementById("monolougeContainerBox")
         
         game.HTMLElements["skipSongNextCallerButton"] = document.getElementById("skipSongNextCallerButton")
-        game.HTMLElements["nextButton"] = document.getElementById("nextButton")
-        game.HTMLElements["continueButton"] = document.getElementById("continueButton")
+        game.HTMLElements["gameSceneNextButton"] = document.getElementById("gameSceneNextButton")
+        game.HTMLElements["contemplateButton"] = document.getElementById("contemplateButton")
+        game.HTMLElements["takeCallButton"] = document.getElementById("takeCallButton")
+        game.HTMLElements["showEndMessageButton"] = document.getElementById("showEndMessageButton")
+        game.HTMLElements["finalMessageNextButton"] = document.getElementById("finalMessageNextButton")
 
         game.HTMLElements["broadcastButtonsGroup"] = document.getElementsByClassName("broadcast-button")
         game.HTMLElements["playPauseButtonsGroup"] = document.getElementsByClassName("play-pause-song-button")
@@ -84,6 +129,8 @@ var game = {
         game.HTMLElements["dialogsGroup"] = document.getElementsByClassName("dialog")
 
         game.HTMLElements["loadedAudio"] = document.getElementById("continueButton")
+        game.HTMLElements["gameSceneMessage"] = document.querySelector("#gameSceneBox .message")
+        // TODO: (Medium) Merge the sceneMessage and gameSceneMessage and monologueMessage
         game.HTMLElements["sceneMessage"] = document.querySelector("#sceneBox .message")
         game.HTMLElements["speakerCard"] = document.getElementById("speakerCard")
         game.HTMLElements["monolougeBox"] = document.getElementById("monologueBox")
@@ -95,19 +142,14 @@ var game = {
     setInitialListeners: function() {
 
         game.HTMLElements["skipSongNextCallerButton"].addEventListener('click', function() {
-            // Stop playing any songs
-            if(loader.loadedAudio) {
-                loader.loadedAudio.pause()
-            }
 
-            if(game.currentGameStatus == game.STATUS.END) {
+            if(game.isEnding) {
                 // Player chose silence for the last song
+                game.stopCurrentSong()
                 game.showEndScene()
             } else {
-                // Reset the number before next song and choosing music
-                game.numCallersBeforeNextSong = 3
-                game.choosing_music = false
-                game.nextScene()
+                game.setGameStatus(GAME_STATUS.ON_CALL_SKIPPED_MUSIC)
+                game.showNextScene()
             }
         })
 
@@ -129,14 +171,230 @@ var game = {
             }
 
             // TODO: (High) Determine the best place to add this listener
-            loader.loadedAudio.addEventListener("ended", game.resetPlayPauseButton, false)
+            loader.loadedAudio.addEventListener("ended", game.musicEnded, false)
 
         }
     },
 
+    gameLoaded: function() {
+        // DEBUG: Use this space to view certain screens out of the game flow
+        //game.showScreen(screens.CALLER_DIALOG)
+        game.showScreen(screens.MAIN_MENU)
+    },
+
+    setGameStatus: function (newStatus) {
+        game.currentGameStatus = newStatus
+    },
+
     start: function() {
-        // TODO: (High) Show the Main Menu screen
-        game.showScreen("chooseMusicScreen")
+        game.showScreen(screens.GAME_SCENE)
+
+        // Check the game data and load appropriate script
+        //TODO: (Medium) Script changes based on the players gameplay
+        game.scenesScript = game_scripts["default"]
+
+        game.setGameStatus(GAME_STATUS.GAME_START)
+        game.showNextScene()
+    },
+
+    // Contains the logic to check the next scene based on the game status
+    showNextScene: function() {
+        switch (game.currentGameStatus) {
+            case GAME_STATUS.GAME_START:
+                // Get a random starting script
+                game.currentScriptDialog = utils.sample(game.scenesScript["START"])
+                game.showDialogScene(DIALOG_SCENES.NARRATION_DJ)
+                break;
+            case GAME_STATUS.BROADCASTING_FIRST_SONG:
+                game.chooseMusic()
+                break;
+            case GAME_STATUS.DJ_NARRATING: 
+                break;
+            case GAME_STATUS.BROADCASTING_MUSIC:
+                game.showScreen(screens.JUST_MUSIC)
+                break;
+            case GAME_STATUS.ON_CALL_BROADCASTED_MUSIC:
+                game.setGameStatus(GAME_STATUS.TAKING_CALLS)
+                game.showNextScene()
+                break;
+            case GAME_STATUS.ON_CALL_SKIPPED_MUSIC:
+                game.stopCurrentSong()
+                game.setGameStatus(GAME_STATUS.TAKING_CALLS)
+                game.showNextScene()
+                break;
+            case GAME_STATUS.TAKING_CALLS:
+                game.showCallerScene();
+                break;
+            case GAME_STATUS.DJ_RESPONSED:
+                game.currentScriptDialog = [game.currentCaller["response"]]
+                game.showDialogScene(DIALOG_SCENES.CALLER_RESPONSE)
+                break;
+            case GAME_STATUS.CALLER_RESPONDED:
+                // Check number of callers before next song
+
+                if (game.numCallersBeforeNextSong > 0) {
+                    game.setGameStatus(GAME_STATUS.TAKING_CALLS)
+                    game.showNextScene()
+                } else {
+                    // Reset the number of callers before the next song
+                    game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
+                    game.setGameStatus(GAME_STATUS.CHOOSING_MUSIC)
+                    game.showNextScene()
+                }
+                
+                if(game.listOfCallers.length < game.maxCallersEnding) {
+                    // Do Nothing
+                } else {
+                    game.setGameStatus(GAME_STATUS.LAST_SONG_DIALOUGE)
+                }
+                break;
+            case GAME_STATUS.CHOOSING_MUSIC:
+                game.chooseMusic()
+
+                if(game.currentGameStatus == GAME_STATUS.BROADCASTING_LAST_SONG) {
+                    game.isEnding = true
+                    game.setGameStatus(GAME_STATUS.SHOWING_END_MESSAGE)
+                }
+                break;
+            case GAME_STATUS.LAST_SONG_DIALOUGE:
+                game.currentScriptDialog = utils.sample(game_scripts["PLAY_LAST_SONG"])
+                game.isEnding = true
+                game.showDialogScene(DIALOG_SCENES.LAST_SONG)
+                break;
+            case GAME_STATUS.FINISHED_LAST_SONG_DIALOUGE:
+                game.setGameStatus(GAME_STATUS.BROADCASTING_LAST_SONG)
+                break;
+            case GAME_STATUS.BROADCASTING_LAST_SONG:
+                // Change Next Caller Button to Keep Silence
+                game.HTMLElements["skipSongNextCallerButton"].innerHTML = "Prefer Silence Till End"
+
+                // Remove buttons from the Just Music Screen
+                game.HTMLElements["contemplateButton"].style.display = 'none'
+                game.HTMLElements["takeCallButton"].style.display = 'none'
+                game.HTMLElements["showEndMessageButton"].style.display = 'block'
+
+                game.chooseMusic()
+                break;
+            case GAME_STATUS.SHOWING_END_MESSAGE:
+                //game.showEndScene()
+                break;
+            case GAME_STATUS.SHOWING_CREDITS:
+                
+                break;
+        }
+    },
+
+    // Show the Dialog UI (No Game Logic)
+    // typeScene determines if the dialog scene will:
+    // ("NARRATION_DJ"): no speaker card
+    // ("CALLER_RESPONSE"): display the speaker card
+    showDialogScene: function(sceneType) {
+        
+        game.showScreen(screens.GAME_SCENE)
+
+        if (sceneType == DIALOG_SCENES.CALLER_RESPONSE) {
+            game.HTMLElements["speakerCard"].innerHTML = game.currentCaller['caller']
+            game.HTMLElements["speakerCard"].style.display = 'inline-block'
+
+            
+            game.setGameStatus(GAME_STATUS.CALLER_RESPONDED)
+            
+        } else if (sceneType == DIALOG_SCENES.NARRATION_DJ || sceneType == DIALOG_SCENES.END_MESSAGE) { 
+            
+            game.HTMLElements["speakerCard"].innerHTML = game.currentCaller['caller']
+            game.HTMLElements["speakerCard"].style.display = 'none'
+
+            if (game.currentGameStatus == GAME_STATUS.GAME_START) {
+                game.setGameStatus(GAME_STATUS.BROADCASTING_FIRST_SONG)
+            } else {
+                game.setGameStatus(GAME_STATUS.DJ_NARRATING)
+            }
+            
+        } else if (sceneType == DIALOG_SCENES.END_MESSAGE) {
+            game.setGameStatus(GAME_STATUS.SHOWING_CREDITS)
+        }
+
+        let script = game.currentScriptDialog
+        let message_index = 0
+
+        game.HTMLElements["gameSceneMessage"].innerHTML = script[message_index]
+        
+        game.HTMLElements["gameSceneNextButton"].addEventListener('click', function(e) {
+            if(message_index < script.length - 1) {
+                message_index++
+                game.HTMLElements["gameSceneMessage"].innerHTML = script[message_index]
+            } else {
+                game.showNextScene()
+
+                if (sceneType == DIALOG_SCENES.LAST_SONG) {
+                     game.setGameStatus(GAME_STATUS.FINISHED_LAST_SONG_DIALOUGE)
+                }
+            } 
+        })
+        
+    },
+
+    showCallerScene: function() {
+
+        // Get a new caller
+        game.currentCaller = game.getRandomCaller()
+
+        let call = game.currentCaller
+
+        game.showScreen(screens.CALLER_DIALOG)
+
+        // Get the text elements
+        // Since this is specific to this function, no need to store in HTMLElements
+        const prompt = document.querySelector("#interactiveBox .prompt")
+        const optionBox = document.querySelector("#interactiveBox .option-box")
+        const callerDescription = document.querySelector("#callerDescriptionBox")
+
+        // Display the caller and their message 
+        callerDescription.innerHTML = call['caller']
+        prompt.innerHTML = call['call']
+
+        // Remove options (if exists)
+        while (optionBox.hasChildNodes()) {
+            optionBox.removeChild(optionBox.firstChild)
+        }
+
+        // Display all options with corresponding description
+        let dj_response_options = call['options']
+        
+        for (let i = dj_response_options.length - 1; i >= 0; i--) {
+            // TODO: (High) Randomise the options positions (High)
+            let option = document.createElement("p")
+            option.innerHTML = dj_response_options[i].response
+            option.classList.add("option")
+
+            dj_response_type = dj_response_options[i].type
+            option.setAttribute('response-type', dj_response_type)
+
+            option.addEventListener('click', function() {
+                // Get type response
+                dj_response_type = option.getAttribute('response-type')
+                caller = call['caller']
+                caller_response = call[dj_response_type + '-response']
+                
+                // GAME ENDING LOGIC: Add points based on the DJ response
+                if(dj_response_type == "empathetic") {
+                    game.djResponsePoints.empathy++
+                } else if (dj_response_type == "practical") {
+                    game.djResponsePoints.practicality++
+                } else if(dj_response_type == "honest") { 
+                    game.djResponsePoints.honesty++
+                }
+
+                game.currentCaller["response"] = caller_response
+
+                game.numCallersBeforeNextSong--
+                game.listOfCallers.push(game.currentCaller["call-id"])
+                game.setGameStatus(GAME_STATUS.DJ_RESPONSED)
+                game.showNextScene()
+            })
+
+            optionBox.appendChild(option)
+        }
     },
 
     hideScreens: function() {
@@ -156,27 +414,40 @@ var game = {
     },
 
     showScreen: function(id) {
+
+        game.hideScreens()
+
         var screen = document.getElementById(id)
 
         screen.style.display = "block"
     },
 
+    // TODO: (Medium) Add as a game STATUS
     choosing_music: false,
 
     /***** Functions related to choosing music *****/
 
-    // Shows the UI for choosing music and game logic related to music
-    chooseMusic: function() {
-        game.hideScreens()
-        game.showScreen("chooseMusicScreen")
+    musicEnded: function() {
+        alert("Song ended")
 
         game.resetPlayPauseButton()
 
-        // TODO: (High) Add logic involving player's choice of music
+    },
+
+    // Shows the UI for choosing music and game logic related to music
+    chooseMusic: function() {
+
+        game.setGameStatus(GAME_STATUS.CHOOSING_MUSIC)
+
+        game.showScreen("chooseMusicScreen")
+        // TODO: (Low) Refactor this.
+        game.resetPlayPauseButton()
     },
 
     // Play the song and hides the Choose Music dialog
     broadcastSong: function(e) {
+
+        // Disables the button (Song can only be played once throughout the game)
         e.currentTarget.setAttribute('disabled', '')
 
         // Play the track with the corresponding song_id
@@ -189,15 +460,8 @@ var game = {
             game.resetPlayPauseButton()
         }
 
-        if(game.currentGameStatus == game.STATUS.END) {
-            game.showEndScene()
-        } else {
-            // TODO: (Medium) Refactor, repeating code (Low)
-            game.numCallersBeforeNextSong = 3
-            game.choosing_music = false
-
-            game.nextScene()
-        }   
+        game.setGameStatus(GAME_STATUS.BROADCASTING_MUSIC)
+        game.showNextScene()
     },
 
     // Look for the songs loaded in the game
@@ -228,6 +492,14 @@ var game = {
 
         } else {
             alert("Error: Can't find song")
+        }
+    },
+
+    stopCurrentSong: function() {
+
+        if(loader.loadedAudio) {
+            loader.loadedAudio.pause()
+            loader.loadedAudio.currentTime = 0;
         }
     },
 
@@ -266,6 +538,22 @@ var game = {
 
     },
 
+    showContemplate: function() {
+        // Disable the contemplate and take call buttons
+        game.HTMLElements["contemplateButton"].setAttribute('disabled', '')
+        game.HTMLElements["takeCallButton"].setAttribute('disabled', '')
+
+        // Enable the take call button after 5 seconds
+        setTimeout(function(){
+            game.HTMLElements["takeCallButton"].removeAttribute('disabled')
+        }, 5000)
+    },
+
+    takeCall: function() {
+        game.setGameStatus(GAME_STATUS.ON_CALL_BROADCASTED_MUSIC)
+        game.showNextScene()
+    },
+
     /***** Functions related to Callers *****/
 
     // Hide all dialog boxes
@@ -296,139 +584,7 @@ var game = {
             randomCallerID = Math.floor(Math.random() * game.totalCallers)
         }
 
-        game.listOfCallers.push(randomCallerID)
-
-        return randomCallerID
-    },
-
-    // Display the call (UI)
-    showCall: function(call_id) {
-        // Make the interactive dialog appear
-        game.hideScreens()
-        game.showScreen("callerDialogScreen")
-        game.hideDialogBoxesExcept("interactive")
-        
-
-        // Get the text elements
-        // Since this is specific to this function, no need to store in HTMLElements
-        const prompt = document.querySelector("#interactiveBox .prompt")
-        const optionBox = document.querySelector("#interactiveBox .option-box")
-        const callerDescription = document.querySelector("#callerDescriptionBox")
-
-        // Display the caller and their message 
-        callerDescription.innerHTML = call_stories[call_id]['caller']
-        prompt.innerHTML = call_stories[call_id]['call']
-
-        // Remove options (if exists)
-        while (optionBox.hasChildNodes()) {
-            optionBox.removeChild(optionBox.firstChild)
-        }
-
-        // Display all options with corresponding description
-        let dj_response_options = call_stories[call_id]['options']
-        
-        for (let i = dj_response_options.length - 1; i >= 0; i--) {
-            // TODO: (High) Randomise the options positions (High)
-            let option = document.createElement("p")
-            option.innerHTML = dj_response_options[i].response
-            option.classList.add("option")
-
-            dj_response_type = dj_response_options[i].type
-            option.setAttribute('response-type', dj_response_type)
-
-            option.addEventListener('click', function() {
-                // Get type response
-                dj_response_type = option.getAttribute('response-type')
-                caller = call_stories[call_id]['caller']
-                caller_response = call_stories[call_id][dj_response_type + '-response']
-                
-                // GAME ENDING LOGIC: Add points based on the DJ response
-                if(dj_response_type == "empathetic") {
-                    game.djResponsePoints.empathy++
-                } else if (dj_response_type == "practical") {
-                    game.djResponsePoints.practicality++
-                } else if(dj_response_type == "honest") { 
-                    game.djResponsePoints.honesty++
-                }
-
-                game.showCallerResponse(caller_response, caller)
-            })
-
-            optionBox.appendChild(option)
-        }
-    },
-
-    nextButtonTextList: [
-        "Proceed",
-        "Advance",
-        "Move forward",
-        "Keep going",
-        "Onward",
-        "Press ahead",
-        "Carry on",
-        "Next step",
-        "Forge ahead",
-        "Push forward",
-        "Resume",
-        "Continue",
-        "Go ahead",
-        "Push onward",
-        "Next"
-      ],
-
-    // Show the respective response of the caller based on the DJ's response
-    showCallerResponse: function(response, caller) {
-   
-        game.hideDialogBoxesExcept("scene")
-
-        const sceneMessage = game.HTMLElements["sceneMessage"]
-        sceneMessage.innerHTML = response
-
-        const speakerCard = game.HTMLElements["speakerCard"]
-        speakerCard.innerHTML = caller
-
-        speakerCard.style.display = 'inline-block'
-
-        const nextButton = game.HTMLElements["nextButton"]
-        let randomNumber = Math.floor(Math.random() * game.nextButtonTextList.length)
-        nextButton.innerHTML = game.nextButtonTextList[randomNumber]
-
-        game.numCallersBeforeNextSong--;
-    },
-
-    // TODO: (Medium) REFACTOR THIS D<
-    nextScene: function() {
-
-        // Checks if the number of caller reached the maximum
-        if (game.listOfCallers.length >= game.maxCallersEnding) {
-            game.currentGameStatus = game.STATUS.END
-            // TODO: (Medium) Special ending based on the last song played (Next Phase)
-            game.chooseMusic()
-        } else {
-
-            // Check if the number of callers before next song is reached
-            if(game.numCallersBeforeNextSong <= 0) {
-
-                game.hideDialogBoxesExcept("scene")
-                const sceneMessage = game.HTMLElements["sceneMessage"]
-                sceneMessage.innerHTML = "<em>(Time to pick another song)<em>"
-
-                const speakerCard = game.HTMLElements["speakerCard"]
-                speakerCard.style.display = 'none';
-
-                if (game.choosing_music) {
-                    game.chooseMusic()
-                    game.numCallersBeforeNextSong = 3 // Resets for the next song
-                    game.choosing_music = false
-                }
-
-                game.choosing_music = true
-            } else {
-                game.showCall(game.getRandomCaller())
-                
-            }
-        }
-       
+        return call_stories[randomCallerID]
     },
 
     /*****  Functions related to ending  *****/
@@ -456,40 +612,79 @@ var game = {
 
     // Show the Ending Screen and display the appropriate ending
     showEndScene: function() {
-        game.hideScreens()
+
         game.showScreen("endingScreen")
 
         game.checkEndingType()
 
-        let messages = ending_monolouges[game.endingType]['messages']
-        let message_num = 0
-        console.log(messages)
+        /* // TODO: (Medium) This did not work so using a different HTML element
+        game.currentScriptDialog = ending_script[game.endingType]['messages']
+        game.showDialogScene(DIALOG_SCENES.END_MESSAGE) */
 
-        game.HTMLElements["monolougeBox"].style.display = 'inline-block'
+        let messages = ending_script[game.endingType]['messages']
+        let message_num = 0
+
         game.HTMLElements["monolougeMessage"].innerHTML = messages[message_num]
 
-        game.HTMLElements["continueButton"].addEventListener('click', function() { 
-              
-            if (message_num >= messages.length - 1) {
-                // Reached the end of the monologue
-            } else if (message_num >= messages.length - 2) {
-                game.HTMLElements["endingScreen"].classList.remove("default-game-background")
-                    this.style.display = "none"
-                    message_num++;
+        console.log("FINAL MESSAGE", messages)
+        game.HTMLElements["finalMessageNextButton"].addEventListener('click', function() { 
+            
+            game.HTMLElements["monolougeMessage"].innerHTML = messages[message_num]
+            message_num++;
 
-                    // Stop the music
-                    // TODO: (High) Play the crashing sound of the meteor
-                    loader.loadedAudio.pause()
-                    // TODO: (High) For credits, play the song that wasn't chosen by the player (If played all four)
-                    // If no song were played throughout game, play static noise all throughout the credits
-                    // If player only played one song, play that song
-                    // If payer skipped some songs, play the last song they chose
-            } else  {
-                message_num++;
+              console.log("CLICKED", message_num, " of ", messages.length)
+            if (message_num > messages.length) {
+                // Reached the end of the monologue
+                game.showCredits()
+            } else if (message_num > messages.length - 1) {
+                
+                game.HTMLElements["endingScreen"].classList.remove("default-end-game-background")
+                
+
+                game.HTMLElements["monolougeContainerBox"].style.display = 'none'
+
+                // Remove the dialog temporarily
+                setTimeout(function(){
+                    game.HTMLElements["monolougeContainerBox"].style.display = 'block'
+                }, 5000)
+
+                // Stop the music
+                // TODO: (High) Play the crashing sound of the meteor
+                
+
+                let meteorCrashing = new Audio()
+                meteorCrashing.src = "_music/sounds/end-crash.mp3"
+                meteorCrashing.play()
+                
+                // Create a new audio for the sound effect
+
+                // TODO: (High) For credits, play the song that wasn't chosen by the player (If played all four)
+                // If no song were played throughout game, play static noise all throughout the credits
+                // If player only played one song, play that song
+                // If payer skipped some songs, play the last song they chose
             }
 
-            game.HTMLElements["monolougeMessage"].innerHTML = messages[message_num]
+            
         })
+
+
+    },
+
+    showCredits: function() {
+        game.init()
+    },
+
+    renameInScript: function(person_name, script) {
+        return utils.replaceAll(script, "[Caller_Name]", person_name)
+    },
+
+    // TODO: (Low)
+    // Unlike renameCallerInScript()
+    // This function renames the DJ name for all the scripts
+    renameDJInScript: function(dj_name, scripts) {  
+        let game_scripts = game.scenesScript[0]
+        // Accessing script for each scene
+        
     }
 }
 
@@ -500,12 +695,11 @@ var loader = {
     loadedAudio: null,
     loadedGameSongs: [],
     firstLoaderDate: null,
-    fakeProgressTime: 3000, // milliseconds
-    init: function() {
+    fakeProgressTime: 1000, // milliseconds
+    init: function() {  
 
         // Initialise the loader date to compare for loading progress
         loader.firstLoaderDate = new Date()
-        console.log(loader.firstLoaderDate, " loading started...")
 
         // Check for sound support
         var mp3Support, oggSupport
@@ -548,6 +742,12 @@ var loader = {
 
             loader.loadedAudio.load()
         }
+
+        // Load Meteor Crash Sound Effect
+
+        loader.loadedAudio = loader.loadSound("_music/sounds/end-crash")
+
+        
     },
 
     createMusicChooserUI: function(current_game_songs) {
@@ -728,7 +928,7 @@ var loader = {
                 game.hideScreen("loadingScreen")
 
                 // START. Game starts after loading all assets
-                game.start()
+                game.gameLoaded()
             }, progressTime)
             
 
@@ -749,13 +949,37 @@ var utils = {
 
         return shuffled.slice(0, num);
     },
+
+    escapeRegExp: function(str) {
+        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    },
+
+    replaceAll: function(str, find, replace){
+        let new_string = str
+
+        if (typeof str === 'string' || str instanceof String ) {
+            new_string = str.replace(new RegExp(utils.escapeRegExp(find), 'g'), replace);
+        } else if (str.constructor === Array) {
+            new_string = []
+
+            for(let i = 0; i < str.length; i++) {
+                new_string.push(str[i].replace(new RegExp(utils.escapeRegExp(find), 'g'), replace))
+            }
+        }
+        return new_string
+    },
+    sample: function(arr){
+        return arr[Math.floor(Math.random()*arr.length)];
+      }
 }
 
 // Initialise game once page has fully loaded
 window.addEventListener("load", function() {
+
+    // Disable right-click
+    const gameElement = document.getElementById("game")
+    //gameElement.addEventListener('contextmenu', event => event.preventDefault());
+
     game.init()
 })
 
-// Disable right-click
-const gameElement = document.getElementById("game")
-gameElement.addEventListener('contextmenu', event => event.preventDefault());
