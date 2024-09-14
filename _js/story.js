@@ -81,18 +81,60 @@ game_scripts = {
             "Let’s take a moment and let it play."
         ]
     ],
+
+    "SECOND_SONG": [
+        [
+            "I want to take a moment to say thank you—to every one of you out there listening tonight.",
+            "It’s strange, knowing this could be the last time I’ll ever say those words, but I’m grateful.",
+            "Grateful we could share these final moments together."
+        ],
+        [
+            "To everyone who tuned in tonight—thank you.",
+            "I’ve spent a lot of nights behind this mic, but tonight feels different, doesn’t it?",
+            "It means more than ever that you’re here with me, listening until the very end."
+        ],
+        [
+            "Thank you to all of you out there who’ve stuck with me tonight.",
+            "It’s been a ride, hasn’t it?",
+            "I don’t have much left to say, except that I’m grateful.",
+            "Grateful to share this with you, even now."
+        ]
+    ],
+
+    "THIRD_SONG": [
+        [
+            "From the bottom of my heart—thank you.",
+            "You’ve made this last broadcast something special, something I’ll never forget.",
+            "Even if the world’s ending, I’m glad we had this time together."
+        ],
+        [
+            "To everyone still out there, still listening—thank you.",
+            "It’s been an honor to share this final broadcast with you.",
+            "These moments, these songs, these calls—they mean more than words can say.",
+            "Thank you for being here."
+        ],
+        [
+            "Thank you to everyone who tuned in tonight.",
+            "In a world full of chaos, you’ve made these final moments feel a little less lonely.",
+            "I’ll carry that with me, and I hope you will, too."
+        ]
+    ],
+
     "PLAY_LAST_SONG": [
         [
             "As the night closes, so does this show.",
             "Shall we play one last song?",
+            "..."
         ],
         [
             "I don’t have much left to say.",
             "Perhaps one last song can speak for what I feel.",
+            "..."
         ],
         [
             "We’ve been through a lot together, haven’t we?",
             "We deserve one last song to share together, right?",
+            "..."
         ]
 
     ]
@@ -429,7 +471,8 @@ ending_script = {
                 "But maybe… just maybe, there’s strength in knowing.",
                 "We took this final hour to face what’s coming, to confront our fears without turning away.",
                 "We lived with open eyes, and in a way, that’s the bravest thing any of us could have done.",
-                "<em>The sound of the meteor impact is heard, followed by silence.</em>"
+                "<em>The sound of the meteor impact is heard from afar.</em>",
+                "..."
             ]
         },
         "practical": {
@@ -445,7 +488,8 @@ ending_script = {
                 "We don’t always get to choose how it ends, but we can choose how we live before it does.",
                 "Tonight, we chose to live with intention.",
                 "We found meaning in the time we had, and that… that’s enough.",
-                "<em>The sound of the meteor’s impact is heard, then silence.</em>"
+                "<em>The sound of the meteor’s impact is heard.</em>",
+                "..."
             ]
         },
         "empathetic": {
@@ -461,7 +505,8 @@ ending_script = {
                 "Tonight, I heard you.",
                 "And as the sky darkens, know that you mattered.",
                 "We all did.",
-                "<em>The meteor hits, the rumble fades into silence.</em>"
+                "<em>Sounds of sobbing as the meteor crashes.</em>",
+                "..."
             ]
         },
         "open-ended": {
@@ -476,7 +521,8 @@ ending_script = {
                 "And maybe that’s okay.",
                 "Maybe we don’t need all the answers.",
                 "We just need to live the moments we have, and let the rest unfold as it will.",
-                "<em>The sound of the meteor echoes in the distance, followed by a soft, thoughtful silence.</em>"
+                "<em>The sound of the meteor echoes in the distance.</em>",
+                "..."
             ]
         },
         "default": {
