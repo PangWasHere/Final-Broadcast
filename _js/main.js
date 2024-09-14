@@ -16,6 +16,8 @@ var screens_list = [
     "callerScreen"
 ]
 
+var game_status_log = []
+
 var GAME_STATUS = {
         "GAME_START": 'GAME_STATUS_GameStarting',
         "BROADCASTING_FIRST_SONG": "GAME_STATUS_BroadcastingFirstSong",
@@ -31,12 +33,15 @@ var GAME_STATUS = {
         "FINISHED_LAST_SONG_DIALOUGE": "GAME_STATUS_FinishedLastSongDialouge",
         "BROADCASTING_LAST_SONG": 'GAME_STATUS_BroadcastingLastSong',
         "SHOWING_END_MESSAGE": 'GAME_STATUS_ShowingEndMessage',
-        "SHOWING_CREDITS": 'GAME_STATUS_ShowingCredits'
+        "SHOWING_CREDITS": 'GAME_STATUS_ShowingCredits',
+
+        "CALLING_GROUP_END": 'GAME_STATUS_CallingGroupEnd',
     }
 
 var DIALOG_SCENES = {
     "NARRATION_DJ": "DIALOG_SCENES_NarrationDJ",
     "CALLER_RESPONSE": "DIALOG_SCENES_CallerReponse",
+    "CHOOSE_NEXT_SONG": "DIALOG_SCENES_ChooseNextSong",
     "END_MESSAGE": "DIALOG_SCENES_EndMessage",
     "LAST_SONG": "DIALOG_SCENE_LastSong"
 }
@@ -52,9 +57,12 @@ var game = {
     listOfCallers: [],
     totalCallers: call_stories.length,
     currentCaller: {},
+    
+    currentCallerGroup: 1,
     maxCallsBeforeNextSong: 3,
     numCallersBeforeNextSong: 0, // Keeps track of the number of callers before playing next song
     maxCallersEnding: 9,    //TODO: Change this to 9 when publishing
+    
     djResponsePoints: {"honesty": 0, "empathy": 0, "practicality": 0},
     endingType: "default",
     
@@ -95,7 +103,7 @@ var game = {
 
         game.setInitialListeners()
 
-        game.currentGameStatus = GAME_STATUS.START
+        game.setGameStatus(GAME_STATUS.START)
         game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
     },
 
@@ -183,6 +191,7 @@ var game = {
     },
 
     setGameStatus: function (newStatus) {
+        game_status_log.push(newStatus)
         game.currentGameStatus = newStatus
     },
 
@@ -238,16 +247,29 @@ var game = {
                 } else {
                     // Reset the number of callers before the next song
                     game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
-                    game.setGameStatus(GAME_STATUS.CHOOSING_MUSIC)
+                    game.currentCallerGroup++
+
+                    game.setGameStatus(GAME_STATUS.CALLING_GROUP_END)
                     game.showNextScene()
                 }
                 
-                if(game.listOfCallers.length < game.maxCallersEnding) {
+                /*if(game.listOfCallers.length < game.maxCallersEnding) {
                     // Do Nothing
                 } else {
                     game.setGameStatus(GAME_STATUS.LAST_SONG_DIALOUGE)
+                }*/
+                break;
+
+            case GAME_STATUS.CALLING_GROUP_END:
+
+                if(game.currentCallerGroup == 2) {
+                    game.currentScriptDialog = ["Thanks for still tuning it.", "Let's pick up another song, shall we?"]
+                    game.showDialogScene(DIALOG_SCENES.CHOOSE_NEXT_SONG)
+                } else if(game.currentCallerGroup == 3) {
+                    //game.setGameStatus(GAME_STATUS.LAST_SONG_DIALOUGE)
                 }
                 break;
+
             case GAME_STATUS.CHOOSING_MUSIC:
                 game.chooseMusic()
 
@@ -299,7 +321,7 @@ var game = {
             
             game.setGameStatus(GAME_STATUS.CALLER_RESPONDED)
             
-        } else if (sceneType == DIALOG_SCENES.NARRATION_DJ || sceneType == DIALOG_SCENES.END_MESSAGE) { 
+        } else if (sceneType == DIALOG_SCENES.NARRATION_DJ || sceneType == DIALOG_SCENES.END_MESSAGE || sceneType == DIALOG_SCENES.CHOOSE_NEXT_SONG) { 
             
             game.HTMLElements["speakerCard"].innerHTML = game.currentCaller['caller']
             game.HTMLElements["speakerCard"].style.display = 'none'
@@ -324,11 +346,17 @@ var game = {
                 message_index++
                 game.HTMLElements["gameSceneMessage"].innerHTML = script[message_index]
             } else {
-                game.showNextScene()
+                if (sceneType == DIALOG_SCENES.CHOOSE_NEXT_SONG) {
+                    game.setGameStatus(GAME_STATUS.CHOOSING_MUSIC)
+                    
+                } 
 
-                if (sceneType == DIALOG_SCENES.LAST_SONG) {
+                game.showNextScene()
+                
+
+                /*if (sceneType == DIALOG_SCENES.LAST_SONG) {
                      game.setGameStatus(GAME_STATUS.FINISHED_LAST_SONG_DIALOUGE)
-                }
+                }*/
             } 
         })
         
@@ -436,9 +464,6 @@ var game = {
 
     // Shows the UI for choosing music and game logic related to music
     chooseMusic: function() {
-
-        game.setGameStatus(GAME_STATUS.CHOOSING_MUSIC)
-
         game.showScreen("chooseMusicScreen")
         // TODO: (Low) Refactor this.
         game.resetPlayPauseButton()
