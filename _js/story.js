@@ -140,8 +140,298 @@ game_scripts = {
     ]
 }
 
-
 call_stories = [
+
+    // NORMAL CALLERS
+    {
+        "call-id": 1,
+        "caller": "Lost Teenager",
+        "call": "<em>Confused and scared</em><br />\"Hey, um… I don’t know what to do. Everyone’s freaking out, and I just… I don’t understand. Why is this happening?\"",
+        "options": [
+            {"type": "honest", "response": "No one really knows. It’s just something we can’t control."},
+            {"type": "practical", "response": "Focus on what you can do—spend time with those who matter."},
+            {"type": "empathetic", "response": "I get it. It’s overwhelming. Just take a breath and let yourself feel it."}
+        ],
+        "honest-response": [
+            "<em>Frustrated and dismissive</em><br />\"So, that’s it? No one knows? That doesn’t help at all.\"",
+            "<em>Resigned</em><br />\"Yeah, I guess that’s just how it is… thanks for being straight with me.\""
+        ],
+        "practical-response": [
+            "<em>Skeptical</em><br />\"Spend time with people? What’s the point when everything’s falling apart?\"",
+            "<em>Appreciative</em><br />\"You’re right. I’ll make the most of the time I have with them.\""
+        ],
+        "empathetic-response": [
+            "<em>Dismissive</em><br />\"Yeah, a breath isn’t going to change anything. This is too much.\"",
+            "<em>Comforted</em><br />\"Yeah, maybe it’s okay to just let myself feel it. Thanks for saying that.\""
+        ]
+    },
+    {
+        "call-id": 2,
+        "caller": "Lonely Elderly Man",
+        "call": "<em>Tired and wistful</em><br />\"I’ve lived a long life, but I didn’t think it would end like this. Do you think it was all worth it?\"",
+        "options": [
+            {"type": "honest", "response": "Only you can answer that. What do you think?"},
+            {"type": "practical", "response": "Think of the people you’ve touched in your life. That’s what matters."},
+            {"type": "empathetic", "response": "It’s hard, I know. But maybe it was. Maybe it all meant something."}
+        ],
+        "honest-response": [
+            "<em>Sad and resigned</em><br />\"I don’t know. I thought you’d give me a real answer, not just push it back on me.\"",
+            "<em>Reflective</em><br />\"Maybe you’re right. I guess only I can really know.\""
+        ],
+        "practical-response": [
+            "<em>Hopeless</em><br />\"People I’ve touched? None of them are around now. It feels empty.\"",
+            "<em>Content</em><br />\"You’re right. I’ve lived long enough to know I made a difference.\""
+        ],
+        "empathetic-response": [
+            "<em>Uncertain</em><br />\"Maybe it did mean something. But what if it didn’t? What if it was all for nothing?\"",
+            "<em>Moved</em><br />\"Yeah… maybe it did mean something after all. Thanks for that.\""
+        ]
+    },
+    {
+        "call-id": 3,
+        "caller": "Disillusioned Scientist",
+        "call": "<em>Frustrated and bitter</em><br />\"We saw this coming, but no one listened. Do you think any of it mattered? All the warnings, the research—it feels like a waste.\"",
+        "options": [
+            {"type": "honest", "response": "I don’t know. Sometimes people just can’t face the truth."},
+            {"type": "practical", "response": "You did what you could. At least you tried to make a difference."},
+            {"type": "empathetic", "response": "It must feel awful to see everything you worked for ignored."}
+        ],
+        "honest-response": [
+            "<em>Bitter</em><br />\"So people are just too weak to handle it? Great. That’s not what I wanted to hear.\"",
+            "<em>Accepting</em><br />\"Yeah… I guess people weren’t ready for the truth. Thanks.\""
+        ],
+        "practical-response": [
+            "<em>Disillusioned</em><br />\"Tried to make a difference? Feels like it was for nothing, honestly.\"",
+            "<em>Relieved</em><br />\"Thanks. At least I know I did everything I could.\""
+        ],
+        "empathetic-response": [
+            "<em>Resentful</em><br />\"Yeah, it does feel awful. I gave everything, and for what?\"",
+            "<em>Understood</em><br />\"Thanks for saying that. It means a lot to hear someone understands.\""
+        ]
+    },
+    {
+        "call-id": 4,
+        "caller": "Hopeful Romantic",
+        "call": "<em>Optimistic, trying to hold on</em><br />\"I know things are ending, but… do you think love still matters now? Can we still find beauty in it?\"",
+        "options": [
+            {"type": "honest", "response": "Yes, love matters. It always does, even now."},
+            {"type": "practical", "response": "If you love someone, tell them. There’s no time to waste."},
+            {"type": "empathetic", "response": "It’s the one thing that might still make sense. Hold on to that."}
+        ],
+        "honest-response": [
+            "<em>Defeated</em><br />\"I don’t even know anymore. Love feels pointless when there’s no future.\"",
+            "<em>Hopeful</em><br />\"Yeah, maybe love is the only thing that matters now. Thank you.\""
+        ],
+        "practical-response": [
+            "<em>Skeptical</em><br />\"Tell them now? What’s the point when we’re all going to die anyway?\"",
+            "<em>Determined</em><br />\"You’re right. I’m going to tell them. There’s no time to waste.\""
+        ],
+        "empathetic-response": [
+            "<em>Uncertain</em><br />\"I don’t know… Maybe it’s too late for love to matter.\"",
+            "<em>Comforted</em><br />\"Yeah, maybe love is the one thing that still makes sense. Thanks.\""
+        ]
+    },
+    {
+        "call-id": 5,
+        "caller": "Panic-Stricken Student",
+        "call": "<em>Panicked and overwhelmed</em><br />\"I was supposed to graduate! What’s the point of all my hard work if it all just ends?\"",
+        "options": [
+            {"type": "honest", "response": "Life’s never guaranteed, but your hard work still mattered."},
+            {"type": "practical", "response": "Think of what you’ve learned—it’s not wasted just because the world’s ending."},
+            {"type": "empathetic", "response": "It’s okay to feel lost right now. Your efforts weren’t meaningless."}
+        ],
+        "honest-response": [
+            "<em>Angry</em><br />\"Mattered? How did it matter if I’ll never even use it?\"",
+            "<em>Reflective</em><br />\"Maybe you’re right. My hard work still means something, even now.\""
+        ],
+        "practical-response": [
+            "<em>Hopeless</em><br />\"Learned what? How to waste time? None of it matters now.\"",
+            "<em>Reassured</em><br />\"Thanks. I guess everything I learned still matters, even if the world’s ending.\""
+        ],
+        "empathetic-response": [
+            "<em>Dismissive</em><br />\"It feels pretty meaningless right now, to be honest.\"",
+            "<em>Calmer</em><br />\"You’re right. Maybe it wasn’t meaningless. Thanks for saying that.\""
+        ]
+    },
+    {
+        "call-id": 6,
+        "caller": "Desperate Parent",
+        "call": "<em>Frantic, but trying to stay composed</em><br />\"Hello? Is anyone there? Please, I—I don’t know what to do. My kids… they’re scared, and I can’t stop thinking about what’s coming. What should I tell them?\"",
+        "options": [
+            {"type": "honest", "response": "Tell them the truth. They deserve to know."},
+            {"type": "practical", "response": "Keep them calm. They don’t need to know everything."},
+            {"type": "empathetic", "response": "Just hold them close. That’s all that matters now."}
+        ],
+        "honest-response": [
+            "<em>Hesistant, but accepting</em><br />\"Yeah… I guess you’re right. They should know. I’ll… I’ll tell them. Thank you.\"",
+            "<em>Angry</em><br />\"How could I tell them that? They’re just kids! They don’t deserve this.\""
+        ],
+        "practical-response": [
+            "<em>Relieved</em><br />\"That’s probably best. They don’t need to face the fear I’m feeling. Thank you… for the advice.\"",
+            "<em>Resentful</em><br />\"I hate that I have to hide this from them. It’s not fair.\""
+        ],
+        "empathetic-response": [
+            "<em>Emotional</em><br />\"Yeah, maybe that’s all we can do. Just hold on to each other until… it’s time. Thank you.\"",
+            "<em>Fearful</em><br />\"I don’t know if I’m strong enough for this…\""
+        ]
+    },
+    {
+        "call-id": 7,
+        "caller": "Nervous Caller",
+        "call": "<em>Nervous</em><br />\"Is there any chance this could all be a false alarm? Maybe we’ll be okay after all?\"",
+        "options": [
+            {"type": "honest", "response": "I’m afraid there’s not much hope for that. The evidence is clear."},
+            {"type": "practical", "response": "It’s hard to say for sure, but it’s better to prepare for the worst."},
+            {"type": "empathetic", "response": "I wish I could say yes, but I’m not sure. Let’s hope for the best."}
+        ],
+        "honest-response": [
+            "<em>Hopeful</em><br />\"I still believe there’s a way out. We just have to stay strong.\"",
+            "<em>Sad</em><br />\"That’s not what I wanted to hear. I guess I have to face the truth.\""
+        ],
+        "practical-response": [
+            "<em>Grateful</em><br />\"Thanks. It’s good advice to make the most of the time we have left.\"",
+            "<em>Disappointed</em><br />\"That’s not what I was looking for, but maybe you’re right.\""
+        ],
+        "empathetic-response": [
+            "<em>Relieved</em><br />\"Thanks for that. I’ll keep hoping for a miracle.\"",
+            "<em>Frustrated</em><br />\"I wanted a real answer. Why can’t you just say yes?\"<br /><em>Hangs up</em>"
+        ]
+    },
+    {
+        "call-id": 8,
+        "caller": "Angry Conspiracy Theorist",
+        "call": "<em>Furious</em><br />\"This is all a hoax! They’re lying to us! The meteor isn’t real, and I’m not falling for it. Are you?\"",
+        "options": [
+        {"type": "honest", "response": "I’m afraid it’s real. The evidence is overwhelming."},
+        {"type": "practical", "response": "Even if it’s not real, we should be prepared for the worst."},
+        {"type": "empathetic", "response": "I understand why you’re upset, but I think we need to face reality."}
+        ],
+        "honest-response": [
+            "<em>Thoughtful</em><br />\"Maybe I’m overreacting. I’ll look into it more.\"",
+            "<em>Angrier</em><br />\"That’s exactly what they want you to think! You’re brainwashed!\""
+        ],
+        "practical-response": [
+            "<em>Curious</em><br />\"I guess there’s no harm in being prepared… just in case.\"",
+            "<em>Dismissive</em><br />\"Prepared for what? A hoax? I’m not wasting my time.\"<br /><em>Hangs up</em>"
+        ],
+        "empathetic-response": [
+            "<em>Grateful</em><br />\"At least you’re not being rude about it. But I still don’t buy it.\"",
+            "<em>Frustrated</em><br />\"You’re missing the point. This is all a distraction!\""
+        ]
+    },
+    {
+        "call-id": 9,
+        "caller": "Nostalgic Elder",
+        "call": "<em>Reflective</em><br />\"I’ve seen so much in my life. It’s hard to believe this is how it all ends. Do you think this is the worst thing the world’s ever faced?\"",
+        "options": [
+            {"type": "honest", "response": "It’s definitely one of the most challenging times in history."},
+            {"type": "practical", "response": "We’ve faced hardship before. Let’s make the most of what time we have."},
+            {"type": "empathetic", "response": "It’s hard to say, but I’m grateful you’ve shared your experiences with us."}
+        ],
+        "honest-response": [
+            "<em>Thoughtful</em><br />\"Maybe it is the worst, but we’ll make it through together.\"",
+            "<em>Resigned</em><br />\"I suppose every era has its challenges… but this feels different.\""
+        ],
+        "practical-response": [
+            "<em>Hopeful</em><br />\"Yes, we’ve survived so much. Maybe we’ll survive this too.\"",
+            "<em>Resigned</em><br />\"We may have survived before, but this feels different. I’m not so sure.\""
+        ],
+        "empathetic-response": [
+            "<em>Grateful</em><br />\"Thank you for saying that. I’ve tried to share as much as I can.\"",
+            "<em>Reflective</em><br />\"I’ve lived through so much, but this is hard to process.\""
+        ]
+    },
+    {
+        "call-id": 10,
+        "caller": "LGBTQ+ Activist",
+        "call": "<em>Passionate</em><br />\"It feels like the world never accepted us, and now it’s ending. What was all this fighting for? Did any of it even matter?\"",
+        "options": [
+            {"type": "honest", "response": "You’ve made a difference, and that’s what counts."},
+            {"type": "practical", "response": "It mattered. You helped change lives for the better."},
+            {"type": "empathetic", "response": "I’m sorry it feels that way, but your fight mattered more than you know."}
+        ],
+        "honest-response": [
+            "<em>Hopeful</em><br />\"Maybe you’re right. At least we tried. That has to mean something.\"",
+            "<em>Saddened</em><br />\"It’s hard to believe anything mattered in the end.\""
+        ],
+        "practical-response": [
+            "<em>Grateful</em><br />\"Thank you for saying that. We did make a difference, didn’t we?\"",
+            "<em>Frustrated</em><br />\"I’m not sure it was enough. We deserved more time to make things right.\""
+        ],
+        "empathetic-response": [
+            "<em>Comforted</em><br />\"Thank you. It helps to hear that, even now.\"",
+            "<em>Hopeless</em><br />\"I don’t know. I’m not sure I believe that anymore.\""
+        ]
+    },
+    {
+        "call-id": 11,
+        "caller": "Disabled Veteran",
+        "call": "<em>Reflective</em><br />\"I’ve spent my life fighting, surviving. And now this. What’s left for me to fight for when everything’s ending?\"",
+        "options": [
+        {"type": "honest", "response": "You don’t need to fight anymore. You’ve done enough."},
+        {"type": "practical", "response": "You’ve fought enough battles. It’s time to find peace."},
+        {"type": "empathetic", "response": "You’ve been through so much. It’s okay to rest now."}
+        ],
+        "honest-response": [
+            "<em>Grateful</em><br />\"Maybe you’re right. Maybe it’s time I stopped fighting.\"",
+            "<em>Empty</em><br />\"It doesn’t feel like enough. I’m not sure it ever will.\""
+        ],
+        "practical-response": [
+            "<em>Relieved</em><br />\"Yeah, maybe it’s time I let go. Thanks for reminding me.\"",
+            "<em>Angry</em><br />\"I don’t want peace. I want more time to keep fighting!\""
+        ],
+        "empathetic-response": [
+            "<em>Comforted</em><br />\"Thank you. I needed to hear that.\"",
+            "<em>Resentful</em><br />\"Rest? There’s no time to rest. Not like this.\""
+        ]
+    },
+    {
+        "call-id": 12,
+        "caller": "Wealthy Businessman",
+        "call": "<em>Worried</em><br />\"I’ve spent my life building my empire. None of it matters now, does it? What do I do with all this success?\"",
+        "options": [
+            {"type": "honest", "response": "Material success doesn’t mean much in the face of this, no."},
+            {"type": "practical", "response": "You can use your wealth to help others now."},
+            {"type": "empathetic", "response": "I understand why you feel that way, but maybe there’s still time to do something meaningful."}
+        ],
+        "honest-response": [
+            "<em>Accepting</em><br />\"Yeah, I guess I knew that deep down. It was all just temporary.\"",
+            "<em>Frustrated</em><br />\"I built all this for nothing? It’s not fair!\""
+        ],
+        "practical-response": [
+            "<em>Inspired</em><br />\"You’re right. Maybe I can help someone in these final hours.\"",
+            "<em>Resistant</em><br />\"Help others? I worked hard for this, why should I give it away now?\""
+        ],
+        "empathetic-response": [
+            "<em>Hopeful</em><br />\"You’re right. Maybe there’s still time to do something that matters.\"",
+            "<em>Defeated</em><br />\"I don’t think anything matters anymore, no matter what I do.\""
+        ]
+    },
+    {
+        "call-id": 13,
+        "caller": "Homeless Woman",
+        "call": "<em>Resigned</em><br />\"I’ve had nothing for so long, and now even the world is going to be taken away. What’s the point of trying anymore?\"",
+        "options": [
+            {"type": "honest", "response": "There might not be much point left, but you’re still here."},
+            {"type": "practical", "response": "Hold on to what little time we have left. It’s all we’ve got."},
+            {"type": "empathetic", "response": "I’m so sorry you’ve felt that way. No one should have to."}
+        ],
+        "honest-response": [
+            "<em>Reflective</em><br />\"I guess being here is all we can really do now.\"",
+            "<em>Hopeless</em><br />\"That’s not comforting. It’s all meaningless.\""
+        ],
+        "practical-response": [
+            "<em>Grateful</em><br />\"You’re right. I’ll try to hold on.\"",
+            "<em>Exhausted</em><br />\"Hold on? To what? There’s nothing left for me. This is bu*****!\"<em>Hangs up</em>"
+        ],
+        "empathetic-response": [
+            "<em>Comforted</em><br />\"Thank you for saying that. It helps to hear.\"",
+            "<em>Angry</em><br />\"You don’t understand. No one ever has.\"<em>Hangs up</em>"
+        ]
+    }
+]
+
+call_stories_backup = [
     {
         "call-id": 0,
         "caller": "Desperate Parent",
@@ -475,6 +765,45 @@ ending_script = {
                 "..."
             ]
         },
+        "honest-silent": {
+            "messages": [
+                "<em>Sincere, straightforward voice</em>",
+                "I decided not to play any songs tonight. There wasn’t time for that, and I figured we all deserved something real.",
+                "You’ve been listening for the truth, and I owe it to you to be honest.",
+                "<em>A short pause, gathering courage</em>",
+                "This is it. There’s no escaping what’s coming. The end is near, and no amount of music or words is going to change that.",
+                "I don’t have comforting lies for you. I don’t have hope to offer. But I do have the truth.",
+                "<em>The sound of distant rumbling begins to grow</em>",
+                "It’s okay to be scared. I’m scared too. We all are. But we don’t need to run from that fear—we can face it together.",
+                "I didn’t play music tonight because I thought maybe silence, and honesty, would serve us better. In these last moments, all we have left is the truth.",
+                "<em>A heavy breath, a moment of vulnerability</em>",
+                "Thank you for being here with me, for letting me be real with you. In a world full of uncertainty, we’ve shared this one undeniable truth: the end is coming, but we’re not facing it alone.",
+                "<em>The rumble of the meteor gets louder, closing in</em>",
+                "Goodbye, my friends. Hold tight to what matters. And let’s face the end together, honestly.",
+                "<em>The roar of the meteor fills the air as the screen fades to black</em>",
+                "..."
+            ]
+        },
+        "honest-reflective": {
+            "messages": [
+                "<em>Honest, reflective voice</em>",
+                "I’ve been thinking a lot while the music played tonight... thinking about the truth we’ve all been avoiding.",
+                "There’s no sugar-coating it—what’s coming is inescapable, and I won’t pretend otherwise.",
+                "I could’ve tried to give you hope, or comfort, but that wouldn’t have been real. Not tonight.",
+                "<em>A long, candid pause</em>",
+                "The truth is, we’re all scared. I’m scared. And maybe that’s okay to admit.",
+                "The music... it gave us something to hold on to, a space to reflect on everything we’re about to lose. But it couldn’t change anything.",
+                "<em>The sound of the meteor rumbling grows faintly in the distance.</em>",
+                "I took these moments between songs to reflect, to be honest with myself—and with you.",
+                "We’ve all faced this final truth together, and I think that’s the best we could do. No more hiding. No more pretending.",
+                "<em>A deep, quiet breath</em>",
+                "Thank you for letting me be real with you. It’s been an honor to share this time, even in the face of the inevitable.",
+                "<em>The rumbling grows louder, signaling the approach of the end.</em>",
+                "Goodbye, my friends. I hope you find the strength to face what comes next... just as you are.",
+                "<em>The sound of the meteor echoes in the distance as the screen fades to black.</em>",
+                "..."
+            ]
+        },
         "practical": {
             "messages": [
                 "<em>Thoughtful, measured voice</em>",
@@ -489,6 +818,46 @@ ending_script = {
                 "Tonight, we chose to live with intention.",
                 "We found meaning in the time we had, and that… that’s enough.",
                 "<em>The sound of the meteor’s impact is heard.</em>",
+                "..."
+            ]
+        },
+        "practical-silent": {
+            "messages": [
+                "<em>Calm, direct voice</em>",
+                "I skipped the songs tonight. Not because they didn’t matter, but because I thought there were more important things to focus on.",
+                "Time is short, and distractions won’t change that.",
+                "<em>A brief pause, gathering thoughts</em>",
+                "We’re staring down the inevitable, and there’s no sense pretending otherwise. So here’s what I want you to do—use this time wisely.",
+                "Make sure you’re with the people who matter. Say what needs to be said. Don’t leave anything unfinished.",
+                "This isn’t about fear—it’s about making peace with what’s coming.",
+                "<em>The sound of distant rumbling begins to grow louder</em>",
+                "I didn’t play music because this moment is bigger than any song. It’s about taking control of how you meet the end.",
+                "Focus on what’s in front of you. Gather your loved ones. Make these final moments count.",
+                "<em>A deep breath, steady and composed</em>",
+                "Thank you for tuning in tonight. Stay calm, stay focused. You know what you need to do.",
+                "<em>The rumble of the meteor grows louder, closing in</em>",
+                "Goodbye, my friends. I wish you peace and strength for what’s next.",
+                "<em>The sound of the meteor becomes deafening as the screen fades to black</em>",
+                "..."
+            ]
+        },
+        "practical-reflective": {
+            "messages": [
+                "<em>Calm, pragmatic voice</em>",
+                "As the music played tonight, I couldn’t help but think about what we should be doing right now.",
+                "It’s easy to get lost in the sound, to lose track of time, but we don’t have that luxury anymore.",
+                "<em>A brief pause, as if weighing the importance of each word</em>",
+                "I’ve been honest with you tonight, but more than that, I’ve tried to be practical. There’s no stopping what’s coming, but we can control how we spend these last moments.",
+                "Hold your loved ones. Make sure they know you care. Find peace with whatever needs to be said or done.",
+                "We can’t change the end, but we can decide how we meet it.",
+                "<em>The faint rumbling of the meteor approaches in the background.</em>",
+                "I took this time between calls to reflect on what’s left, and I realized that the best thing we can do now is prepare ourselves.",
+                "Say the things you’ve been holding back, tie up the loose ends—these final moments matter, maybe more than anything else ever has.",
+                "<em>A quiet exhale</em>",
+                "Thank you for listening, for being with me tonight. Take care of yourselves, and each other. That’s all we can do now.",
+                "<em>The rumble grows louder as the meteor nears.</em>",
+                "Goodbye, my friends. Be ready for what comes next. You’ve got this.",
+                "<em>The sound of the meteor intensifies as the screen fades to black.</em>",
                 "..."
             ]
         },
@@ -509,6 +878,52 @@ ending_script = {
                 "..."
             ]
         },
+        "empathetic-silent": {
+            "messages": [
+                "<em>Calm, reflective voice</em>",
+                "I didn’t play a single song tonight.",
+                "No distractions, no noise.",
+                "Just you, me, and the silence between us.",
+                "Maybe that silence spoke louder than music ever could.",
+                "These last moments weren’t about melodies, they were about what makes our lives worth living for.",
+                "And maybe that’s why I chose not to fill the air with songs.",
+                "<em>A brief pause, as if trying to find the right words</em>",
+                "I thought... maybe we didn’t need to drown it all out.",
+                "Maybe, in this quiet, we could finally hear what truly matters.",
+                "It’s not about the end we can’t avoid.",
+                "It’s about sitting together in the quiet before it arrives.",
+                "No music, no words can change what’s coming, but at least we faced it together.",
+                "<em>The sound of distant rumbling, growing louder.</em>",
+                "Thank you for sharing this silence with me.",
+                "Hold on to the ones you love...",
+                "<em>A long, quiet breath</em>",
+                "Goodbye, my friends.",
+                "<em>The rumble intensifies as the meteor approaches.</em>",
+                "..."
+            ]
+        },
+        "empathetic-reflective": {
+            "messages": [
+                "<em>Thoughtful, somber voice</em>",
+                "As the music played tonight, I found myself lost in thought...",
+                "...letting each note carry me somewhere far from here.",
+                "It was more than just sound—it felt like a chance to breathe, to think about everything we've been through.",
+                "These last moments have been heavy, but maybe the music gave us a way to lighten that load, if only for a little while.",
+                "<em>A soft, contemplative pause</em>",
+                "I took a moment before each call, reflecting on what’s truly important when time is running out.",
+                "It’s strange, how music can make you feel both the weight of the world and the beauty of it at the same time.",
+                "Maybe that’s what we needed—to remember that even in the darkest hours, there’s still something worth holding onto.",
+                "<em>The distant hum of the meteor can be heard, growing closer.</em>",
+                "So, as we close out this final broadcast, I want to thank you. For listening, for calling, for sharing this time.",
+                "The music played, and so did our lives.",
+                "Until the very last note.",
+                "<em>A deep, quiet sigh as the DJ contemplates the inevitable.</em>",
+                "Goodbye, my friends.",
+                "May we all find peace in these final moments.",
+                "<em>The sound of the meteor becomes louder as the screen fades to black.</em>",
+                "..."
+            ]
+        },
         "open-ended": {
             "messages": [
                 "<em>Philosophical, introspective voice</em>",
@@ -525,6 +940,71 @@ ending_script = {
                 "..."
             ]
         },
+
+        "open-ended-silent": {
+            "messages": [
+                "<em>Reflective, measured voice</em>",
+                "I made the choice to skip the songs tonight.",
+                "It felt like the right thing to do, given the circumstances.",
+                "In these final hours, I wanted to focus on what really matters.",
+                "Whether it’s facing the truth, providing practical advice, or just offering a moment of empathy,",
+                "I hoped to give you something meaningful.",
+                "<em>A brief pause, allowing the weight of the moment to settle</em>",
+                "Sometimes, there’s no music that can capture what we’re feeling.",
+                "Sometimes, we just need to face reality,",
+                "plan our last steps wisely,",
+                "or find comfort in shared humanity.",
+                "We’re all dealing with this in our own way.",
+                "And that’s okay.",
+                "Whether you needed honesty,",
+                "practical advice,",
+                "or just someone who understands,",
+                "I hope I’ve been able to offer that.",
+                "<em>The sound of the meteor rumbling grows louder in the background</em>",
+                "As we come to the end of our time together,",
+                "remember that it’s not just about how we face the end,",
+                "but about how we spend these final moments with each other.",
+                "Thank you for being here, for sharing this experience.",
+                "Take care of yourself and those around you.",
+                "Hold onto whatever brings you peace in these last hours.",
+                "<em>The rumbling intensifies, signaling the approach of the end</em>",
+                "Goodbye, my friends.",
+                "Whatever you need right now, I hope you find it.",
+                "We’ve faced this together, and that means something.",
+                "<em>The sound of the meteor becomes deafening as the screen fades to black</em>",
+                "..."
+            ]
+        },
+        "open-ended-reflective": {
+            "messages": [
+                "<em>Contemplative, soothing voice</em>",
+                "During the music tonight, I took some time to reflect.",
+                "It felt like the right way to spend these last moments,",
+                "allowing both the songs and our thoughts to resonate deeply.",
+                "Whether you needed honesty, practical advice, or just a bit of empathy,",
+                "I hoped that our time together could offer you something meaningful amidst the uncertainty.",
+                "<em>A thoughtful pause, as if letting the reflections settle</em>",
+                "The music gave us a space to think, to prepare, or simply to connect with our feelings.",
+                "And as the end draws near, I wanted to make sure we faced it in a way that mattered.",
+                "We’re all dealing with this in our own way, and that’s perfectly okay.",
+                "If you needed a clear-eyed truth,",
+                "practical steps to make the most of these moments,",
+                "or just someone who understands,",
+                "I hope I was able to provide that.",
+                "<em>The sound of the meteor rumbling in the background grows louder</em>",
+                "As we approach the final moments, remember that what we do now can still have meaning.",
+                "Cherish these last hours, find comfort in those around you, and hold onto what brings you peace.",
+                "Thank you for sharing this time with me.",
+                "I hope our reflections, our conversations, and our shared moments have given you some solace as we face the inevitable together.",
+                "<em>The rumble intensifies, signaling the approach of the end</em>",
+                "Goodbye, my friends.",
+                "May you find strength, clarity, or comfort in whatever you need right now.",
+                "We’ve faced this together, and that makes all the difference.",
+                "<em>The sound of the meteor becomes overwhelming as the screen fades to black</em>",
+                "..."
+            ]
+        },
+        
         "default": {
             "messages": [
                 "<em>There was no chance to say goodbye as the meteor hits the earth.</em>"
@@ -605,3 +1085,56 @@ game_songs = [
 ]
 
 
+var how_to_script = [
+    {
+        "text": "In this game, you'll step into the shoes of a DJ delivering one last radio show before the world faces its end.",
+    },
+    {
+        "text": "Here’s how to navigate and make the most of your time on air...",
+    },
+    {
+        "title": "Move Through the Broadcast",
+        "text": "To advance through the scenes of the game, simply click the sky blue button located at the bottom of the screen.",
+        "image": "_imgs/how-to/move-through-broadcast-button.png"
+    },
+    {
+        "title": "Move Through the Broadcast",
+        "text": "This button will guide you from one part of the broadcast to the next, moving you through the final moments of the show.",
+        "image": "_imgs/how-to/move-through-broadcast-button.png"
+    },
+    {
+        "title": "Choose Your Music",
+        "text": "During the show, you’ll be asked to select the songs that will play on air.",
+        "image": "_imgs/how-to/choose-music.png"
+    },
+    {
+        "title": "Choose Your Music",
+        "text": "Click on the dots below the song list to scroll through different music options",
+        "image": "_imgs/how-to/choose-music-indicated-dots.png"
+    },
+    {
+        "title": "Handle Caller Requests",
+        "text": "As the DJ, you'll receive calls from listeners asking for advice or comfort during these final days",
+        "image": "_imgs/how-to/caller-dialog-scene.png"
+    },
+    {
+        "title": "Handle Caller Requests",
+        "text": "Each caller will present a situation, and you’ll be given a few possible responses.",
+        "image": "_imgs/how-to/caller-dialog-scene.png"
+    },
+    {
+        "title": "Handle Caller Requests",
+        "text": "Choose the message you feel will help them the most in their final moments.",
+        "image": "_imgs/how-to/caller-dialog-scene.png"
+    },
+    {
+        "title": "Skip the Music",
+        "text": "You don’t have to play a song after every call. If you feel that music isn’t needed, you can choose to skip the song and go straight to the next caller.",
+        "image": "_imgs/how-to/skip-song-button-indicated.png"
+    },
+   /* {
+        "title": "Getting Help",
+        "text": "When you feel lost (as most will do in their final days), you can always ask for help.",
+        "image": "_imgs/how-to/help-button-indicated.png"
+    }, */
+]

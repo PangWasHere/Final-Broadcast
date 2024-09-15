@@ -4,7 +4,8 @@ var screens = {
     "GAME_SCENE": "gameSceneScreen",
     "CHOOSE_MUSIC": "chooseMusicScreen",
     "JUST_MUSIC": "justMusicScreen",
-    "CALLER_DIALOG": "callerScreen"
+    "CALLER_DIALOG": "callerScreen",
+    "HOW_TO": "howToScreen"
 }
 
 var screens_list = [
@@ -65,7 +66,12 @@ var game = {
     numCallersBeforeNextSong: 0, // Keeps track of the number of callers before playing next song
     maxCallersEnding: 9,    //TODO: Change this to 9 when publishing
     
-    djResponsePoints: {"honesty": 0, "empathy": 0, "practicality": 0},
+    djResponsePoints: {
+        "honesty": 0, "empathy": 0, "practicality": 0, 
+        "negative_caller_reponses": 0, "positive_caller_reponses": 0,
+        "skipped_songs_points": 0, "reflected_during_songs": 0,
+        "silent_ending": false
+    },
     endingType: "default",
     
     maxNumOfSongChoices: 5,
@@ -112,6 +118,7 @@ var game = {
 
         game.HTMLElements["screensGroup"] = document.getElementsByClassName("screen")
         game.HTMLElements["splashScreen"] = document.getElementById("splashScreen")
+        game.HTMLElements["howToScreen"] = document.getElementById("howToScreen")
         game.HTMLElements["mainMenuGameScreen"] = document.getElementById("mainMenuGameScreen")
         game.HTMLElements["callerScreen"] = document.getElementById("callerScreen")
         game.HTMLElements["chooseMusicScreen"] = document.getElementById("chooseMusicScreen")
@@ -122,6 +129,7 @@ var game = {
 
         game.HTMLElements["dialogContainerBox"] = document.getElementById("dialogContainerBox")
         game.HTMLElements["monolougeContainerBox"] = document.getElementById("monolougeContainerBox")
+        game.HTMLElements["howToSceneContainerBox"] = document.getElementById("howToSceneContainerBox")
         
         game.HTMLElements["skipSongNextCallerButton"] = document.getElementById("skipSongNextCallerButton")
         game.HTMLElements["gameSceneNextButton"] = document.getElementById("gameSceneNextButton")
@@ -129,6 +137,8 @@ var game = {
         game.HTMLElements["takeCallButton"] = document.getElementById("takeCallButton")
         game.HTMLElements["showEndMessageButton"] = document.getElementById("showEndMessageButton")
         game.HTMLElements["finalMessageNextButton"] = document.getElementById("finalMessageNextButton")
+
+        
 
         game.HTMLElements["broadcastButtonsGroup"] = document.getElementsByClassName("broadcast-button")
         game.HTMLElements["playPauseButtonsGroup"] = document.getElementsByClassName("play-pause-song-button")
@@ -143,6 +153,9 @@ var game = {
         game.HTMLElements["monolougeBox"] = document.getElementById("monologueBox")
         game.HTMLElements["monolougeMessage"] = document.querySelector("#monologueBox .message")
         game.HTMLElements["chooseMusicCarouselStage"] = document.getElementById("chooseMusicCarouselStage")
+
+        game.HTMLElements["howToSceneMessage"] = document.querySelector("#howToSceneBox .message")
+        game.HTMLElements["howToSceneNextButton"] = document.getElementById("howToSceneNextButton")
     },
 
     // Sets the listeners for the HTML elements
@@ -152,6 +165,8 @@ var game = {
 
             if(game.isEnding) {
                 // Player chose silence for the last song
+                game.djResponsePoints.skipped_songs_points++
+                game.djResponsePoints.silent_ending = true
                 game.stopCurrentSong()
                 game.showEndScene()
             } else {
@@ -189,6 +204,7 @@ var game = {
             // TODO: (High) Determine the best place to add this listener
             loader.loadedAudio.addEventListener("ended", game.musicEnded, false)
 
+            game.HTMLElements["howToSceneNextButton"].addEventListener('click', game.showNextInstructions, false)
         }
     },
 
@@ -201,7 +217,8 @@ var game = {
 
     gameLoaded: function() {
         // DEBUG: Use this space to view certain screens out of the game flow
-        //game.showScreen(screens.CALLER_DIALOG)
+        //game.showHowTo()
+        //game.showScreen(screens.HOW_TO)
         game.showScreen(screens.MAIN_MENU)
     },
 
@@ -221,7 +238,12 @@ var game = {
         game.currentCallerGroup = 1,
         game.numCallersBeforeNextSong = 0, // Keeps track of the number of callers before playing next song
         
-        game.djResponsePoints = {"honesty": 0, "empathy": 0, "practicality": 0},
+        game.djResponsePoints = {
+            "honesty": 0, "empathy": 0, "practicality": 0, 
+            "negative_caller_reponses": 0, "positive_caller_reponses": 0,
+            "skipped_songs_points": 0, "reflected_during_songs": 0,
+            "silent_ending": false
+        },
         game.endingType = "default",
         
         game.currentSongPlayingTrackNumber = -1,  // Keeps track of the current song track number
@@ -250,7 +272,8 @@ var game = {
 
         // Get a random starting script
         game.scenesScript = game_scripts["default"]
-        game.currentDialogScript = utils.sample(game.scenesScript["START"])
+        let starting_message = utils.sample(game.scenesScript["START"]).slice(0)
+        game.currentDialogScript = starting_message
 
         game.setGameStatus(GAME_STATUS.START)
         game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
@@ -268,7 +291,8 @@ var game = {
         game.scenesScript = game_scripts["default"]
 
         // Get a random starting script
-        game.currentDialogScript = utils.sample(game.scenesScript["START"])
+        let starting_message = utils.sample(game.scenesScript["START"]).slice(0)
+        game.currentDialogScript = starting_message
 
         game.setGameStatus(GAME_STATUS.START)
         game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
@@ -298,6 +322,7 @@ var game = {
                 break;
             case GAME_STATUS.ON_CALL_SKIPPED_MUSIC:
                 game.stopCurrentSong()
+                game.djResponsePoints.skipped_songs_points++
                 game.setGameStatus(GAME_STATUS.TAKING_CALLS)
                 game.showNextScene()
                 break;
@@ -333,12 +358,14 @@ var game = {
             case GAME_STATUS.CALLING_GROUP_END:
 
                 if(game.currentCallerGroup == 2) {
-                    game.currentDialogScript = utils.sample(game_scripts["SECOND_SONG"])
+                    let second_song_script = utils.sample(game_scripts["SECOND_SONG"]).slice(0)
+                    game.currentDialogScript = second_song_script
                     game.currentDialogScript.push("Let's move on to our next song, shall we?")
                     game.setGameStatus(GAME_STATUS.BROADCASTING_SECOND_SONG)
                     game.showDialogScene(DIALOG_SCENES.CHOOSE_NEXT_SONG)
                 } else if(game.currentCallerGroup == 3) {
-                    game.currentDialogScript = utils.sample(game_scripts["THIRD_SONG"])
+                    let third_song_script = utils.sample(game_scripts["THIRD_SONG"]).slice(0)
+                    game.currentDialogScript = third_song_script
                     game.currentDialogScript.push("How about another song to listen to?")
                     game.setGameStatus(GAME_STATUS.BROADCASTING_THIRD_SONG)
                     game.showDialogScene(DIALOG_SCENES.CHOOSE_NEXT_SONG)
@@ -360,7 +387,8 @@ var game = {
                 game.setGameStatus(GAME_STATUS.TAKING_CALLS)
                 break;
             case GAME_STATUS.LAST_SONG_DIALOUGE:
-                game.currentDialogScript = utils.sample(game_scripts["PLAY_LAST_SONG"])
+                let last_song_script = utils.sample(game_scripts["PLAY_LAST_SONG"]).slice(0)
+                game.currentDialogScript = last_song_script
                 game.isEnding = true
                 game.showDialogScene(DIALOG_SCENES.LAST_SONG)
                 break;
@@ -419,6 +447,7 @@ var game = {
         game.currentCaller = game.getRandomCaller()
 
         let call = game.currentCaller
+        game.listOfCallers.push(game.currentCaller["call-id"])
 
         game.showScreen(screens.CALLER_DIALOG)
 
@@ -453,7 +482,11 @@ var game = {
                 // Get type response
                 dj_response_type = option.getAttribute('response-type')
                 caller = call['caller']
-                caller_response = call[dj_response_type + '-response']
+
+                // Get a random response from the caller
+                let caller_response = utils.sample(call[dj_response_type + '-response'])
+                caller_response = caller_response.slice(0)
+                //caller_response = call[dj_response_type + '-response']
                 
                 // GAME ENDING LOGIC: Add points based on the DJ response
                 if(dj_response_type == "empathetic") {
@@ -467,7 +500,7 @@ var game = {
                 game.currentCaller["response"] = caller_response
 
                 game.numCallersBeforeNextSong--
-                game.listOfCallers.push(game.currentCaller["call-id"])
+                
                 game.setGameStatus(GAME_STATUS.DJ_RESPONSED)
                 game.showNextScene()
             })
@@ -507,7 +540,7 @@ var game = {
     /***** Functions related to choosing music *****/
 
     musicEnded: function() {
-        alert("Song ended")
+        console.log("Song ended")
 
         game.resetPlayPauseButton()
 
@@ -522,6 +555,10 @@ var game = {
 
     // Play the song and hides the Choose Music dialog
     broadcastSong: function(e) {
+
+        // TODO: (Medium) Hack.
+        // Allow user to click the Reflect button again
+        game.HTMLElements["contemplateButton"].removeAttribute('disabled')
 
         // Disables the button (Song can only be played once throughout the game)
         e.currentTarget.setAttribute('disabled', '')
@@ -619,6 +656,8 @@ var game = {
         game.HTMLElements["contemplateButton"].setAttribute('disabled', '')
         game.HTMLElements["takeCallButton"].setAttribute('disabled', '')
 
+        game.djResponsePoints.reflected_during_songs++
+
         // Enable the take call button after 5 seconds
         setTimeout(function(){
             game.HTMLElements["takeCallButton"].removeAttribute('disabled')
@@ -668,21 +707,56 @@ var game = {
     // Check and set the ending type of the game
     checkEndingType: function() {
 
+        console.log(game.djResponsePoints)
+
         let honest_points = game.djResponsePoints.honesty
         let practical_points = game.djResponsePoints.practicality
         let empathetic_points = game.djResponsePoints.empathy
 
+        let skipped_songs_points = game.djResponsePoints.skipped_songs_points
+        let reflected_during_songs = game.djResponsePoints.reflected_during_songs
+
+        let skipped_last_song = game.djResponsePoints.silent_ending
+
         if (honest_points >= game.maxCallersEnding) {
             // Player chooses honesty all the time
+
             game.endingType = "honest"
+
+            if(skipped_songs_points >= 4 && skipped_last_song) {
+                game.endingType += "-silent"
+            } else if (reflected_during_songs >= 4) {
+                game.endingType += "-reflective"
+            }
+            
         } else if (practical_points >= game.maxCallersEnding) {
             // Player chooses honesty all the time
+
             game.endingType = "practical"
+
+            if(skipped_songs_points >= 4 && skipped_last_song) {
+                game.endingType += "-silent"
+            } else if (reflected_during_songs >= 4) {
+                game.endingType += "-reflective"
+            }
+
         } else if (empathetic_points >= game.maxCallersEnding) {
             // Player chooses honesty all the time
             game.endingType = "empathetic"
+
+            if(skipped_songs_points >= 4 && skipped_last_song) {
+                game.endingType += "-silent"
+            } else if (reflected_during_songs >= 4) {
+                game.endingType += "-reflective"
+            }
         } else {
             game.endingType = "open-ended"
+
+            if(skipped_songs_points >= 4 && skipped_last_song) {
+                game.endingType += "-silent"
+            } else if (reflected_during_songs >= 4) {
+                game.endingType += "-reflective"
+            }
         }
     },
 
@@ -692,6 +766,7 @@ var game = {
         game.showScreen("endingScreen")
 
         game.checkEndingType()
+        console.log("ENDING TYPE", game.endingType)
 
         /* // TODO: (Medium) This did not work so using a different HTML element
         game.currentScriptDialog = ending_script[game.endingType]['messages']
@@ -710,8 +785,6 @@ var game = {
     goThroughFinalMessages: function(e) {
         game.HTMLElements["monolougeMessage"].innerHTML = game.currentDialogScript[0]
         game.currentDialogScript.shift()
-
-        console.log( ending_script[game.endingType]['messages'])
 
         if (game.currentDialogScript.length == 0) {
             // Reached the end of the monologue
@@ -751,6 +824,43 @@ var game = {
 
     showCredits: function() {
         game.reset()
+    },
+
+    showHowTo: function() {
+        game.showScreen(screens.HOW_TO)
+
+        game.HTMLElements["howToSceneMessage"].innerHTML = how_to_script[0]["text"]
+
+    },
+
+    currentInstructions: 0,
+
+    showNextInstructions: function() {
+
+        // TODO: Add to the game elements
+        const howToHelpersContainerBox  = document.getElementById("howToHelpersContainerBox")
+        const howToTitle = document.querySelector("#howToHelpersContainerBox .how-to-title")
+        const howToImage = document.querySelector("#howToHelpersContainerBox .how-to-image img")
+
+        if(game.currentInstructions < how_to_script.length - 1) {
+            game.currentInstructions++
+            game.HTMLElements["howToSceneMessage"].innerHTML = how_to_script[game.currentInstructions]["text"]
+
+            if (how_to_script[game.currentInstructions]["title"]) {
+                howToHelpersContainerBox.style.display = 'flex'
+
+                howToTitle.innerHTML = how_to_script[game.currentInstructions]["title"]
+
+                if(how_to_script[game.currentInstructions]["image"]) {
+                    howToImage.src = how_to_script[game.currentInstructions]["image"]
+                }
+            } else {
+                howToHelpersContainerBox.style.display = 'none'
+            }
+        } else {
+            game.currentInstructions = 0
+            game.gameLoaded()
+        }
     },
 
     renameInScript: function(person_name, script) {

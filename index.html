@@ -13,6 +13,8 @@
     <body>
         <div id="gameContainer">
             <div id="game">
+                <img id="helpButton" src="_imgs/help-icon.png" class="help-button-hidden"/>
+
                 <canvas id="gameCanvas" class="gamelayer" width="640" height="480"></canvas>
     
                 <div id="splashScreen" class="gamelayer screen">
@@ -24,6 +26,21 @@
                     <button class="button-next bottom-right" role="button">Tune In</button>
                 </div>
 
+                <div id="howToScreen" class="gamelayer screen default-game-background">
+                    <div class="blurred-bg blur-50"></div>
+                    <div id="howToSceneContainerBox" class="dialog-box">
+                        <div id="howToSceneBox" class="dialog scene-box">
+                            <p class="message">Welcome to your Final Broadcast, DJ Reverie...</p>
+                            <button id="howToSceneNextButton" class="button-next bottom-right" role="button">Next</button>
+                         </div>
+                    </div>
+                    <div id="howToHelpersContainerBox" class="how-to-helpers-container" style="display: none;">
+                        <h1 class="how-to-title"></h1>
+                        <div class="how-to-image">
+                            <img src="_imgs/how-to/move-through-broadcast-button.png" />
+                        </div>
+                    </div>
+                </div>
 
                 <div id="mainMenuGameScreen" class="gamelayer screen default-game-background">
                     <div class="blurred-bg"></div>
@@ -33,7 +50,7 @@
                         </h1>
                         <div class="main-menu">
                             <button class="button-next go-live-button" onclick="game.start()">Go Live</button>
-                            <button class="button-next how-t0-button">How to DJ</button>
+                            <button class="button-next how-t0-button" onclick="game.showHowTo()">How to DJ</button>
                         </div>
                     </div>
                 </div>
