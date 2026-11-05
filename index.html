@@ -50,7 +50,8 @@
                         </h1>
                         <div class="main-menu">
                             <button class="button-next go-live-button" onclick="game.start()">Go Live</button>
-                            <button class="button-next how-t0-button" onclick="game.showHowTo()">How to DJ</button>
+                            <button class="button-next how-to-button" onclick="game.showHowTo()">How to DJ</button>
+                            <button id="aboutGameButton" class="button-next about-game-button" onclick="game.showAboutGame()" style="display: none;">About Game</button>
                         </div>
                     </div>
                 </div>
@@ -118,8 +119,21 @@
                     </div>
                 </div>
     
-                <div id="creditsScreen" class="gamelayer screen">
-                    <p>creditsScreen</p>
+                <div id="creditsScreen" class="gamelayer screen default-end-game-background">
+                    <div id="creditsDialogBox" class="dialog-box">
+                        <div class="credits-message">
+                            <p>Thank you for playing <span class="neon blue">Final Broadcast</span>!</p>
+                            <br />
+                            <p>This a submission I made for the Brackey's 2024 Game Jame with the theme: "Calm Before the Storm". I worked on this as a way to cope with my depression. A world that's ending, huh? How will people respond to that?</p>
+                            <br />
+                            <p>Of course, the responses you get from the callers (and even you, the DJ) might be unrealistically hopeful and calm. But I guess that's what I wanted to convey through this game. That we can be calm before the storm.</p>
+                            <br />
+                            <p>We can face it with serenity. No matter what it is. Even if it's the end of the world.</p>
+                            <br />
+                            <p class="footnote">Did you know? There are 10+ different final messages you can get depending on the actions you took during your final broadcast. I'm planning to add more caller stories into the game, too! So, stay tuned! (Pun intended)</p>
+                        </div>
+                        <div id="playAgainButton" class="button-next go-back" role="button" onclick="game.gameLoaded()">Play again?</div>
+                    </div>
                 </div>
 
                 <div id="loadingScreen" class="gamelayer screen default-game-background">

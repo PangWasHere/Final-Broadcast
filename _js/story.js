@@ -157,7 +157,7 @@ call_stories = [
             "<em>Resigned</em><br />\"Yeah, I guess that’s just how it is… thanks for being straight with me.\""
         ],
         "practical-response": [
-            "<em>Skeptical</em><br />\"Spend time with people? What’s the point when everything’s falling apart?\"",
+            "<em>Skeptical</em><br />\"Spend time with people? What’s the point when everything’s falling apart?\"<br /><em>Hangs up</em>",
             "<em>Appreciative</em><br />\"You’re right. I’ll make the most of the time I have with them.\""
         ],
         "empathetic-response": [
@@ -183,7 +183,7 @@ call_stories = [
             "<em>Content</em><br />\"You’re right. I’ve lived long enough to know I made a difference.\""
         ],
         "empathetic-response": [
-            "<em>Uncertain</em><br />\"Maybe it did mean something. But what if it didn’t? What if it was all for nothing?\"",
+            "<em>Uncertain</em><br />\"Maybe it did mean something. But what if it didn’t? What if it was all for nothing?\"<br /><em>Hangs up</em>",
             "<em>Moved</em><br />\"Yeah… maybe it did mean something after all. Thanks for that.\""
         ]
     },
@@ -197,15 +197,15 @@ call_stories = [
             {"type": "empathetic", "response": "It must feel awful to see everything you worked for ignored."}
         ],
         "honest-response": [
-            "<em>Bitter</em><br />\"So people are just too weak to handle it? Great. That’s not what I wanted to hear.\"",
+            "<em>Bitter</em><br />\"So people are just too weak to handle it? Great. That’s not what I wanted to hear.\"<br /><em>Hangs up</em>",
             "<em>Accepting</em><br />\"Yeah… I guess people weren’t ready for the truth. Thanks.\""
         ],
         "practical-response": [
-            "<em>Disillusioned</em><br />\"Tried to make a difference? Feels like it was for nothing, honestly.\"",
+            "<em>Disillusioned</em><br />\"Tried to make a difference? Feels like it was for nothing, honestly.\"<br /><em>Hangs up</em>",
             "<em>Relieved</em><br />\"Thanks. At least I know I did everything I could.\""
         ],
         "empathetic-response": [
-            "<em>Resentful</em><br />\"Yeah, it does feel awful. I gave everything, and for what?\"",
+            "<em>Resentful</em><br />\"Yeah, it does feel awful. I gave everything, and for what?\"<br /><em>Hangs up</em>",
             "<em>Understood</em><br />\"Thanks for saying that. It means a lot to hear someone understands.\""
         ]
     },
@@ -223,7 +223,7 @@ call_stories = [
             "<em>Hopeful</em><br />\"Yeah, maybe love is the only thing that matters now. Thank you.\""
         ],
         "practical-response": [
-            "<em>Skeptical</em><br />\"Tell them now? What’s the point when we’re all going to die anyway?\"",
+            "<em>Skeptical</em><br />\"Tell them now? What’s the point when we’re all going to die anyway?\"<br /><em>Hangs up</em>",
             "<em>Determined</em><br />\"You’re right. I’m going to tell them. There’s no time to waste.\""
         ],
         "empathetic-response": [
@@ -241,11 +241,11 @@ call_stories = [
             {"type": "empathetic", "response": "It’s okay to feel lost right now. Your efforts weren’t meaningless."}
         ],
         "honest-response": [
-            "<em>Angry</em><br />\"Mattered? How did it matter if I’ll never even use it?\"",
+            "<em>Angry</em><br />\"Mattered? How did it matter if I’ll never even use it?\"<br /><em>Hangs up</em>",
             "<em>Reflective</em><br />\"Maybe you’re right. My hard work still means something, even now.\""
         ],
         "practical-response": [
-            "<em>Hopeless</em><br />\"Learned what? How to waste time? None of it matters now.\"",
+            "<em>Hopeless</em><br />\"Learned what? How to waste time? None of it matters now.\"<br /><em>Hangs up</em>",
             "<em>Reassured</em><br />\"Thanks. I guess everything I learned still matters, even if the world’s ending.\""
         ],
         "empathetic-response": [
@@ -264,7 +264,7 @@ call_stories = [
         ],
         "honest-response": [
             "<em>Hesistant, but accepting</em><br />\"Yeah… I guess you’re right. They should know. I’ll… I’ll tell them. Thank you.\"",
-            "<em>Angry</em><br />\"How could I tell them that? They’re just kids! They don’t deserve this.\""
+            "<em>Angry</em><br />\"How could I tell them that? They’re just kids! They don’t deserve this.\"<br /><em>Hangs up</em>"
         ],
         "practical-response": [
             "<em>Relieved</em><br />\"That’s probably best. They don’t need to face the fear I’m feeling. Thank you… for the advice.\"",
@@ -308,7 +308,7 @@ call_stories = [
         ],
         "honest-response": [
             "<em>Thoughtful</em><br />\"Maybe I’m overreacting. I’ll look into it more.\"",
-            "<em>Angrier</em><br />\"That’s exactly what they want you to think! You’re brainwashed!\""
+            "<em>Angrier</em><br />\"That’s exactly what they want you to think! You’re brainwashed!\"<br /><em>Hangs up</em>"
         ],
         "practical-response": [
             "<em>Curious</em><br />\"I guess there’s no harm in being prepared… just in case.\"",
@@ -316,7 +316,7 @@ call_stories = [
         ],
         "empathetic-response": [
             "<em>Grateful</em><br />\"At least you’re not being rude about it. But I still don’t buy it.\"",
-            "<em>Frustrated</em><br />\"You’re missing the point. This is all a distraction!\""
+            "<em>Frustrated</em><br />\"You’re missing the point. This is all a distraction!\"<br /><em>Hangs up</em>"
         ]
     },
     {
@@ -396,11 +396,11 @@ call_stories = [
         ],
         "honest-response": [
             "<em>Accepting</em><br />\"Yeah, I guess I knew that deep down. It was all just temporary.\"",
-            "<em>Frustrated</em><br />\"I built all this for nothing? It’s not fair!\""
+            "<em>Frustrated</em><br />\"I built all this for nothing? It’s not fair!\"<br /><em>Hangs up</em>"
         ],
         "practical-response": [
             "<em>Inspired</em><br />\"You’re right. Maybe I can help someone in these final hours.\"",
-            "<em>Resistant</em><br />\"Help others? I worked hard for this, why should I give it away now?\""
+            "<em>Resistant</em><br />\"Help others? I worked hard for this, why should I give it away now?\"<br /><em>Hangs up</em>"
         ],
         "empathetic-response": [
             "<em>Hopeful</em><br />\"You’re right. Maybe there’s still time to do something that matters.\"",
@@ -422,11 +422,11 @@ call_stories = [
         ],
         "practical-response": [
             "<em>Grateful</em><br />\"You’re right. I’ll try to hold on.\"",
-            "<em>Exhausted</em><br />\"Hold on? To what? There’s nothing left for me. This is bu*****!\"<em>Hangs up</em>"
+            "<em>Exhausted</em><br />\"Hold on? To what? There’s nothing left for me. This is bu*****!\"<br /><em>Hangs up</em>"
         ],
         "empathetic-response": [
             "<em>Comforted</em><br />\"Thank you for saying that. It helps to hear.\"",
-            "<em>Angry</em><br />\"You don’t understand. No one ever has.\"<em>Hangs up</em>"
+            "<em>Angry</em><br />\"You don’t understand. No one ever has.\"<br /><em>Hangs up</em>"
         ]
     }
 ]
@@ -761,25 +761,38 @@ ending_script = {
                 "But maybe… just maybe, there’s strength in knowing.",
                 "We took this final hour to face what’s coming, to confront our fears without turning away.",
                 "We lived with open eyes, and in a way, that’s the bravest thing any of us could have done.",
-                "<em>The sound of the meteor impact is heard from afar.</em>",
+                "<em>The sound of the meteor impact is heard, then silence.</em>",
                 "..."
             ]
         },
         "honest-silent": {
             "messages": [
                 "<em>Sincere, straightforward voice</em>",
-                "I decided not to play any songs tonight. There wasn’t time for that, and I figured we all deserved something real.",
+                "I decided not to play any songs tonight.",
+                "There wasn’t time for that, and I figured we all deserved something real.",
                 "You’ve been listening for the truth, and I owe it to you to be honest.",
                 "<em>A short pause, gathering courage</em>",
-                "This is it. There’s no escaping what’s coming. The end is near, and no amount of music or words is going to change that.",
-                "I don’t have comforting lies for you. I don’t have hope to offer. But I do have the truth.",
+                "This is it.",
+                "There’s no escaping what’s coming.",
+                "The end is near, and no amount of music or words is going to change that.",
+                "I don’t have comforting lies for you.",
+                "I don’t have hope to offer.",
+                "But I do have the truth.",
                 "<em>The sound of distant rumbling begins to grow</em>",
-                "It’s okay to be scared. I’m scared too. We all are. But we don’t need to run from that fear—we can face it together.",
-                "I didn’t play music tonight because I thought maybe silence, and honesty, would serve us better. In these last moments, all we have left is the truth.",
+                "It’s okay to be scared.",
+                "I’m scared too.",
+                "We all are.",
+                "But we don’t need to run from that fear—we can face it together.",
+                "I didn’t play music tonight because I thought maybe silence, and honesty, would serve us better.",
+                "In these last moments, all we have left is the truth.",
                 "<em>A heavy breath, a moment of vulnerability</em>",
-                "Thank you for being here with me, for letting me be real with you. In a world full of uncertainty, we’ve shared this one undeniable truth: the end is coming, but we’re not facing it alone.",
+                "Thank you for being here with me, for letting me be real with you.",
+                "In a world full of uncertainty, we’ve shared this one undeniable truth:",
+                "The end is coming, but we’re not facing it alone.",
                 "<em>The rumble of the meteor gets louder, closing in</em>",
-                "Goodbye, my friends. Hold tight to what matters. And let’s face the end together, honestly.",
+                "Goodbye, my friends.",
+                "Hold tight to what matters.",
+                "And let’s face the end together, honestly.",
                 "<em>The roar of the meteor fills the air as the screen fades to black</em>",
                 "..."
             ]
@@ -787,19 +800,28 @@ ending_script = {
         "honest-reflective": {
             "messages": [
                 "<em>Honest, reflective voice</em>",
-                "I’ve been thinking a lot while the music played tonight... thinking about the truth we’ve all been avoiding.",
+                "I’ve been thinking a lot while the music played tonight...",
+                "...thinking about the truth we’ve all been avoiding.",
                 "There’s no sugar-coating it—what’s coming is inescapable, and I won’t pretend otherwise.",
-                "I could’ve tried to give you hope, or comfort, but that wouldn’t have been real. Not tonight.",
+                "I could’ve tried to give you hope, or comfort, but that wouldn’t have been real.",
+                "Not tonight.",
                 "<em>A long, candid pause</em>",
-                "The truth is, we’re all scared. I’m scared. And maybe that’s okay to admit.",
-                "The music... it gave us something to hold on to, a space to reflect on everything we’re about to lose. But it couldn’t change anything.",
+                "The truth is, we’re all scared.",
+                "I’m scared.",
+                "And maybe that’s okay to admit.",
+                "The music... it gave us something to hold on to, a space to reflect on everything we’re about to lose.",
+                "But it couldn’t change anything.",
                 "<em>The sound of the meteor rumbling grows faintly in the distance.</em>",
                 "I took these moments between songs to reflect, to be honest with myself—and with you.",
-                "We’ve all faced this final truth together, and I think that’s the best we could do. No more hiding. No more pretending.",
+                "We’ve all faced this final truth together, and I think that’s the best we could do.",
+                "No more hiding.",
+                "No more pretending.",
                 "<em>A deep, quiet breath</em>",
-                "Thank you for letting me be real with you. It’s been an honor to share this time, even in the face of the inevitable.",
+                "Thank you for letting me be real with you.",
+                "It’s been an honor to share this time, even in the face of the inevitable.",
                 "<em>The rumbling grows louder, signaling the approach of the end.</em>",
-                "Goodbye, my friends. I hope you find the strength to face what comes next... just as you are.",
+                "Goodbye, my friends.",
+                "I hope you find the strength to face what comes next... just as you are.",
                 "<em>The sound of the meteor echoes in the distance as the screen fades to black.</em>",
                 "..."
             ]
@@ -817,26 +839,34 @@ ending_script = {
                 "We don’t always get to choose how it ends, but we can choose how we live before it does.",
                 "Tonight, we chose to live with intention.",
                 "We found meaning in the time we had, and that… that’s enough.",
-                "<em>The sound of the meteor’s impact is heard.</em>",
+                "<em>The sound of the meteor’s impact is heard and the silence takes over.</em>",
                 "..."
             ]
         },
         "practical-silent": {
             "messages": [
                 "<em>Calm, direct voice</em>",
-                "I skipped the songs tonight. Not because they didn’t matter, but because I thought there were more important things to focus on.",
+                "I skipped the songs tonight.",
+                "Not because they didn’t matter, but because I thought there were more important things to focus on.",
                 "Time is short, and distractions won’t change that.",
                 "<em>A brief pause, gathering thoughts</em>",
-                "We’re staring down the inevitable, and there’s no sense pretending otherwise. So here’s what I want you to do—use this time wisely.",
-                "Make sure you’re with the people who matter. Say what needs to be said. Don’t leave anything unfinished.",
+                "We’re staring down the inevitable, and there’s no sense pretending otherwise.",
+                "So here’s what I want you to do—use this time wisely.",
+                "Make sure you’re with the people who matter.",
+                "Say what needs to be said.",
+                "Don’t leave anything unfinished.",
                 "This isn’t about fear—it’s about making peace with what’s coming.",
                 "<em>The sound of distant rumbling begins to grow louder</em>",
-                "I didn’t play music because this moment is bigger than any song. It’s about taking control of how you meet the end.",
-                "Focus on what’s in front of you. Gather your loved ones. Make these final moments count.",
+                "Focus on what’s in front of you.",
+                "Gather your loved ones.",
+                "Make these final moments count.",
                 "<em>A deep breath, steady and composed</em>",
-                "Thank you for tuning in tonight. Stay calm, stay focused. You know what you need to do.",
+                "Thank you for tuning in tonight.",
+                "Stay calm, stay focused.",
+                "You know what you need to do.",
                 "<em>The rumble of the meteor grows louder, closing in</em>",
-                "Goodbye, my friends. I wish you peace and strength for what’s next.",
+                "Goodbye, my friends.",
+                "I wish you peace and strength for what’s next.",
                 "<em>The sound of the meteor becomes deafening as the screen fades to black</em>",
                 "..."
             ]
@@ -847,8 +877,11 @@ ending_script = {
                 "As the music played tonight, I couldn’t help but think about what we should be doing right now.",
                 "It’s easy to get lost in the sound, to lose track of time, but we don’t have that luxury anymore.",
                 "<em>A brief pause, as if weighing the importance of each word</em>",
-                "I’ve been honest with you tonight, but more than that, I’ve tried to be practical. There’s no stopping what’s coming, but we can control how we spend these last moments.",
-                "Hold your loved ones. Make sure they know you care. Find peace with whatever needs to be said or done.",
+                "I’ve been honest with you tonight, but more than that, I’ve tried to be practical.",
+                "There’s no stopping what’s coming, but we can control how we spend these last moments.",
+                "Hold your loved ones.",
+                "Make sure they know you care.",
+                "Find peace with whatever needs to be said or done.",
                 "We can’t change the end, but we can decide how we meet it.",
                 "<em>The faint rumbling of the meteor approaches in the background.</em>",
                 "I took this time between calls to reflect on what’s left, and I realized that the best thing we can do now is prepare ourselves.",
@@ -936,7 +969,7 @@ ending_script = {
                 "And maybe that’s okay.",
                 "Maybe we don’t need all the answers.",
                 "We just need to live the moments we have, and let the rest unfold as it will.",
-                "<em>The sound of the meteor echoes in the distance.</em>",
+                "<em>The sound of the meteor echoes in the distance as the rumble fades away.</em>",
                 "..."
             ]
         },

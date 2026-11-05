@@ -5,7 +5,8 @@ var screens = {
     "CHOOSE_MUSIC": "chooseMusicScreen",
     "JUST_MUSIC": "justMusicScreen",
     "CALLER_DIALOG": "callerScreen",
-    "HOW_TO": "howToScreen"
+    "HOW_TO": "howToScreen",
+    "CREDITS": "creditsScreen"
 }
 
 var screens_list = [
@@ -14,7 +15,8 @@ var screens_list = [
     "gameSceneScreen",
     "chooseMusicScreen",
     "justMusicScreen",
-    "callerScreen"
+    "callerScreen",
+    "creditsScreen"
 ]
 
 var game_status_log = []
@@ -57,6 +59,7 @@ var game = {
     scenesScript: {},
     currentDialogScript: [],
 
+    callersQueue: [],
     listOfCallers: [],
     totalCallers: call_stories.length,
     currentCaller: {},
@@ -126,6 +129,7 @@ var game = {
         game.HTMLElements["endingScreen"] = document.getElementById("endingScreen")
         game.HTMLElements["creditsScreen"] = document.getElementById("creditsScreen")
         game.HTMLElements["loadingScreen"] = document.getElementById("loadingScreen")
+        game.HTMLElements["creditsScreen"] = document.getElementById("creditsScreen")
 
         game.HTMLElements["dialogContainerBox"] = document.getElementById("dialogContainerBox")
         game.HTMLElements["monolougeContainerBox"] = document.getElementById("monolougeContainerBox")
@@ -228,6 +232,7 @@ var game = {
     },
 
     reset: function() {
+        
         game.scenesScript= {},
         game.currentDialogScript= [],
 
@@ -262,6 +267,11 @@ var game = {
         game.HTMLElements["takeCallButton"].style.display = 'inline-block'
         game.HTMLElements["showEndMessageButton"].style.display = 'none'
 
+        // Finally display about game after player finished game
+        // TODO: (Medium) Add to the game elements
+        aboutButton = document.getElementById("aboutGameButton")
+        aboutButton.style.display = 'inline-block'
+
         for(let i = 0; i < game.HTMLElements["broadcastButtonsGroup"].length; i++) {
             game.HTMLElements["broadcastButtonsGroup"][i].removeAttribute('disabled')
         }
@@ -280,6 +290,12 @@ var game = {
 
         game.setGameStatus(GAME_STATUS.GAME_START)
 
+        
+
+        game.getCallers()
+
+        console.log('Game reseted')
+
         game.gameLoaded()
     },
 
@@ -296,6 +312,8 @@ var game = {
 
         game.setGameStatus(GAME_STATUS.START)
         game.numCallersBeforeNextSong = game.maxCallsBeforeNextSong
+
+        game.getCallers()
 
         game.setGameStatus(GAME_STATUS.GAME_START)
         game.showNextScene()
@@ -441,10 +459,17 @@ var game = {
         
     },
 
+    getCallers: function() {
+        game.callersQueue = utils.getMultipleRandom(call_stories, 9)
+        game.callersQueue = utils.shuffle(game.callersQueue)
+    },
+
     showCallerScene: function() {
 
         // Get a new caller
-        game.currentCaller = game.getRandomCaller()
+        game.currentCaller = game.callersQueue[0]
+        game.callersQueue.shift()
+
 
         let call = game.currentCaller
         game.listOfCallers.push(game.currentCaller["call-id"])
@@ -691,6 +716,7 @@ var game = {
     },
 
     // Get a unique caller 
+    /*
     getRandomCaller: function() {
 
         // Get a random number until a caller is found that hasn't called yet
@@ -700,14 +726,13 @@ var game = {
         }
 
         return call_stories[randomCallerID]
-    },
+    }, */
 
     /*****  Functions related to ending  *****/
 
     // Check and set the ending type of the game
     checkEndingType: function() {
 
-        console.log(game.djResponsePoints)
 
         let honest_points = game.djResponsePoints.honesty
         let practical_points = game.djResponsePoints.practicality
@@ -766,7 +791,6 @@ var game = {
         game.showScreen("endingScreen")
 
         game.checkEndingType()
-        console.log("ENDING TYPE", game.endingType)
 
         /* // TODO: (Medium) This did not work so using a different HTML element
         game.currentScriptDialog = ending_script[game.endingType]['messages']
@@ -779,7 +803,6 @@ var game = {
 
         game.HTMLElements["finalMessageNextButton"].addEventListener('click', game.goThroughFinalMessages, false)
 
-
     },
 
     goThroughFinalMessages: function(e) {
@@ -788,7 +811,8 @@ var game = {
 
         if (game.currentDialogScript.length == 0) {
             // Reached the end of the monologue
-            game.showCredits()
+            game.setGameStatus(GAME_STATUS.SHOWING_CREDITS)
+            game.showNextScene()
         } else if (game.currentDialogScript.length == 1) {
             
             game.HTMLElements["endingScreen"].classList.remove("default-end-game-background")
@@ -861,6 +885,14 @@ var game = {
             game.currentInstructions = 0
             game.gameLoaded()
         }
+    },
+
+    showCredits: function(){
+        // TODO: (Medium) Add credits
+    },
+
+    showAboutGame: function() {
+        game.showScreen(screens.CREDITS)
     },
 
     renameInScript: function(person_name, script) {
@@ -1140,6 +1172,14 @@ var utils = {
 
         return shuffled.slice(0, num);
     },
+    shuffle: function(array) {
+        let shuffled = array
+                    .map(value => ({ value, sort: Math.random() }))
+                    .sort((a, b) => a.sort - b.sort)
+                    .map(({ value }) => value)
+
+        return shuffled
+    },
 
     escapeRegExp: function(str) {
         return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
@@ -1169,7 +1209,7 @@ window.addEventListener("load", function() {
 
     // Disable right-click
     const gameElement = document.getElementById("game")
-    //gameElement.addEventListener('contextmenu', event => event.preventDefault());
+    gameElement.addEventListener('contextmenu', event => event.preventDefault());
 
     game.init()
 })

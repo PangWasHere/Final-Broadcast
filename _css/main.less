@@ -54,6 +54,8 @@ body {
   background-color: black;
   background-image: @default-end-game-background;
   background-size: cover;
+  animation: end-color-change 60s infinite;
+  animation-delay: 1s;
 }
 
 /***** BUTTONS ******/
@@ -1033,6 +1035,10 @@ body {
   }
 }
 
+.how-to-button {
+  background-color: @bg-secondary-color;
+}
+
 #howToSceneBox {
   .message {
     font-size: 0.9em;
@@ -1077,6 +1083,35 @@ body {
 
 
 
+/********************/
+/*  Credits Screen  */
+/********************/
+
+
+#creditsDialogBox {
+  width: 80%;
+  height: 350px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  p {
+    font-size: 0.9em;
+  }
+
+  .footnote {
+    font-size: 0.6em;
+  }
+}
+
+#playAgainButton {
+  padding: 5px;
+    bottom: -20px;
+    right: -15px;
+    position: absolute;
+}
+
 
 
 /****************/
@@ -1108,3 +1143,11 @@ body {
 @keyframes appear {
   to{opacity: 1;}
 }
+
+@keyframes end-color-change {
+  0% { filter: hue-rotate(1deg);}
+  25% { filter: hue-rotate(-90deg);}
+  50% { filter: hue-rotate(-180deg);}
+  100% { filter: hue-rotate(-360deg);}
+}
+

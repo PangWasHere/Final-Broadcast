@@ -33,8 +33,10 @@ body {
   width: 100%;
   height: 100%;
   background-color: black;
-  background-image: url("../_imgs/end-background.png");
+  background-image: url("../_imgs/radio-station.jpg");
   background-size: cover;
+  animation: end-color-change 60s infinite;
+  animation-delay: 1s;
 }
 /***** BUTTONS ******/
 .button-next {
@@ -937,6 +939,9 @@ body {
   max-width: 95%;
   max-height: 225px;
 }
+.how-to-button {
+  background-color: #cb80ab;
+}
 #howToSceneBox .message {
   font-size: 0.9em;
 }
@@ -968,6 +973,29 @@ body {
   position: absolute;
   bottom: -20px;
   right: -5px;
+}
+/********************/
+/*  Credits Screen  */
+/********************/
+#creditsDialogBox {
+  width: 80%;
+  height: 350px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#creditsDialogBox p {
+  font-size: 0.9em;
+}
+#creditsDialogBox .footnote {
+  font-size: 0.6em;
+}
+#playAgainButton {
+  padding: 5px;
+  bottom: -20px;
+  right: -15px;
+  position: absolute;
 }
 /****************/
 /*  Animations  */
@@ -1024,5 +1052,19 @@ body {
 @keyframes appear {
   to {
     opacity: 1;
+  }
+}
+@keyframes end-color-change {
+  0% {
+    filter: hue-rotate(1deg);
+  }
+  25% {
+    filter: hue-rotate(-90deg);
+  }
+  50% {
+    filter: hue-rotate(-180deg);
+  }
+  100% {
+    filter: hue-rotate(-360deg);
   }
 }
