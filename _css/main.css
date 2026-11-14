@@ -1,7 +1,7 @@
 /* Colours */
 /* Typography */
-/* Dimensions */
 /* Gaps */
+/* TODO (High): Replace with actual end game background */
 body {
   user-select: none;
   font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -9,12 +9,10 @@ body {
 /*********************/
 /*    GAME STYLES    */
 /*********************/
-#gameContainer {
-  position: absolute;
-}
 #game {
-  width: 640px;
-  height: 480px;
+  min-width: 800px;
+  min-height: 500px;
+  max-height: 100%;
   background: #1a1a1a;
 }
 .gamelayer {
@@ -22,17 +20,25 @@ body {
   height: 100%;
   position: absolute;
   display: none;
+  background-color: black;
 }
 .default-game-background {
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-image: url("../_imgs/radio-station.jpg");
-  background-size: cover;
+  background-color: #5D3677;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .default-end-game-background {
   width: 100%;
   height: 100%;
-  background-color: black;
+  justify-content: center;
+  align-items: center;
+  background-color: #5D3677;
   background-image: url("../_imgs/radio-station.jpg");
   background-size: cover;
   animation: end-color-change 60s infinite;
@@ -46,11 +52,11 @@ body {
   color: #1a1a1a;
   display: flex;
   font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 0.8rem;
+  font-size: 2vw;
   font-weight: 700;
   justify-content: center;
   line-height: 1.75rem;
-  padding: 5px 10px;
+  padding: 0.5em 0.8em;
   text-align: center;
   text-decoration: none #1a1a1a solid;
   text-decoration-thickness: auto;
@@ -94,6 +100,7 @@ body {
   position: absolute;
   right: -5px;
   bottom: -20px;
+  z-index: 100;
 }
 .button-next:disabled {
   background-color: grey;
@@ -104,16 +111,17 @@ body {
 }
 .next-caller {
   position: absolute;
-  right: 50px;
-  bottom: -50px;
+  right: 20%;
+  bottom: 50px;
 }
 .broadcast-button {
-  padding: 0 10px;
+  padding: 1rem;
   margin-top: 20px;
 }
 /* TODO: (Medium) Refactor. This was a cheat to add the Skip Song label on the button */
 #skipSongNextCallerButton em {
-  font-size: 10px;
+  font-size: 1vw;
+  color: #ededed;
   margin-left: 3px;
 }
 /******************/
@@ -316,9 +324,9 @@ body {
   }
 }
 .loader {
-  margin-top: calc(480px - 50px);
+  margin-top: calc(100% - 50px);
   width: 100%;
-  font-size: 30px;
+  font-size: 2vw;
   text-align: center;
   color: #f8ee85;
 }
@@ -332,8 +340,8 @@ body {
 /* TODO: (High) */
 .blurred-bg {
   position: absolute;
-  width: 640px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.95);
   z-index: 0;
 }
@@ -342,8 +350,8 @@ body {
 }
 .contemplate-bg {
   position: absolute;
-  width: 640px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.55);
   z-index: 0;
   animation: darken-bg 5s forwards;
@@ -361,12 +369,11 @@ body {
   z-index: 2;
 }
 .game-title {
-  margin-top: 100px;
+  margin: 5rem auto 2rem auto;
   font-weight: 700;
-  font-size: 2em;
+  font-size: 8vw;
   text-align: center;
   text-transform: uppercase;
-  letter-spacing: 2px;
 }
 .neon {
   color: #fff;
@@ -434,14 +441,20 @@ body {
 /*  Game Scene Screen   */
 /***********************/
 #gameSceneContainerBox {
-  width: 80%;
-  height: 100px;
+  width: 60vw;
+  height: 40vh;
+  max-height: 500px;
+}
+#gameSceneContainerBox.dj-mode {
   position: absolute;
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
+  width: 80vw;
+  height: 30vh;
 }
 #gameSceneBox {
+  position: relative;
   padding: 0;
   display: flex;
   height: 100%;
@@ -450,29 +463,37 @@ body {
 }
 #gameSceneBox .message {
   max-width: 90%;
+  font-size: 2vw;
   text-align: center;
+}
+#gameSceneBox .message em {
+  font-size: 1rem;
+  color: #c7cbff;
 }
 #gameSceneBox .speaker-card {
   position: absolute;
   top: -20px;
   left: -20px;
-  padding: 5px 10px;
-  background: #fff;
+  font-size: 2vw;
+  color: #fff;
+  padding: 0.5rem;
+  background: #ad3274;
   transform: rotate(-2deg);
-  color: #1a1a1a;
 }
 /************************/
 /*  Choose Music Screen */
 /************************/
 .choose-music-container {
   position: relative;
+  width: 100%;
 }
 /* Credits: https://codepen.io/jenning/pen/JjoGKgE */
 /*  Jenning (jenning) */
 .carousel {
   margin: 100px auto;
   width: 50%;
-  height: 200px;
+  height: 50vh;
+  max-height: 500px;
   position: relative;
   background-color: #624e88;
   box-shadow: 20px 20px #cb80ab;
@@ -755,12 +776,12 @@ body {
 .music-player .song-title {
   text-shadow: 2px 2px #624e88;
   color: #fff;
-  font-size: 1.3em;
+  font-size: 2rem;
   margin: 0;
 }
 .music-player .song-artist {
   color: #fff;
-  font-size: 1em;
+  font-size: 2vw;
   margin: 0;
 }
 .play-pause-song-button {
@@ -815,14 +836,13 @@ body {
   padding: 20px;
 }
 .dialog-box .option-box {
-  position: absolute;
   bottom: 20px;
   width: 90%;
 }
 .dialog-box .option-box p {
   color: #98dee9;
-  font-size: 1em;
-  margin: 5px 0;
+  font-size: 1.5vw;
+  margin-bottom: 0.5em;
   padding: 5px;
 }
 .dialog-box .option-box p:hover {
@@ -844,20 +864,26 @@ body {
 .dialog-box .option-box p:nth-of-type(2):hover {
   transform: rotate(-0.5deg);
 }
-.dialog-box .prompt,
-.dialog-box .scene-box {
-  font-size: 0.9em;
+.dialog-box .prompt {
+  font-size: 2vw;
+  margin: 2vw auto;
 }
-.dialog-box .prompt em,
-.dialog-box .scene-box em {
+.dialog-box .prompt em {
+  font-size: 1rem;
   color: #c7cbff;
 }
+#dialogContainerBox {
+  font-size: 2vw;
+}
 #dialogContainerBox.interactive {
-  width: 85%;
-  height: 300px;
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 1200px;
+  height: 60vh;
+  max-height: 800px;
 }
 #dialogContainerBox.call-log {
   width: 300px;
@@ -872,14 +898,18 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
-#dialogContainerBox.scene .speaker-card {
+#dialogContainerBox #interactiveBox {
+  width: 90%;
+}
+#dialogContainerBox .speaker-card {
+  display: inline-block;
   position: absolute;
-  top: -20px;
-  left: -20px;
-  padding: 5px 10px;
-  background: #fff;
-  transform: rotate(-2deg);
-  color: #1a1a1a;
+  top: -1rem;
+  left: -1.5rem;
+  font-size: 2vw;
+  transform: rotate(1deg);
+  background: #ad3274;
+  padding: 1rem;
 }
 /*******************/
 /*  How To Screen  */
@@ -920,7 +950,7 @@ body {
   justify-content: center;
 }
 #howToHelpersContainerBox .how-to-title {
-  font-size: 1.5em;
+  font-size: 2vw;
   color: white;
   text-align: center;
   position: absolute;
@@ -943,14 +973,14 @@ body {
   background-color: #cb80ab;
 }
 #howToSceneBox .message {
-  font-size: 0.9em;
+  font-size: 2vw;
 }
 /*******************/
 /*  Ending Screen  */
 /*******************/
 #monolougeContainerBox {
   width: 80%;
-  height: 100px;
+  height: 40vh;
   position: absolute;
   bottom: 30px;
   left: 50%;
@@ -968,6 +998,11 @@ body {
 #monologueBox p {
   max-width: 80%;
   text-align: center;
+  font-size: 2vw;
+}
+#monologueBox em {
+  font-size: 1.5vw;
+  color: #c7cbff;
 }
 #monologueBox #finalMessageNextButton {
   position: absolute;
@@ -978,24 +1013,24 @@ body {
 /*  Credits Screen  */
 /********************/
 #creditsDialogBox {
-  width: 80%;
-  height: 350px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80vw;
+  height: 80vh;
+  padding: 2vw;
 }
 #creditsDialogBox p {
-  font-size: 0.9em;
+  font-size: 2vw;
 }
 #creditsDialogBox .footnote {
-  font-size: 0.6em;
+  font-size: 1vw;
 }
 #playAgainButton {
-  padding: 5px;
-  bottom: -20px;
-  right: -15px;
   position: absolute;
+  padding: 1rem;
+  bottom: 3vw;
+  right: 2vw;
 }
 /****************/
 /*  Animations  */
@@ -1067,4 +1102,15 @@ body {
   100% {
     filter: hue-rotate(-360deg);
   }
+}
+/*******************/
+/*     Clicker     */
+/*******************/
+/* A div container to allow users to click anywhere and trigger actions */
+#clickerWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: transparent;
 }

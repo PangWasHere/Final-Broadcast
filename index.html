@@ -12,6 +12,7 @@
     </head>
     <body>
         <div id="gameContainer">
+            <div id="clickerWrapper"></div>
             <div id="game">
                 <img id="helpButton" src="_imgs/help-icon.png" class="help-button-hidden"/>
 
@@ -50,7 +51,7 @@
                         </h1>
                         <div class="main-menu">
                             <button class="button-next go-live-button" onclick="game.start()">Go Live</button>
-                            <button class="button-next how-to-button" onclick="game.showHowTo()">How to DJ</button>
+                            <!--<button class="button-next how-to-button" onclick="game.showHowTo()">How to DJ</button>-->
                             <button id="aboutGameButton" class="button-next about-game-button" onclick="game.showAboutGame()" style="display: none;">About Game</button>
                         </div>
                     </div>
@@ -58,7 +59,7 @@
 
                 <div id="gameSceneScreen" class="gamelayer screen default-game-background">
                     
-                    <div id="gameSceneContainerBox" class="dialog-box">
+                    <div id="gameSceneContainerBox" class="dialog-box dj-mode">
                         <div id="gameSceneBox" class="dialog scene-box">
                              <!-- Gets displayed if the scene is a spoken dialog -->
                              <p id="speakerCard" class="speaker-card" style="display: none;">Caller</p>
@@ -103,7 +104,7 @@
                               <!--Dynamically add the items -->
                             </div>
                           </div>
-                          <button id="skipSongNextCallerButton" class="button-next next-caller" role="button">Move on to next caller <em>(Skip song)</em></button>
+                          <button id="skipSongNextCallerButton" class="button-next next-caller" role="button">Next caller <em>(Skip song)</em></button>
                     </div>
                 </div>
     

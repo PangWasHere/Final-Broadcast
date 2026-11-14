@@ -131,6 +131,7 @@ var game = {
         game.HTMLElements["loadingScreen"] = document.getElementById("loadingScreen")
         game.HTMLElements["creditsScreen"] = document.getElementById("creditsScreen")
 
+        game.HTMLElements["gameSceneContainerBox"] = document.getElementById("gameSceneContainerBox")
         game.HTMLElements["dialogContainerBox"] = document.getElementById("dialogContainerBox")
         game.HTMLElements["monolougeContainerBox"] = document.getElementById("monolougeContainerBox")
         game.HTMLElements["howToSceneContainerBox"] = document.getElementById("howToSceneContainerBox")
@@ -141,8 +142,6 @@ var game = {
         game.HTMLElements["takeCallButton"] = document.getElementById("takeCallButton")
         game.HTMLElements["showEndMessageButton"] = document.getElementById("showEndMessageButton")
         game.HTMLElements["finalMessageNextButton"] = document.getElementById("finalMessageNextButton")
-
-        
 
         game.HTMLElements["broadcastButtonsGroup"] = document.getElementsByClassName("broadcast-button")
         game.HTMLElements["playPauseButtonsGroup"] = document.getElementsByClassName("play-pause-song-button")
@@ -160,6 +159,8 @@ var game = {
 
         game.HTMLElements["howToSceneMessage"] = document.querySelector("#howToSceneBox .message")
         game.HTMLElements["howToSceneNextButton"] = document.getElementById("howToSceneNextButton")
+
+        game.HTMLElements["clickerWrapper"] = document.getElementById("clickerWrapper")
     },
 
     // Sets the listeners for the HTML elements
@@ -178,6 +179,8 @@ var game = {
                 game.showNextScene()
             }
         })
+
+        game.HTMLElements["clickerWrapper"].addEventListener('click', game.moveToNextSceneOnClick)
 
         if(loader.loadedAudio) {
 
@@ -209,6 +212,20 @@ var game = {
             loader.loadedAudio.addEventListener("ended", game.musicEnded, false)
 
             game.HTMLElements["howToSceneNextButton"].addEventListener('click', game.showNextInstructions, false)
+        }
+    },
+
+    moveToNextSceneOnClick: function() {
+
+        if (game.isEnding && game.currentGameStatus == GAME_STATUS.SHOWING_END_MESSAGE) { 
+            game.goThroughFinalMessages()
+        } else {
+            // Check if there's a current dialog
+            if(game.currentDialogScript.length > 0) {
+                game.updateDialogShown()
+            } else {
+                game.showNextScene()
+            }
         }
     },
 
@@ -261,7 +278,7 @@ var game = {
         game.HTMLElements["gameSceneNextButton"].innerHTML = "..."
         game.HTMLElements["gameSceneMessage"].innerHTML = "..."
 
-        game.HTMLElements["skipSongNextCallerButton"].innerHTML = "Move on to next caller <em>(Skip song)</em>"
+        game.HTMLElements["skipSongNextCallerButton"].innerHTML = "Next caller <em>(Skip song)</em>"
 
         game.HTMLElements["contemplateButton"].style.display = 'inline-block'
         game.HTMLElements["takeCallButton"].style.display = 'inline-block'
@@ -409,13 +426,14 @@ var game = {
                 game.currentDialogScript = last_song_script
                 game.isEnding = true
                 game.showDialogScene(DIALOG_SCENES.LAST_SONG)
+                game.HTMLElements["clickerWrapper"].style.display = 'block'
                 break;
             case GAME_STATUS.FINISHED_LAST_SONG_DIALOUGE:
                 game.setGameStatus(GAME_STATUS.BROADCASTING_LAST_SONG)
                 break;
             case GAME_STATUS.BROADCASTING_LAST_SONG:
                 // Change Next Caller Button to Keep Silence
-                game.HTMLElements["skipSongNextCallerButton"].innerHTML = "Prefer Silence Till End"
+                game.HTMLElements["skipSongNextCallerButton"].innerHTML = "Silence Till End"
 
                 // Remove buttons from the Just Music Screen
                 game.HTMLElements["contemplateButton"].style.display = 'none'
@@ -442,10 +460,13 @@ var game = {
 
         game.HTMLElements["speakerCard"].innerHTML = game.currentCaller['caller']
         game.HTMLElements["speakerCard"].style.display = 'none'
+        game.HTMLElements["gameSceneContainerBox"].classList.add("dj-mode")
+        game.HTMLElements["clickerWrapper"].style.display = 'block'
 
         if (sceneType == DIALOG_SCENES.CALLER_RESPONSE) {
             game.HTMLElements["speakerCard"].innerHTML = game.currentCaller['caller']
             game.HTMLElements["speakerCard"].style.display = 'inline-block'
+            game.HTMLElements["gameSceneContainerBox"].classList.remove("dj-mode")
 
             game.setGameStatus(GAME_STATUS.CALLER_RESPONDED)
         } else if (sceneType == DIALOG_SCENES.LAST_SONG) {
@@ -465,6 +486,9 @@ var game = {
     },
 
     showCallerScene: function() {
+        // Remove Clicker wrapper (if exists)
+
+        game.HTMLElements["clickerWrapper"].style.display = 'none'
 
         // Get a new caller
         game.currentCaller = game.callersQueue[0]
@@ -556,7 +580,7 @@ var game = {
 
         var screen = document.getElementById(id)
 
-        screen.style.display = "block"
+        screen.style.display = "flex"
     },
 
     // TODO: (Medium) Add as a game STATUS
@@ -576,6 +600,7 @@ var game = {
         game.showScreen("chooseMusicScreen")
         // TODO: (Low) Refactor this.
         game.resetPlayPauseButton()
+        game.HTMLElements["clickerWrapper"].style.display = 'none'
     },
 
     // Play the song and hides the Choose Music dialog
@@ -789,6 +814,7 @@ var game = {
     showEndScene: function() {
 
         game.showScreen("endingScreen")
+        game.setGameStatus(GAME_STATUS.SHOWING_END_MESSAGE)
 
         game.checkEndingType()
 
@@ -801,8 +827,7 @@ var game = {
 
         game.HTMLElements["monolougeMessage"].innerHTML = game.currentDialogScript[0]
 
-        game.HTMLElements["finalMessageNextButton"].addEventListener('click', game.goThroughFinalMessages, false)
-
+        game.HTMLElements["clickerWrapper"].style.display = 'block'
     },
 
     goThroughFinalMessages: function(e) {
@@ -892,6 +917,7 @@ var game = {
     },
 
     showAboutGame: function() {
+        game.HTMLElements["clickerWrapper"].style.display = 'none'  /* TODO (Medium): Refactor */
         game.showScreen(screens.CREDITS)
     },
 
@@ -1208,8 +1234,8 @@ var utils = {
 window.addEventListener("load", function() {
 
     // Disable right-click
-    const gameElement = document.getElementById("game")
-    gameElement.addEventListener('contextmenu', event => event.preventDefault());
+    /*const gameElement = document.getElementById("game")
+    gameElement.addEventListener('contextmenu', event => event.preventDefault());*/
 
     game.init()
 })
